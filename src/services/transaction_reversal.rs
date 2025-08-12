@@ -91,10 +91,7 @@ pub struct TransactionReversal<'mpesa> {
 
 impl<'mpesa> TryFrom<TransactionReversal<'mpesa>> for TransactionReversalRequest<'mpesa> {
     type Error = MpesaError;
-
-    fn try_from(
-        value: TransactionReversal<'mpesa>,
-    ) -> Result<TransactionReversalRequest<'mpesa>, Self::Error> {
+    fn try_from(value: TransactionReversal<'mpesa>) -> Result<TransactionReversalRequest<'mpesa>, Self::Error> {
         let credentials = value.client.gen_security_credentials()?;
 
         Ok(TransactionReversalRequest {

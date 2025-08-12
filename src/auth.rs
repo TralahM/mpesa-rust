@@ -1,3 +1,5 @@
+use std::time::Duration;
+
 use cached::proc_macro::cached;
 use serde::{Deserialize, Serialize};
 use serde_aux::field_attributes::deserialize_number_from_string;
@@ -46,11 +48,7 @@ pub struct AuthenticationResponse {
 
 impl std::fmt::Display for AuthenticationResponse {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "token :{} expires in: {}",
-            self.access_token, self.expires_in
-        )
+        write!(f, "token :{} expires in: {}", self.access_token, self.expires_in)
     }
 }
 
@@ -97,12 +95,12 @@ mod tests {
         let client = Mpesa::new("test_api_key", "test_public_key", env);
 
         Mock::given(wiremock::matchers::method("GET"))
-            .respond_with(wiremock::ResponseTemplate::new(200).set_body_json(
-                AuthenticationResponse {
+            .respond_with(
+                wiremock::ResponseTemplate::new(200).set_body_json(AuthenticationResponse {
                     access_token: "test_token".to_string(),
                     expires_in: 3600,
-                },
-            ))
+                }),
+            )
             .expect(1)
             .mount(&server)
             .await;
@@ -111,9 +109,7 @@ mod tests {
 
         let mut cache = AUTH.lock().await;
 
-        assert!(cache
-            .cache_get(&client.consumer_key().to_string())
-            .is_some());
+        assert!(cache.cache_get(&client.consumer_key().to_string()).is_some());
         assert_eq!(cache.cache_hits().unwrap(), 1);
         assert_eq!(cache.cache_capacity().unwrap(), 1);
     }

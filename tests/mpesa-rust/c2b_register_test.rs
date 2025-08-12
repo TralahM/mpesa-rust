@@ -57,7 +57,7 @@ async fn c2b_register_fails_if_short_code_is_not_provided() {
         .await
     {
         let MpesaError::Message(msg) = e else {
-            panic!("Expected MpesaError::Message, but found {}", e);
+            panic!("Expected MpesaError::Message, but found {e}");
         };
         assert_eq!(msg, "short_code is required");
     } else {
@@ -87,7 +87,7 @@ async fn c2b_register_fails_if_confirmation_url_is_not_provided() {
         .await
     {
         let MpesaError::Message(msg) = e else {
-            panic!("Expected MpesaError::Message, but found {}", e);
+            panic!("Expected MpesaError::Message, but found {e}");
         };
         assert_eq!(msg, "confirmation_url is required");
     } else {
@@ -117,7 +117,7 @@ async fn c2b_register_fails_if_validation_url_is_not_provided() {
         .await
     {
         let MpesaError::Message(msg) = e else {
-            panic!("Expected MpesaError::Message, but found {}", e);
+            panic!("Expected MpesaError::Message, but found {e}");
         };
         assert_eq!(msg, "validation_url is required");
     } else {

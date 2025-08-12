@@ -59,19 +59,13 @@ impl<'mpesa> ReconciliationBuilder<'mpesa> {
     }
 
     /// Adds `account_reference`
-    pub fn account_reference(
-        mut self,
-        account_reference: &'mpesa str,
-    ) -> ReconciliationBuilder<'mpesa> {
+    pub fn account_reference(mut self, account_reference: &'mpesa str) -> ReconciliationBuilder<'mpesa> {
         self.account_reference = Some(account_reference);
         self
     }
 
     /// Adds `external_reference`
-    pub fn external_reference(
-        mut self,
-        external_reference: &'mpesa str,
-    ) -> ReconciliationBuilder<'mpesa> {
+    pub fn external_reference(mut self, external_reference: &'mpesa str) -> ReconciliationBuilder<'mpesa> {
         self.external_reference = Some(external_reference);
         self
     }
@@ -89,10 +83,7 @@ impl<'mpesa> ReconciliationBuilder<'mpesa> {
     }
 
     /// Adds `paid_amount`
-    pub fn paid_amount<Number: Into<f64>>(
-        mut self,
-        paid_amount: Number,
-    ) -> ReconciliationBuilder<'mpesa> {
+    pub fn paid_amount<Number: Into<f64>>(mut self, paid_amount: Number) -> ReconciliationBuilder<'mpesa> {
         self.paid_amount = Some(paid_amount.into());
         self
     }
@@ -131,15 +122,11 @@ impl<'mpesa> ReconciliationBuilder<'mpesa> {
             external_reference: self
                 .external_reference
                 .ok_or(MpesaError::Message("external_reference is required"))?,
-            full_name: self
-                .full_name
-                .ok_or(MpesaError::Message("full_name is required"))?,
+            full_name: self.full_name.ok_or(MpesaError::Message("full_name is required"))?,
             invoice_name: self
                 .invoice_name
                 .ok_or(MpesaError::Message("invoice_name is required"))?,
-            paid_amount: self
-                .paid_amount
-                .ok_or(MpesaError::Message("paid_amount is required"))?,
+            paid_amount: self.paid_amount.ok_or(MpesaError::Message("paid_amount is required"))?,
             payment_date: self
                 .payment_date
                 .ok_or(MpesaError::Message("payment_date is required"))?,

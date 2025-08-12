@@ -131,9 +131,7 @@ impl<'mpesa> OnboardBuilder<'mpesa> {
                 .official_contact
                 .ok_or(MpesaError::Message("official_contact is required"))?,
             send_reminders: self.send_reminders.unwrap_or(SendRemindersTypes::Disable),
-            short_code: self
-                .short_code
-                .ok_or(MpesaError::Message("short_code is required"))?,
+            short_code: self.short_code.ok_or(MpesaError::Message("short_code is required"))?,
         };
 
         self.client

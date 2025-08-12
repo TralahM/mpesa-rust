@@ -62,7 +62,7 @@ async fn reconciliation_fails_if_no_account_reference_is_provided() {
         .await
     {
         let MpesaError::Message(msg) = e else {
-            panic!("Expected MpesaError::Message, but found {}", e);
+            panic!("Expected MpesaError::Message, but found {e}");
         };
         assert_eq!(msg, "account_reference is required");
     } else {
@@ -92,7 +92,7 @@ async fn reconciliation_fails_if_no_external_reference_is_provided() {
         .await
     {
         let MpesaError::Message(msg) = e else {
-            panic!("Expected MpesaError::Message, but found {}", e);
+            panic!("Expected MpesaError::Message, but found {e}");
         };
         assert_eq!(msg, "external_reference is required");
     } else {
@@ -122,7 +122,7 @@ async fn reconciliation_fails_if_no_full_name_is_provided() {
         .await
     {
         let MpesaError::Message(msg) = e else {
-            panic!("Expected MpesaError::Message, but found {}", e);
+            panic!("Expected MpesaError::Message, but found {e}");
         };
         assert_eq!(msg, "full_name is required");
     } else {
@@ -152,7 +152,7 @@ async fn reconciliation_fails_if_no_invoice_name_is_provided() {
         .await
     {
         let MpesaError::Message(msg) = e else {
-            panic!("Expected MpesaError::Message, but found {}", e);
+            panic!("Expected MpesaError::Message, but found {e}");
         };
         assert_eq!(msg, "invoice_name is required");
     } else {
@@ -182,7 +182,7 @@ async fn reconciliation_fails_if_no_paid_amount_is_provided() {
         .await
     {
         let MpesaError::Message(msg) = e else {
-            panic!("Expected MpesaError::Message, but found {}", e);
+            panic!("Expected MpesaError::Message, but found {e}");
         };
         assert_eq!(msg, "paid_amount is required");
     } else {
@@ -212,7 +212,7 @@ async fn reconciliation_fails_if_no_payment_date_is_provided() {
         .await
     {
         let MpesaError::Message(msg) = e else {
-            panic!("Expected MpesaError::Message, but found {}", e);
+            panic!("Expected MpesaError::Message, but found {e}");
         };
         assert_eq!(msg, "payment_date is required");
     } else {
@@ -242,7 +242,7 @@ async fn reconciliation_fails_if_no_phone_number_is_provided() {
         .await
     {
         let MpesaError::Message(msg) = e else {
-            panic!("Expected MpesaError::Message, but found {}", e);
+            panic!("Expected MpesaError::Message, but found {e}");
         };
         assert_eq!(msg, "phone_number is required");
     } else {
@@ -272,7 +272,7 @@ async fn reconciliation_fails_if_no_transaction_id_is_provided() {
         .await
     {
         let MpesaError::Message(msg) = e else {
-            panic!("Expected MpesaError::Message, but found {}", e);
+            panic!("Expected MpesaError::Message, but found {e}");
         };
         assert_eq!(msg, "transaction_id is required");
     } else {

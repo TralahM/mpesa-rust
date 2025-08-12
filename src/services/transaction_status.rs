@@ -164,16 +164,10 @@ impl<'mpesa> TransactionStatusBuilder<'mpesa> {
             transaction_id: self
                 .transaction_id
                 .ok_or(MpesaError::Message("transaction_id is required"))?,
-            party_a: self
-                .party_a
-                .ok_or(MpesaError::Message("party_a is required"))?,
+            party_a: self.party_a.ok_or(MpesaError::Message("party_a is required"))?,
             identifier_type: self.identifier_type.unwrap_or(IdentifierTypes::ShortCode),
-            result_url: self
-                .result_url
-                .ok_or(MpesaError::Message("result_url is required"))?,
-            timeout_url: self
-                .timeout_url
-                .ok_or(MpesaError::Message("timeout_url is required"))?,
+            result_url: self.result_url.ok_or(MpesaError::Message("result_url is required"))?,
+            timeout_url: self.timeout_url.ok_or(MpesaError::Message("timeout_url is required"))?,
             remarks: self.remarks.unwrap_or(stringify!(None)),
             occasion: self.occasion.unwrap_or(stringify!(None)),
         };

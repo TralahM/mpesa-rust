@@ -1,5 +1,5 @@
-use mpesa::services::{MpesaExpress, MpesaExpressRequest};
 use mpesa::CommandId;
+use mpesa::services::{MpesaExpress, MpesaExpressRequest};
 use serde_json::json;
 use wiremock::matchers::{method, path};
 use wiremock::{Mock, ResponseTemplate};
@@ -46,10 +46,7 @@ async fn stk_push_success() {
         response.response_description,
         "Accept the service request successfully."
     );
-    assert_eq!(
-        response.customer_message,
-        "Success. Request accepted for processing"
-    );
+    assert_eq!(response.customer_message, "Success. Request accepted for processing");
 }
 
 #[tokio::test]
@@ -134,10 +131,7 @@ async fn express_request_test_using_struct_initialization() {
         response.response_description,
         "Accept the service request successfully."
     );
-    assert_eq!(
-        response.customer_message,
-        "Success. Request accepted for processing"
-    );
+    assert_eq!(response.customer_message, "Success. Request accepted for processing");
 }
 
 #[tokio::test]
@@ -177,10 +171,7 @@ async fn test_express_query_transaction() {
         response.response_description,
         "Accept the service request successfully."
     );
-    assert_eq!(
-        response.result_desc,
-        "The service request is processed successfully."
-    );
+    assert_eq!(response.result_desc, "The service request is processed successfully.");
 
     assert_eq!(response.response_code, "0");
 }

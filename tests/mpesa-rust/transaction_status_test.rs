@@ -61,7 +61,7 @@ async fn transaction_status_fails_if_transaction_id_is_not_provided() {
         .await
     {
         let MpesaError::Message(msg) = e else {
-            panic!("Expected MpesaError::Message, but found {}", e);
+            panic!("Expected MpesaError::Message, but found {e}");
         };
         assert_eq!(msg, "transaction_id is required");
     } else {
@@ -92,7 +92,7 @@ async fn transaction_status_fails_if_party_a_is_not_provided() {
         .await
     {
         let MpesaError::Message(msg) = e else {
-            panic!("Expected MpesaError::Message, but found {}", e);
+            panic!("Expected MpesaError::Message, but found {e}");
         };
         assert_eq!(msg, "party_a is required");
     } else {
@@ -123,7 +123,7 @@ async fn transaction_status_fails_if_result_url_is_not_provided() {
         .await
     {
         let MpesaError::Message(msg) = e else {
-            panic!("Expected MpesaError::Message, but found {}", e);
+            panic!("Expected MpesaError::Message, but found {e}");
         };
         assert_eq!(msg, "result_url is required");
     } else {
@@ -154,7 +154,7 @@ async fn transaction_status_fails_if_timeout_url_is_not_provided() {
         .await
     {
         let MpesaError::Message(msg) = e else {
-            panic!("Expected MpesaError::Message, but found {}", e);
+            panic!("Expected MpesaError::Message, but found {e}");
         };
         assert_eq!(msg, "timeout_url is required");
     } else {

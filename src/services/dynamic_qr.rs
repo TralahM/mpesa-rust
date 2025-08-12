@@ -107,10 +107,7 @@ impl<'mpesa> DynamicQR<'mpesa> {
     /// # Build Dynamic QR
     ///
     /// Returns a `DynamicQR` which can be used to send a request
-    pub fn from_request(
-        client: &'mpesa Mpesa,
-        request: DynamicQRRequest<'mpesa>,
-    ) -> DynamicQR<'mpesa> {
+    pub fn from_request(client: &'mpesa Mpesa, request: DynamicQRRequest<'mpesa>) -> DynamicQR<'mpesa> {
         DynamicQR {
             client,
             merchant_name: request.merchant_name,

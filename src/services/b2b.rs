@@ -28,20 +28,11 @@ struct B2bPayload<'mpesa> {
     reciever_identifier_type: &'mpesa str,
     #[serde(rename(serialize = "Remarks"))]
     remarks: &'mpesa str,
-    #[serde(
-        rename(serialize = "QueueTimeOutURL"),
-        skip_serializing_if = "Option::is_none"
-    )]
+    #[serde(rename(serialize = "QueueTimeOutURL"), skip_serializing_if = "Option::is_none")]
     queue_time_out_url: Option<&'mpesa str>,
-    #[serde(
-        rename(serialize = "ResultURL"),
-        skip_serializing_if = "Option::is_none"
-    )]
+    #[serde(rename(serialize = "ResultURL"), skip_serializing_if = "Option::is_none")]
     result_url: Option<&'mpesa str>,
-    #[serde(
-        rename(serialize = "AccountReference"),
-        skip_serializing_if = "Option::is_none"
-    )]
+    #[serde(rename(serialize = "AccountReference"), skip_serializing_if = "Option::is_none")]
     account_reference: Option<&'mpesa str>,
 }
 
@@ -216,27 +207,13 @@ impl<'mpesa> B2bBuilder<'mpesa> {
         let payload = B2bPayload {
             initiator: self.initiator_name,
             security_credential: &credentials,
-            command_id: self
-                .command_id
-                .unwrap_or(CommandId::BusinessToBusinessTransfer),
-            amount: self
-                .amount
-                .ok_or(MpesaError::Message("amount is required"))?,
-            party_a: self
-                .party_a
-                .ok_or(MpesaError::Message("party_a is required"))?,
-            sender_identifier_type: &self
-                .sender_id
-                .unwrap_or(IdentifierTypes::ShortCode)
-                .to_string(),
-            party_b: self
-                .party_b
-                .ok_or(MpesaError::Message("party_b is required"))?,
-            reciever_identifier_type: &self
-                .receiver_id
-                .unwrap_or(IdentifierTypes::ShortCode)
-                .to_string(),
-            remarks: self.remarks.unwrap_or_else(|| stringify!(None)),
+            command_id: self.command_id.unwrap_or(CommandId::BusinessToBusinessTransfer),
+            amount: self.amount.ok_or(MpesaError::Message("amount is required"))?,
+            party_a: self.party_a.ok_or(MpesaError::Message("party_a is required"))?,
+            sender_identifier_type: &self.sender_id.unwrap_or(IdentifierTypes::ShortCode).to_string(),
+            party_b: self.party_b.ok_or(MpesaError::Message("party_b is required"))?,
+            reciever_identifier_type: &self.receiver_id.unwrap_or(IdentifierTypes::ShortCode).to_string(),
+            remarks: self.remarks.unwrap_or("None"),
             queue_time_out_url: self.queue_timeout_url,
             result_url: self.result_url,
             account_reference: self.account_ref,

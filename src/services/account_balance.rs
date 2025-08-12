@@ -54,10 +54,7 @@ pub struct AccountBalanceBuilder<'mpesa> {
 impl<'mpesa> AccountBalanceBuilder<'mpesa> {
     /// Creates a new `AccountBalanceBuilder`.
     /// Requires an `initiator_name`, the credential/ username used to authenticate the transaction request
-    pub fn new(
-        client: &'mpesa Mpesa,
-        initiator_name: &'mpesa str,
-    ) -> AccountBalanceBuilder<'mpesa> {
+    pub fn new(client: &'mpesa Mpesa, initiator_name: &'mpesa str) -> AccountBalanceBuilder<'mpesa> {
         AccountBalanceBuilder {
             initiator_name,
             client,
@@ -95,10 +92,7 @@ impl<'mpesa> AccountBalanceBuilder<'mpesa> {
     ///
     /// # Errors
     /// If invalid `ReceiverIdentifierType` is provided
-    pub fn identifier_type(
-        mut self,
-        identifier_type: IdentifierTypes,
-    ) -> AccountBalanceBuilder<'mpesa> {
+    pub fn identifier_type(mut self, identifier_type: IdentifierTypes) -> AccountBalanceBuilder<'mpesa> {
         self.identifier_type = Some(identifier_type);
         self
     }
@@ -133,11 +127,7 @@ impl<'mpesa> AccountBalanceBuilder<'mpesa> {
     /// # Error
     /// If either `QueueTimeoutUrl` and `ResultUrl` is invalid or not provided
     #[deprecated]
-    pub fn urls(
-        mut self,
-        timeout_url: &'mpesa str,
-        result_url: &'mpesa str,
-    ) -> AccountBalanceBuilder<'mpesa> {
+    pub fn urls(mut self, timeout_url: &'mpesa str, result_url: &'mpesa str) -> AccountBalanceBuilder<'mpesa> {
         self.queue_timeout_url = Some(timeout_url);
         self.result_url = Some(result_url);
         self
@@ -156,21 +146,14 @@ impl<'mpesa> AccountBalanceBuilder<'mpesa> {
 
         let payload = AccountBalancePayload {
             command_id: self.command_id.unwrap_or(CommandId::AccountBalance),
-            party_a: self
-                .party_a
-                .ok_or(MpesaError::Message("party_a is required"))?,
-            identifier_type: &self
-                .identifier_type
-                .unwrap_or(IdentifierTypes::ShortCode)
-                .to_string(),
-            remarks: self.remarks.unwrap_or_else(|| stringify!(None)),
+            party_a: self.party_a.ok_or(MpesaError::Message("party_a is required"))?,
+            identifier_type: &self.identifier_type.unwrap_or(IdentifierTypes::ShortCode).to_string(),
+            remarks: self.remarks.unwrap_or("None"),
             initiator: self.initiator_name,
             queue_time_out_url: self
                 .queue_timeout_url
                 .ok_or(MpesaError::Message("queue_timeout_url is required"))?,
-            result_url: self
-                .result_url
-                .ok_or(MpesaError::Message("result_url is required"))?,
+            result_url: self.result_url.ok_or(MpesaError::Message("result_url is required"))?,
             security_credential: &credentials,
         };
 
