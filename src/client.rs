@@ -181,49 +181,49 @@ impl Mpesa {
 
     #[cfg(feature = "bill_manager")]
     #[doc = include_str!("../docs/client/bill_manager/onboard.md")]
-    pub fn onboard(&self) -> OnboardBuilder {
+    pub fn onboard(&self) -> OnboardBuilder<'_> {
         OnboardBuilder::new(self)
     }
 
     #[cfg(feature = "bill_manager")]
     #[doc = include_str!("../docs/client/bill_manager/onboard_modify.md")]
-    pub fn onboard_modify(&self) -> OnboardModifyBuilder {
+    pub fn onboard_modify(&self) -> OnboardModifyBuilder<'_> {
         OnboardModifyBuilder::new(self)
     }
 
     #[cfg(feature = "bill_manager")]
     #[doc = include_str!("../docs/client/bill_manager/bulk_invoice.md")]
-    pub fn bulk_invoice(&self) -> BulkInvoiceBuilder {
+    pub fn bulk_invoice(&self) -> BulkInvoiceBuilder<'_> {
         BulkInvoiceBuilder::new(self)
     }
 
     #[cfg(feature = "bill_manager")]
     #[doc = include_str!("../docs/client/bill_manager/single_invoice.md")]
-    pub fn single_invoice(&self) -> SingleInvoiceBuilder {
+    pub fn single_invoice(&self) -> SingleInvoiceBuilder<'_> {
         SingleInvoiceBuilder::new(self)
     }
 
     #[cfg(feature = "bill_manager")]
     #[doc = include_str!("../docs/client/bill_manager/reconciliation.md")]
-    pub fn reconciliation(&self) -> ReconciliationBuilder {
+    pub fn reconciliation(&self) -> ReconciliationBuilder<'_> {
         ReconciliationBuilder::new(self)
     }
 
     #[cfg(feature = "bill_manager")]
     #[doc = include_str!("../docs/client/bill_manager/cancel_invoice.md")]
-    pub fn cancel_invoice(&self) -> CancelInvoiceBuilder {
+    pub fn cancel_invoice(&self) -> CancelInvoiceBuilder<'_> {
         CancelInvoiceBuilder::new(self)
     }
 
     #[cfg(feature = "c2b_register")]
     #[doc = include_str!("../docs/client/c2b_register.md")]
-    pub fn c2b_register(&self) -> C2bRegisterBuilder {
+    pub fn c2b_register(&self) -> C2bRegisterBuilder<'_> {
         C2bRegisterBuilder::new(self)
     }
 
     #[cfg(feature = "c2b_simulate")]
     #[doc = include_str!("../docs/client/c2b_simulate.md")]
-    pub fn c2b_simulate(&self) -> C2bSimulateBuilder {
+    pub fn c2b_simulate(&self) -> C2bSimulateBuilder<'_> {
         C2bSimulateBuilder::new(self)
     }
 
@@ -235,19 +235,19 @@ impl Mpesa {
 
     #[cfg(feature = "express")]
     #[doc = include_str!("../docs/client/express.md")]
-    pub fn express_request(&self) -> MpesaExpressBuilder {
+    pub fn express_request(&self) -> MpesaExpressBuilder<'_> {
         MpesaExpress::builder(self)
     }
 
     #[cfg(feature = "express")]
     #[doc = include_str!("../docs/client/express.md")]
-    pub fn express_query(&self) -> MpesaExpressQueryBuilder {
+    pub fn express_query(&self) -> MpesaExpressQueryBuilder<'_> {
         MpesaExpressQuery::builder(self)
     }
 
     #[cfg(feature = "transaction_reversal")]
     #[doc = include_str!("../docs/client/transaction_reversal.md")]
-    pub fn transaction_reversal(&self) -> TransactionReversalBuilder {
+    pub fn transaction_reversal(&self) -> TransactionReversalBuilder<'_> {
         TransactionReversal::builder(self)
     }
 
@@ -259,7 +259,7 @@ impl Mpesa {
 
     #[cfg(feature = "dynamic_qr")]
     #[doc = include_str!("../docs/client/dynamic_qr.md")]
-    pub fn dynamic_qr(&self) -> DynamicQRBuilder {
+    pub fn dynamic_qr(&self) -> DynamicQRBuilder<'_> {
         DynamicQR::builder(self)
     }
 
