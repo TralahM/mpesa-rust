@@ -2,6 +2,11 @@ name: Security audit
 on:
   schedule:
     - cron: "0 0 * * *"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 jobs:
   audit:
     runs-on: ubuntu-latest
