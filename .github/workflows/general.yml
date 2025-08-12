@@ -64,6 +64,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CARGO_TERM_COLOR: always
+      CONSUMER_KEY: ${{ secrets.CLIENT_KEY }}
+      CONSUMER_SECRET: ${{ secrets.CLIENT_SECRET }}
     steps:
       - uses: actions/checkout@v4
       - name: Install Rust
@@ -77,4 +79,3 @@ jobs:
         with:
           files: lcov.info
           fail_ci_if_error: true
-          token: ${{ secrets.CODECOV_TOKEN }}
