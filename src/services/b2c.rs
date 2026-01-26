@@ -184,23 +184,15 @@ impl<'mpesa> B2cBuilder<'mpesa> {
             initiator_name: self.initiator_name,
             security_credential: &credentials,
             command_id: self.command_id.unwrap_or(CommandId::BusinessPayment),
-            amount: self
-                .amount
-                .ok_or(MpesaError::Message("amount is required"))?,
-            party_a: self
-                .party_a
-                .ok_or(MpesaError::Message("party_a is required"))?,
-            party_b: self
-                .party_b
-                .ok_or(MpesaError::Message("party_b is required"))?,
-            remarks: self.remarks.unwrap_or_else(|| stringify!(None)),
+            amount: self.amount.ok_or(MpesaError::Message("amount is required"))?,
+            party_a: self.party_a.ok_or(MpesaError::Message("party_a is required"))?,
+            party_b: self.party_b.ok_or(MpesaError::Message("party_b is required"))?,
+            remarks: self.remarks.unwrap_or("None"),
             queue_time_out_url: self
                 .queue_timeout_url
                 .ok_or(MpesaError::Message("queue_timeout_url is required"))?,
-            result_url: self
-                .result_url
-                .ok_or(MpesaError::Message("result_url is required"))?,
-            occasion: self.occasion.unwrap_or_else(|| stringify!(None)),
+            result_url: self.result_url.ok_or(MpesaError::Message("result_url is required"))?,
+            occasion: self.occasion.unwrap_or("None"),
         };
 
         self.client

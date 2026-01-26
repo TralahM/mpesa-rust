@@ -44,13 +44,12 @@ pub use c2b_simulate::{C2bSimulateBuilder, C2bSimulateResponse};
 pub use dynamic_qr::{DynamicQR, DynamicQRBuilder, DynamicQRRequest, DynamicQRResponse};
 #[cfg(feature = "express")]
 pub use express::{
-    MpesaExpress, MpesaExpressBuilder, MpesaExpressQuery, MpesaExpressQueryBuilder,
-    MpesaExpressQueryResponse, MpesaExpressRequest, MpesaExpressResponse,
+    MpesaExpress, MpesaExpressBuilder, MpesaExpressQuery, MpesaExpressQueryBuilder, MpesaExpressQueryResponse,
+    MpesaExpressRequest, MpesaExpressResponse,
 };
 #[cfg(feature = "transaction_reversal")]
 pub use transaction_reversal::{
-    TransactionReversal, TransactionReversalBuilder, TransactionReversalRequest,
-    TransactionReversalResponse,
+    TransactionReversal, TransactionReversalBuilder, TransactionReversalRequest, TransactionReversalResponse,
 };
 #[cfg(feature = "transaction_status")]
 pub use transaction_status::{TransactionStatusBuilder, TransactionStatusResponse};

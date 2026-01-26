@@ -39,20 +39,14 @@ impl<'mpesa> CancelInvoiceBuilder<'mpesa> {
     }
 
     /// Adds an `external_reference`
-    pub fn external_reference(
-        mut self,
-        external_reference: &'mpesa str,
-    ) -> CancelInvoiceBuilder<'mpesa> {
+    pub fn external_reference(mut self, external_reference: &'mpesa str) -> CancelInvoiceBuilder<'mpesa> {
         self.external_references
             .push(CancelInvoicePayload { external_reference });
         self
     }
 
     /// Adds `external_references`
-    pub fn external_references(
-        mut self,
-        external_references: Vec<&'mpesa str>,
-    ) -> CancelInvoiceBuilder<'mpesa> {
+    pub fn external_references(mut self, external_references: Vec<&'mpesa str>) -> CancelInvoiceBuilder<'mpesa> {
         self.external_references.append(
             &mut external_references
                 .into_iter()

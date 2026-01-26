@@ -1,12 +1,12 @@
 #![doc = include_str!("../../../docs/client/express.md")]
 
-use chrono::prelude::Local;
 use chrono::DateTime;
+use chrono::prelude::Local;
 use derive_builder::Builder;
 use openssl::base64;
 use serde::{Deserialize, Serialize};
 
-use super::{serialize_utc_to_string, DEFAULT_PASSKEY};
+use super::{DEFAULT_PASSKEY, serialize_utc_to_string};
 use crate::client::Mpesa;
 use crate::errors::{MpesaError, MpesaResult};
 
@@ -89,8 +89,7 @@ impl<'mpesa> From<MpesaExpressQuery<'mpesa>> for MpesaExpressQueryRequest<'mpesa
     fn from(express: MpesaExpressQuery<'mpesa>) -> MpesaExpressQueryRequest<'mpesa> {
         let timestamp = chrono::Local::now();
 
-        let encoded_password =
-            MpesaExpressQuery::encode_password(express.business_short_code, express.pass_key);
+        let encoded_password = MpesaExpressQuery::encode_password(express.business_short_code, express.pass_key);
 
         MpesaExpressQueryRequest {
             business_short_code: express.business_short_code,

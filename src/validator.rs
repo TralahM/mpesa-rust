@@ -8,12 +8,9 @@ pub trait PhoneNumberValidator {
 
 impl PhoneNumberValidator for &str {
     fn validate(&self) -> MpesaResult<()> {
-        let phone_regex =
-            Regex::new(r"^(254\d{9}|07\d{8}|011\d{7}|7\d{8}|1\d{8})$").map_err(|_| {
-                MpesaError::Message(
-                "Invalid phone number, must be in the format 2547XXXXXXXX, 07XXXXXXXX, 011XXXXXXX",
-            )
-            })?;
+        let phone_regex = Regex::new(r"^(254\d{9}|07\d{8}|011\d{7}|7\d{8}|1\d{8})$").map_err(|_| {
+            MpesaError::Message("Invalid phone number, must be in the format 2547XXXXXXXX, 07XXXXXXXX, 011XXXXXXX")
+        })?;
 
         if phone_regex.is_match(self) {
             Ok(())

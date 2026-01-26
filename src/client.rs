@@ -6,20 +6,19 @@ use openssl::base64;
 use openssl::rsa::Padding;
 use openssl::x509::X509;
 use reqwest::Client as HttpClient;
-use secrecy::{ExposeSecret, Secret};
-use serde::de::DeserializeOwned;
+use secrecy::{ExposeSecret, SecretString};
 use serde::Serialize;
+use serde::de::DeserializeOwned;
 
 use crate::auth::AUTH;
 use crate::environment::ApiEnvironment;
 use crate::services::{
-    AccountBalanceBuilder, B2bBuilder, B2cBuilder, BulkInvoiceBuilder, C2bRegisterBuilder,
-    C2bSimulateBuilder, CancelInvoiceBuilder, DynamicQR, DynamicQRBuilder, MpesaExpress,
-    MpesaExpressBuilder, MpesaExpressQuery, MpesaExpressQueryBuilder, OnboardBuilder,
-    OnboardModifyBuilder, ReconciliationBuilder, SingleInvoiceBuilder, TransactionReversal,
-    TransactionReversalBuilder, TransactionStatusBuilder,
+    AccountBalanceBuilder, B2bBuilder, B2cBuilder, BulkInvoiceBuilder, C2bRegisterBuilder, C2bSimulateBuilder,
+    CancelInvoiceBuilder, DynamicQR, DynamicQRBuilder, MpesaExpress, MpesaExpressBuilder, MpesaExpressQuery,
+    MpesaExpressQueryBuilder, OnboardBuilder, OnboardModifyBuilder, ReconciliationBuilder, SingleInvoiceBuilder,
+    TransactionReversal, TransactionReversalBuilder, TransactionStatusBuilder,
 };
-use crate::{auth, MpesaError, MpesaResult, ResponseError};
+use crate::{MpesaError, MpesaResult, ResponseError, auth};
 
 /// Source: [test credentials](https://developer.safaricom.co.ke/test_credentials)
 const DEFAULT_INITIATOR_PASSWORD: &str = "Safaricom999!*!";
@@ -30,8 +29,8 @@ const CARGO_PACKAGE_VERSION: &str = env!("CARGO_PKG_VERSION");
 #[derive(Clone, Debug)]
 pub struct Mpesa {
     consumer_key: String,
-    consumer_secret: Secret<String>,
-    initiator_password: RefCell<Option<Secret<String>>>,
+    consumer_secret: SecretString,
+    initiator_password: RefCell<Option<SecretString>>,
     pub(crate) base_url: String,
     certificate: String,
     pub(crate) http_client: HttpClient,
@@ -43,28 +42,24 @@ impl Mpesa {
     /// # Example
     ///
     /// ```rust
-    /// use mpesa::{Mpesa, Environment};
+    /// use mpesa::{Environment, Mpesa};
     ///
     /// #[tokio::main]
     /// async fn main() {
-    ///    dotenvy::dotenv().ok();
+    ///     dotenvy::dotenv().ok();
     ///
-    ///    let client = Mpesa::new(
+    ///     let client = Mpesa::new(
     ///         dotenvy::var("CONSUMER_KEY").unwrap(),
     ///         dotenvy::var("CONSUMER_SECRET").unwrap(),
     ///         Environment::Sandbox,
-    ///    );
+    ///     );
     ///
-    ///    assert!(client.is_connected().await);
+    ///     assert!(client.is_connected().await);
     /// }
     /// ```
     /// # Panics
     /// This method can panic if a TLS backend cannot be initialized for the internal http_client
-    pub fn new<S: Into<String>>(
-        consumer_key: S,
-        consumer_secret: S,
-        environment: impl ApiEnvironment,
-    ) -> Self {
+    pub fn new<S: Into<String>>(consumer_key: S, consumer_secret: S, environment: impl ApiEnvironment) -> Self {
         let http_client = HttpClient::builder()
             .connect_timeout(Duration::from_secs(10))
             .user_agent(format!("mpesa-rust@{CARGO_PACKAGE_VERSION}"))
@@ -76,7 +71,7 @@ impl Mpesa {
 
         Self {
             consumer_key: consumer_key.into(),
-            consumer_secret: Secret::new(consumer_secret.into()),
+            consumer_secret: consumer_secret.into().into(),
             initiator_password: RefCell::new(None),
             base_url,
             certificate,
@@ -117,7 +112,7 @@ impl Mpesa {
     /// # Example
     ///
     /// ```rust
-    /// use mpesa::{Mpesa, Environment};
+    /// use mpesa::{Environment, Mpesa};
     ///
     /// #[tokio::main]
     /// async fn main() {
@@ -133,7 +128,7 @@ impl Mpesa {
     /// }
     /// ```
     pub fn set_initiator_password<S: Into<String>>(&self, initiator_password: S) {
-        *self.initiator_password.borrow_mut() = Some(Secret::new(initiator_password.into()));
+        *self.initiator_password.borrow_mut() = Some(initiator_password.into().into());
     }
 
     /// Checks if the client can be authenticated
@@ -141,7 +136,9 @@ impl Mpesa {
         self.auth().await.is_ok()
     }
 
-    /// This API generates the tokens for authenticating your API calls. This is the first API you will engage with within the set of APIs available because all the other APIs require authentication information from this API to work.
+    /// This API generates the tokens for authenticating your API calls. This is the first API you will engage with
+    /// within the set of APIs available because all the other APIs require authentication information from this API to
+    /// work.
     ///
     /// Safaricom API docs [reference](https://developer.safaricom.co.ke/APIs/Authorization)
     ///
@@ -172,104 +169,104 @@ impl Mpesa {
 
     #[cfg(feature = "b2c")]
     #[doc = include_str!("../docs/client/b2c.md")]
-    pub fn b2c<'a>(&'a self, initiator_name: &'a str) -> B2cBuilder {
+    pub fn b2c<'a>(&'a self, initiator_name: &'a str) -> B2cBuilder<'a> {
         B2cBuilder::new(self, initiator_name)
     }
 
     #[cfg(feature = "b2b")]
     #[doc = include_str!("../docs/client/b2b.md")]
-    pub fn b2b<'a>(&'a self, initiator_name: &'a str) -> B2bBuilder {
+    pub fn b2b<'a>(&'a self, initiator_name: &'a str) -> B2bBuilder<'a> {
         B2bBuilder::new(self, initiator_name)
     }
 
     #[cfg(feature = "bill_manager")]
     #[doc = include_str!("../docs/client/bill_manager/onboard.md")]
-    pub fn onboard(&self) -> OnboardBuilder {
+    pub fn onboard(&self) -> OnboardBuilder<'_> {
         OnboardBuilder::new(self)
     }
 
     #[cfg(feature = "bill_manager")]
     #[doc = include_str!("../docs/client/bill_manager/onboard_modify.md")]
-    pub fn onboard_modify(&self) -> OnboardModifyBuilder {
+    pub fn onboard_modify(&self) -> OnboardModifyBuilder<'_> {
         OnboardModifyBuilder::new(self)
     }
 
     #[cfg(feature = "bill_manager")]
     #[doc = include_str!("../docs/client/bill_manager/bulk_invoice.md")]
-    pub fn bulk_invoice(&self) -> BulkInvoiceBuilder {
+    pub fn bulk_invoice(&self) -> BulkInvoiceBuilder<'_> {
         BulkInvoiceBuilder::new(self)
     }
 
     #[cfg(feature = "bill_manager")]
     #[doc = include_str!("../docs/client/bill_manager/single_invoice.md")]
-    pub fn single_invoice(&self) -> SingleInvoiceBuilder {
+    pub fn single_invoice(&self) -> SingleInvoiceBuilder<'_> {
         SingleInvoiceBuilder::new(self)
     }
 
     #[cfg(feature = "bill_manager")]
     #[doc = include_str!("../docs/client/bill_manager/reconciliation.md")]
-    pub fn reconciliation(&self) -> ReconciliationBuilder {
+    pub fn reconciliation(&self) -> ReconciliationBuilder<'_> {
         ReconciliationBuilder::new(self)
     }
 
     #[cfg(feature = "bill_manager")]
     #[doc = include_str!("../docs/client/bill_manager/cancel_invoice.md")]
-    pub fn cancel_invoice(&self) -> CancelInvoiceBuilder {
+    pub fn cancel_invoice(&self) -> CancelInvoiceBuilder<'_> {
         CancelInvoiceBuilder::new(self)
     }
 
     #[cfg(feature = "c2b_register")]
     #[doc = include_str!("../docs/client/c2b_register.md")]
-    pub fn c2b_register(&self) -> C2bRegisterBuilder {
+    pub fn c2b_register(&self) -> C2bRegisterBuilder<'_> {
         C2bRegisterBuilder::new(self)
     }
 
     #[cfg(feature = "c2b_simulate")]
     #[doc = include_str!("../docs/client/c2b_simulate.md")]
-    pub fn c2b_simulate(&self) -> C2bSimulateBuilder {
+    pub fn c2b_simulate(&self) -> C2bSimulateBuilder<'_> {
         C2bSimulateBuilder::new(self)
     }
 
     #[cfg(feature = "account_balance")]
     #[doc = include_str!("../docs/client/account_balance.md")]
-    pub fn account_balance<'a>(&'a self, initiator_name: &'a str) -> AccountBalanceBuilder {
+    pub fn account_balance<'a>(&'a self, initiator_name: &'a str) -> AccountBalanceBuilder<'a> {
         AccountBalanceBuilder::new(self, initiator_name)
     }
 
     #[cfg(feature = "express")]
     #[doc = include_str!("../docs/client/express.md")]
-    pub fn express_request(&self) -> MpesaExpressBuilder {
+    pub fn express_request(&self) -> MpesaExpressBuilder<'_> {
         MpesaExpress::builder(self)
     }
 
     #[cfg(feature = "express")]
     #[doc = include_str!("../docs/client/express.md")]
-    pub fn express_query(&self) -> MpesaExpressQueryBuilder {
+    pub fn express_query(&self) -> MpesaExpressQueryBuilder<'_> {
         MpesaExpressQuery::builder(self)
     }
 
     #[cfg(feature = "transaction_reversal")]
     #[doc = include_str!("../docs/client/transaction_reversal.md")]
-    pub fn transaction_reversal(&self) -> TransactionReversalBuilder {
+    pub fn transaction_reversal(&self) -> TransactionReversalBuilder<'_> {
         TransactionReversal::builder(self)
     }
 
     #[cfg(feature = "transaction_status")]
     #[doc = include_str!("../docs/client/transaction_status.md")]
-    pub fn transaction_status<'a>(&'a self, initiator_name: &'a str) -> TransactionStatusBuilder {
+    pub fn transaction_status<'a>(&'a self, initiator_name: &'a str) -> TransactionStatusBuilder<'a> {
         TransactionStatusBuilder::new(self, initiator_name)
     }
 
     #[cfg(feature = "dynamic_qr")]
     #[doc = include_str!("../docs/client/dynamic_qr.md")]
-    pub fn dynamic_qr(&self) -> DynamicQRBuilder {
+    pub fn dynamic_qr(&self) -> DynamicQRBuilder<'_> {
         DynamicQR::builder(self)
     }
 
     /// Generates security credentials
     /// M-Pesa Core authenticates a transaction by decrypting the security credentials.
-    /// Security credentials are generated by encrypting the base64 encoded initiator password with M-Pesa’s public key, a X509 certificate.
-    /// Returns base64 encoded string.
+    /// Security credentials are generated by encrypting the base64 encoded initiator password with M-Pesa’s public key,
+    /// a X509 certificate. Returns base64 encoded string.
     ///
     /// # Errors
     /// Returns `EncryptionError` variant of `MpesaError`
@@ -283,11 +280,7 @@ impl Mpesa {
         let buf_len = pub_key.size();
         let mut buffer = vec![0; buf_len];
 
-        rsa_key.public_encrypt(
-            self.initiator_password().as_bytes(),
-            &mut buffer,
-            Padding::PKCS1,
-        )?;
+        rsa_key.public_encrypt(self.initiator_password().as_bytes(), &mut buffer, Padding::PKCS1)?;
         Ok(base64::encode_block(&buffer))
     }
 

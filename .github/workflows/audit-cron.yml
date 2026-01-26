@@ -1,14 +1,22 @@
 name: Security audit
 on:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: "0 0 * * *"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 jobs:
   audit:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions-rs/audit-check@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          args: --ignore RUSTSEC-2020-0159 RUSTSEC-2020-0071 RUSTSEC-2021-0141
-        continue-on-error: true
+      - uses: actions/checkout@v4
+      - name: Install stable
+        uses: dtolnay/rust-toolchain@stable
+      - name: Install cargo audit
+        run: |
+          cargo install cargo-audit
+
+      - name: Run cargo audit
+        run: cargo audit --file .cargo/audit.toml

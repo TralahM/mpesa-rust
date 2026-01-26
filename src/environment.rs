@@ -49,9 +49,7 @@ impl TryFrom<&str> for Environment {
         match v.as_str() {
             "production" => Ok(Self::Production),
             "sandbox" => Ok(Self::Sandbox),
-            _ => Err(MpesaError::Message(
-                "Could not parse the provided environment name",
-            )),
+            _ => Err(MpesaError::Message("Could not parse the provided environment name")),
         }
     }
 }
@@ -90,24 +88,17 @@ mod tests {
 
     #[test]
     fn test_valid_string_is_parsed_as_environment() {
-        let accepted_production_values =
-            vec!["production", "Production", "PRODUCTION", "prODUctIoN"];
+        let accepted_production_values = vec!["production", "Production", "PRODUCTION", "prODUctIoN"];
         let accepted_sandbox_values = vec!["sandbox", "Sandbox", "SANDBOX", "sanDBoX"];
         accepted_production_values.into_iter().for_each(|v| {
             let environment: Environment = v.parse().unwrap();
             assert_eq!(environment.base_url(), "https://api.safaricom.co.ke");
-            assert_eq!(
-                environment.get_certificate(),
-                include_str!("./certificates/production")
-            )
+            assert_eq!(environment.get_certificate(), include_str!("./certificates/production"))
         });
         accepted_sandbox_values.into_iter().for_each(|v| {
             let environment: Environment = v.try_into().unwrap();
             assert_eq!(environment.base_url(), "https://sandbox.safaricom.co.ke");
-            assert_eq!(
-                environment.get_certificate(),
-                include_str!("./certificates/sandbox")
-            )
+            assert_eq!(environment.get_certificate(), include_str!("./certificates/sandbox"))
         })
     }
 

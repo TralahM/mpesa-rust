@@ -11,29 +11,17 @@ const BILL_MANAGER_ONBOARD_MODIFY_API_URL: &str = "v1/billmanager-invoice/change
 #[derive(Debug, Serialize)]
 /// Payload to modify opt-in details to the bill manager api.
 struct OnboardModifyPayload<'mpesa> {
-    #[serde(
-        rename(serialize = "callbackUrl"),
-        skip_serializing_if = "Option::is_none"
-    )]
+    #[serde(rename(serialize = "callbackUrl"), skip_serializing_if = "Option::is_none")]
     callback_url: Option<&'mpesa str>,
     #[serde(rename(serialize = "email"), skip_serializing_if = "Option::is_none")]
     email: Option<&'mpesa str>,
     #[serde(rename(serialize = "logo"), skip_serializing_if = "Option::is_none")]
     logo: Option<&'mpesa str>,
-    #[serde(
-        rename(serialize = "officialContact"),
-        skip_serializing_if = "Option::is_none"
-    )]
+    #[serde(rename(serialize = "officialContact"), skip_serializing_if = "Option::is_none")]
     official_contact: Option<&'mpesa str>,
-    #[serde(
-        rename(serialize = "sendReminders"),
-        skip_serializing_if = "Option::is_none"
-    )]
+    #[serde(rename(serialize = "sendReminders"), skip_serializing_if = "Option::is_none")]
     send_reminders: Option<SendRemindersTypes>,
-    #[serde(
-        rename(serialize = "shortcode"),
-        skip_serializing_if = "Option::is_none"
-    )]
+    #[serde(rename(serialize = "shortcode"), skip_serializing_if = "Option::is_none")]
     short_code: Option<&'mpesa str>,
 }
 
@@ -89,19 +77,13 @@ impl<'mpesa> OnboardModifyBuilder<'mpesa> {
     }
 
     /// Adds `officialContact` to the request; must be in the format `07XXXXXXXX`
-    pub fn official_contact(
-        mut self,
-        official_contact: &'mpesa str,
-    ) -> OnboardModifyBuilder<'mpesa> {
+    pub fn official_contact(mut self, official_contact: &'mpesa str) -> OnboardModifyBuilder<'mpesa> {
         self.official_contact = Some(official_contact);
         self
     }
 
     /// Adds `sendReminders`.
-    pub fn send_reminders(
-        mut self,
-        send_reminders: SendRemindersTypes,
-    ) -> OnboardModifyBuilder<'mpesa> {
+    pub fn send_reminders(mut self, send_reminders: SendRemindersTypes) -> OnboardModifyBuilder<'mpesa> {
         self.send_reminders = Some(send_reminders);
         self
     }

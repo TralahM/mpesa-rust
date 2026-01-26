@@ -102,7 +102,6 @@ impl<'mpesa> C2bRegisterBuilder<'mpesa> {
     ///
     /// # Errors
     /// Returns a `MpesaError` on failure
-
     pub async fn send(self) -> MpesaResult<C2bRegisterResponse> {
         let payload = C2bRegisterPayload {
             validation_url: self
@@ -112,9 +111,7 @@ impl<'mpesa> C2bRegisterBuilder<'mpesa> {
                 .confirmation_url
                 .ok_or(MpesaError::Message("confirmation_url is required"))?,
             response_type: self.response_type.unwrap_or(ResponseType::Completed),
-            short_code: self
-                .short_code
-                .ok_or(MpesaError::Message("short_code is required"))?,
+            short_code: self.short_code.ok_or(MpesaError::Message("short_code is required"))?,
         };
 
         self.client

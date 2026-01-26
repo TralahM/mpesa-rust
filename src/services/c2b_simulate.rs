@@ -26,10 +26,7 @@ struct C2bSimulatePayload<'mpesa> {
 
 #[derive(Debug, Clone, Deserialize)]
 pub struct C2bSimulateResponse {
-    #[serde(
-        rename(deserialize = "ConversationID"),
-        skip_serializing_if = "Option::is_none"
-    )]
+    #[serde(rename(deserialize = "ConversationID"), skip_serializing_if = "Option::is_none")]
     pub conversation_id: Option<String>,
     #[serde(rename(deserialize = "OriginatorCoversationID"))]
     pub originator_conversation_id: String,
@@ -122,18 +119,12 @@ impl<'mpesa> C2bSimulateBuilder<'mpesa> {
     pub async fn send(self) -> MpesaResult<C2bSimulateResponse> {
         let payload = C2bSimulatePayload {
             command_id: self.command_id.unwrap_or(CommandId::CustomerPayBillOnline),
-            amount: self
-                .amount
-                .ok_or(MpesaError::Message("amount is required"))?,
-            msisdn: self
-                .msisdn
-                .ok_or(MpesaError::Message("msisdn is required"))?,
+            amount: self.amount.ok_or(MpesaError::Message("amount is required"))?,
+            msisdn: self.msisdn.ok_or(MpesaError::Message("msisdn is required"))?,
             bill_ref_number: self
                 .bill_ref_number
                 .ok_or(MpesaError::Message("bill_ref_number is required"))?,
-            short_code: self
-                .short_code
-                .ok_or(MpesaError::Message("short_code is required"))?,
+            short_code: self.short_code.ok_or(MpesaError::Message("short_code is required"))?,
         };
 
         self.client

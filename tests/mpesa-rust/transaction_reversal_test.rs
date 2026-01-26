@@ -1,5 +1,5 @@
-use mpesa::services::{TransactionReversal, TransactionReversalRequest};
 use mpesa::IdentifierTypes;
+use mpesa::services::{TransactionReversal, TransactionReversalRequest};
 use serde_json::json;
 use wiremock::matchers::{method, path};
 use wiremock::{Mock, ResponseTemplate};

@@ -57,19 +57,13 @@ impl<'mpesa> SingleInvoiceBuilder<'mpesa> {
     }
 
     /// Adds `account_reference`
-    pub fn account_reference(
-        mut self,
-        account_refernce: &'mpesa str,
-    ) -> SingleInvoiceBuilder<'mpesa> {
+    pub fn account_reference(mut self, account_refernce: &'mpesa str) -> SingleInvoiceBuilder<'mpesa> {
         self.account_reference = Some(account_refernce);
         self
     }
 
     /// Adds `billed_full_name`
-    pub fn billed_full_name(
-        mut self,
-        billed_full_name: &'mpesa str,
-    ) -> SingleInvoiceBuilder<'mpesa> {
+    pub fn billed_full_name(mut self, billed_full_name: &'mpesa str) -> SingleInvoiceBuilder<'mpesa> {
         self.billed_full_name = Some(billed_full_name);
         self
     }
@@ -81,10 +75,7 @@ impl<'mpesa> SingleInvoiceBuilder<'mpesa> {
     }
 
     /// Adds `billed_phone_number`; must be in the format `0722XXXXXX`
-    pub fn billed_phone_number(
-        mut self,
-        billed_phone_number: &'mpesa str,
-    ) -> SingleInvoiceBuilder<'mpesa> {
+    pub fn billed_phone_number(mut self, billed_phone_number: &'mpesa str) -> SingleInvoiceBuilder<'mpesa> {
         self.billed_phone_number = Some(billed_phone_number);
         self
     }
@@ -96,19 +87,13 @@ impl<'mpesa> SingleInvoiceBuilder<'mpesa> {
     }
 
     /// Adds `external_reference`
-    pub fn external_reference(
-        mut self,
-        external_reference: &'mpesa str,
-    ) -> SingleInvoiceBuilder<'mpesa> {
+    pub fn external_reference(mut self, external_reference: &'mpesa str) -> SingleInvoiceBuilder<'mpesa> {
         self.external_reference = Some(external_reference);
         self
     }
 
     /// Adds `invoice_items`
-    pub fn invoice_items(
-        mut self,
-        invoice_items: Vec<InvoiceItem<'mpesa>>,
-    ) -> SingleInvoiceBuilder<'mpesa> {
+    pub fn invoice_items(mut self, invoice_items: Vec<InvoiceItem<'mpesa>>) -> SingleInvoiceBuilder<'mpesa> {
         self.invoice_items = Some(invoice_items);
         self
     }
@@ -129,9 +114,7 @@ impl<'mpesa> SingleInvoiceBuilder<'mpesa> {
     /// Returns an `MpesaError` on failure
     pub async fn send(self) -> MpesaResult<SingleInvoiceResponse> {
         let payload = Invoice {
-            amount: self
-                .amount
-                .ok_or(MpesaError::Message("amount is required"))?,
+            amount: self.amount.ok_or(MpesaError::Message("amount is required"))?,
             account_reference: self
                 .account_reference
                 .ok_or(MpesaError::Message("account_reference is required"))?,
@@ -144,9 +127,7 @@ impl<'mpesa> SingleInvoiceBuilder<'mpesa> {
             billed_phone_number: self
                 .billed_phone_number
                 .ok_or(MpesaError::Message("billed_phone_number is required"))?,
-            due_date: self
-                .due_date
-                .ok_or(MpesaError::Message("due_date is required"))?,
+            due_date: self.due_date.ok_or(MpesaError::Message("due_date is required"))?,
             external_reference: self
                 .external_reference
                 .ok_or(MpesaError::Message("external_reference is required"))?,
