@@ -6,7 +6,7 @@
 
 An unofficial Rust wrapper around the [Safaricom API](https://developer.safaricom.co.ke/docs?shell#introduction) for accessing M-Pesa services.
 
-Current Release: 1.1.0
+Current release: v1.1.0
 
 > BREAKING CHANGE: The `openssl` crate is now an optional dependency, controlled by the `openssl` feature (disabled by default). Users targeting platforms without OpenSSL (e.g., musl/Alpine) can now build without the system `openssl` libraries. Update your Cargo.toml accordingly. See README for details.
 
