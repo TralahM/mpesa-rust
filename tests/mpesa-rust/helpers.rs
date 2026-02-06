@@ -103,11 +103,9 @@ macro_rules! get_mpesa_client {
 
 #[cfg(test)]
 mod tests {
-    use crate::get_mpesa_client;
-
     #[tokio::test]
     async fn test_client_will_not_authenticate_with_wrong_credentials() {
-        let client = get_mpesa_client!("not a client key".to_string(), "not a client secret".to_string());
+        let client = crate::get_mpesa_client!("not a client key".to_string(), "not a client secret".to_string());
         assert!(!client.is_connected().await);
     }
 }
