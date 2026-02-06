@@ -7,10 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 <!-- next-header -->
+## [2.0.1] - 2026-02-06
+
+### :bug: Fixed
+- Use correct macro path in test module
+
 ## [2.0.0] - 2026-02-06
 
 ### :rocket: New Features
-- Make openssl dependency optional via feature flag
+- Make openssl dependency optional via feature flag by @TralahM
 - Update rust edition by @itsyaasir
 - Add M-Pesa Express Query service by @itsyaasir
 
@@ -21,12 +26,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Remove CODECOV_TOKEN from GitHub workflow by @itsyaasir
 
 ### 📝 Documentation
-- Current release.
+- Current release. by @TralahM
 
 ### :gear: Miscellaneous
-- Changelog.
-- Cliff config.
-- Release config.
+- Changelog. by @TralahM
+- Cliff config. by @TralahM
+- Release config. by @TralahM
 - Clear ignored advisories in audit configuration by @itsyaasir
 - Update GitHub workflow for code coverage by @itsyaasir
 - Enhance GitHub workflows with concurrency settings by @itsyaasir
@@ -36,8 +41,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Generic `send` implementation by @itsyaasir
 
 ### New Contributors
-* @c12i made their first contribution
-* @itsyaasir made their first contribution
+* @TralahM made their first contribution
 * @Tevinthuku made their first contribution
 
 ## [1.1.0] - 2023-11-14
@@ -155,6 +159,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * @c12i made their first contribution
 
 <!-- next-url -->
+[2.0.1]: https://github.com/tralahm/mpesa-rust/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/tralahm/mpesa-rust/compare/v1.1.0...v2.0.0
 [1.1.0]: https://github.com/tralahm/mpesa-rust/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/tralahm/mpesa-rust/compare/0.4.2...v1.0.0
