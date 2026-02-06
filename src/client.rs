@@ -320,13 +320,13 @@ impl Mpesa {
                 // Get the raw SubjectPublicKeyInfo (SPKI) bytes
                 let spki_bytes = x509.tbs_certificate.subject_pki.raw;
                 // Load the public key from the extracted DER bytes
-                let public_key = RsaPublicKey::from_public_key_der(&spki_bytes)
+                let public_key = RsaPublicKey::from_public_key_der(spki_bytes)
                     .map_err(rsa::pkcs8::Error::PublicKey)
                     .map_err(EncryptionErrors::PublicKey)?;
 
                 let mut rng = rand::thread_rng();
                 let encrypted = public_key
-                    .encrypt(&mut rng, Pkcs1v15Encrypt, &self.initiator_password().as_bytes())
+                    .encrypt(&mut rng, Pkcs1v15Encrypt, self.initiator_password().as_bytes())
                     .map_err(EncryptionErrors::RsaEncryption)?;
 
                 Ok(encode_block(&encrypted))
