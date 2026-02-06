@@ -3,7 +3,16 @@
 use chrono::DateTime;
 use chrono::prelude::Local;
 use derive_builder::Builder;
-use openssl::base64;
+cfg_if::cfg_if! {
+    if #[cfg(feature = "openssl")] {
+        use openssl::base64::encode_block;
+    } else if #[cfg(feature = "no_openssl")] {
+        use crate::client::encode_block;
+    } else {
+        use crate::client::encode_block;
+    }
+}
+
 use serde::{Deserialize, Serialize};
 
 use super::{DEFAULT_PASSKEY, serialize_utc_to_string};
@@ -112,7 +121,7 @@ impl<'mpesa> MpesaExpressQuery<'mpesa> {
     /// The timestamp format is YYYYMMDDHHmmss
     pub fn encode_password(business_short_code: &str, pass_key: Option<&'mpesa str>) -> String {
         let timestamp = chrono::Local::now().format("%Y%m%d%H%M%S").to_string();
-        base64::encode_block(
+        encode_block(
             format!(
                 "{}{}{}",
                 business_short_code,

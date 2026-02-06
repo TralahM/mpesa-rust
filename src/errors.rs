@@ -15,12 +15,30 @@ pub enum MpesaError {
     ParseError(#[from] serde_json::Error),
     #[error("An error has occurred while retrieving an environmental variable")]
     EnvironmentalVariableError(#[from] VarError),
+    #[cfg(feature = "openssl")]
     #[error("An error has occurred while generating security credentials")]
     EncryptionError(#[from] openssl::error::ErrorStack),
+    #[cfg(feature = "no_openssl")]
+    #[error("An error has occurred while generating security credentials")]
+    EncryptionErrors(#[from] EncryptionErrors),
     #[error("{0}")]
     Message(&'static str),
     #[error("An error has occurred while building the request: {0}")]
     BuilderError(BuilderError),
+}
+
+/// Encryption errors when the `no_openssl` feature is enabled
+#[cfg(feature = "no_openssl")]
+#[derive(Error, Debug)]
+pub enum EncryptionErrors {
+    #[error("An error has occurred while generating security credentials")]
+    RsaEncryption(#[from] rsa::errors::Error),
+    #[error("An error has occurred while generating security credentials")]
+    PublicKey(#[from] rsa::pkcs8::Error),
+    #[error("An error has occurred while parsing or validating a certificate")]
+    Pem(#[from] x509_parser::nom::Err<x509_parser::error::PEMError>),
+    #[error("An error has occurred while parsing or validating a certificate")]
+    X509(#[from] x509_parser::nom::Err<x509_parser::error::X509Error>),
 }
 
 /// `Result` enum type alias
