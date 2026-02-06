@@ -1,14 +1,15 @@
 # B2C
 
-Requires an `initiator_name`, the credential/ username used to authenticate the transaction request
+Requires an `initiator_name`, the credential/ username used to authenticate
+the transaction request
 Returns a `B2cBuilder` for building a B2C transaction struct.
 
-Safaricom the API docs [reference](https://developer.safaricom.co.ke/APIs/BusinessToCustomer).
+Safaricom the API docs [B2C reference](https://developer.safaricom.co.ke/APIs/BusinessToCustomer).
 
 ## Example
 
-```rust
-use mpesa::{Mpesa, Environment};
+```rust,no_run
+use mpesa::{Environment, Mpesa};
 
 #[tokio::main]
 async fn main() {

@@ -1,16 +1,18 @@
 # Account Balance
 
-The Account Balance API is used to request the account balance of a short code. This can be used for both B2C, buy goods and pay bill accounts.
+The Account Balance API is used to request the account balance of a short code.
+This can be used for both B2C, buy goods and pay bill accounts.
 
 Requires an `initiator_name`.
-Returns an `AccountBalanceBuilder` for enquiring the balance on an MPESA BuyGoods.
+Returns an `AccountBalanceBuilder` for enquiring the balance on
+an MPESA Buy-Goods.
 
-Safaricom API docs [reference](https://developer.safaricom.co.ke/APIs/AccountBalance)
+Safaricom API docs [Account Balance reference](https://developer.safaricom.co.ke/APIs/AccountBalance)
 
 ## Example
 
-```rust
-use mpesa::{Mpesa, Environment};
+```rust,no_run
+use mpesa::{Environment, Mpesa};
 
 #[tokio::main]
 async fn main() {

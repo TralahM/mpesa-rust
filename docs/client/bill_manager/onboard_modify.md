@@ -1,12 +1,13 @@
 # Onboard Modify
 
-Creates a `OnboardModifyBuilder` which allows you to opt in as a biller to the bill manager features.
+Creates a `OnboardModifyBuilder` which allows you to opt in as a biller to the
+bill manager features.
 
 Safaricom API docs [reference](https://developer.safaricom.co.ke/APIs/BillManager)
 
 ## Example
 
-```rust,ignore
+```rust,no_run
 use mpesa::{Mpesa, Environment, SendRemindersTypes};
 
 #[tokio::main]

@@ -2,15 +2,17 @@
 
 Queries the status of a B2B, B2C or C2B M-Pesa transaction.
 
-Requires an `initiator_name`, the credential/ username used to authenticate the transaction request
+Requires an `initiator_name`, the credential/ username used to authenticate
+the transaction request
 Returns a `TransactionStatusBuilder`.
 
-See more from the Safaricom API docs [here](https://developer.safaricom.co.ke/Documentation)
+See more from the Safaricom API docs
+[Documentation](https://developer.safaricom.co.ke/Documentation)
 
 ## Example
 
-```rust
-use mpesa::{Mpesa, Environment};
+```rust,no_run
+use mpesa::{Environment, Mpesa};
 
 #[tokio::main]
 async fn main() {

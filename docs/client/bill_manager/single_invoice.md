@@ -1,14 +1,15 @@
 # Single Invoice
 
-Creates a `SingleInvoiceBuilder` which allows you to create and send invoices to your customers.
+Creates a `SingleInvoiceBuilder` which allows you to create and send invoices
+to your customers.
 
 Safaricom API docs [reference](https://developer.safaricom.co.ke/APIs/BillManager)
 
 ## Example
 
-```rust,ignore
-use mpesa::{Mpesa, Environment, InvoiceItem};
+```rust,no_run
 use chrono::prelude::Utc;
+use mpesa::{Environment, InvoiceItem, Mpesa};
 
 #[tokio::main]
 async fn main() {
@@ -29,9 +30,10 @@ async fn main() {
         .billed_phone_number("0712345678")
         .due_date(Utc::now())
         .external_reference("INV2345")
-        .invoice_items(vec![
-            InvoiceItem {amount: 1000.0, item_name: "An item"}
-        ])
+        .invoice_items(vec![InvoiceItem {
+            amount: 1000.0,
+            item_name: "An item",
+        }])
         .invoice_name("Invoice 001")
         .send()
         .await;

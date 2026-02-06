@@ -6,7 +6,7 @@ Safaricom API docs [reference](https://developer.safaricom.co.ke/APIs/BillManage
 
 ## Example
 
-```rust,ignore
+```rust,no_run
 use mpesa::{Mpesa, Environment, SendRemindersTypes};
 use chrono::prelude::Utc;
 

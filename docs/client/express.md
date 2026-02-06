@@ -2,22 +2,26 @@
 
 ## Mpese Express Request
 
-Lipa na M-PESA online API also known as M-PESA express (STK Push/NI push) is a Merchant/Business initiated C2B (Customer to Business) Payment.
+Lipa na M-PESA online API also known as M-PESA express (STK Push/NI push)
+is a Merchant/Business initiated C2B (Customer to Business) Payment.
 
-Once you, our merchant integrate with the API, you will be able to send a payment prompt on the customer's phone (Popularly known as STK Push Prompt) to your customer's M-PESA registered phone number requesting them to enter their M-PESA pin to authorize and complete payment.
+Once you, our merchant integrate with the API, you will be able to send a
+payment prompt on the customer's phone (Popularly known as STK Push Prompt)
+to your customer's M-PESA registered phone number requesting them to enter
+their M-PESA pin to authorize and complete payment.
 
-Requires a `business_short_code` - The organization shortcode used to receive the transaction and
-returns a `MpesaExpressRequestBuilder` struct
+Requires a `business_short_code` - The organization shortcode used to receive
+the transaction and returns a `MpesaExpressRequestBuilder` struct
 
 Safaricom API docs [reference](https://developer.safaricom.co.ke/APIs/MpesaExpressSimulate)
 
 ### Example
 
-```rust,ignore
-use mpesa::{Mpesa, Environment};
+```rust,no_run
+use mpesa::{Environment, Mpesa};
 
 #[tokio::main]
-async fn main() -> Result<(), Box<dyn std::error::Error>>{
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
     dotenvy::dotenv().ok();
 
     let client = Mpesa::new(
@@ -53,13 +57,13 @@ M-PESA Express Query API checks the status of a Lipa Na M-PESA Online Payment.
 
 Safaricom API docs [reference](https://developer.safaricom.co.ke/APIs/MpesaExpressQuery)
 
-### Example
+### Query Example
 
-```rust,ignore
-use mpesa::{Mpesa, Environment};
+```rust,no_run
+use mpesa::{Environment, Mpesa};
 
 #[tokio::main]
-async fn main() -> Result<(), Box<dyn std::error::Error>>{
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
     dotenvy::dotenv().ok();
 
     let client = Mpesa::new(

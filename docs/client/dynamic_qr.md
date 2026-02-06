@@ -9,7 +9,7 @@ Safaricom API docs [reference](https://developer.safaricom.co.ke/APIs/DynamicQRC
 
 ## Example
 
-```rust
+```rust,no_run
 use mpesa::{Mpesa, Environment};
 
 #[tokio::main]

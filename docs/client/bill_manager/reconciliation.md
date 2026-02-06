@@ -1,12 +1,13 @@
 # Reconciliation
 
-Creates a `ReconciliationBuilder` which enables your customers to receive e-receipts for payments made to your paybill account.
+Creates a `ReconciliationBuilder` which enables your customers to
+receive e-receipts for payments made to your paybill account.
 
 Safaricom API docs [reference](https://developer.safaricom.co.ke/APIs/BillManager)
 
 ## Example
 
-```rust,ignore
+```rust,no_run
 use mpesa::{Mpesa, Environment};
 use chrono::prelude::Utc;
 

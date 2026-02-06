@@ -2,14 +2,16 @@
 
 ## Reverses a C2B M-Pesa transaction
 
-Requires an `initiator_name`, the credential/ username used to authenticate the transaction request
+Requires an `initiator_name`, the credential/ username used to authenticate
+the transaction request
 Returns a `TransactionReversalBuilder`
 
-See more from the Safaricom API docs [here](https://developer.safaricom.co.ke/APIs/Reversal)
+See more from the Safaricom API docs
+[Reversals](https://developer.safaricom.co.ke/APIs/Reversal)
 
 ## Example
 
-```rust
+```rust,no_run
 use mpesa::{Mpesa, Environment};
 
 #[tokio::main]
