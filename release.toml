@@ -13,6 +13,7 @@ sign-commit = true
 enable-all-features = true
 pre-release-replacements = [
   { file = "README.md", search = "Current release: [a-z0-9\\.-]+", replace = "Current release: v{{version}}" },
+  { file = "README.md", search = "tag = \"[a-z0-9\\.-]+\"", replace = "tag = \"v{{version}}\"" },
 ]
 pre-release-hook = [
   "git",

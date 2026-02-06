@@ -6,6 +6,8 @@
 
 An unofficial Rust wrapper around the [Safaricom API](https://developer.safaricom.co.ke/docs?shell#introduction) for accessing M-Pesa services.
 
+Current Release: v1.1.0
+
 > BREAKING CHANGE: The `openssl` crate is now an optional dependency, controlled by the `openssl` feature (disabled by default). Users targeting platforms without OpenSSL (e.g., musl/Alpine) can now build without the system `openssl` libraries. Update your Cargo.toml accordingly. See README for details.
 
 With the `no_openssl` feature (enabled by default), the library uses the `x509-parser`, `rsa`, `base64`, and `rand` crates for encrypting client credentials.
@@ -24,7 +26,7 @@ Add this to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-mpesa = { git = "https://github.com/tralahm/mpesa-rust" }
+mpesa = { git = "https://github.com/tralahm/mpesa-rust", tag = "v1.1.0" }
 ```
 
 - By default, the `no_openssl` feature is enabled for compatibility with
@@ -32,7 +34,7 @@ mpesa = { git = "https://github.com/tralahm/mpesa-rust" }
 
 ```toml
 [dependencies]
-mpesa = { version = "2", git = "https://github.com/tralahm/mpesa-rust.git" }
+mpesa = { tag = "v1.1.0", git = "https://github.com/tralahm/mpesa-rust.git" }
 ```
 
 Optionally, you can disable default-features, which is basically the entire
@@ -43,7 +45,7 @@ Example:
 
 ```toml
 [dependencies]
-mpesa = { version = "2", git = "https://github.com/tralahm/mpesa-rust.git",
+mpesa = { tag = "v1.1.0", git = "https://github.com/tralahm/mpesa-rust.git",
     default_features = false,
     features = [
         "b2b",
