@@ -7,10 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 <!-- next-header -->
+## [3.0.0] - 2026-02-07
+
+### :rocket: New Features
+- Thread-safety made the Mpesa client Send+Sync.
+
+### :bug: Fixed
+- Make Mpesa client Clone
+
+### :gear: Miscellaneous
+- Update release badge and replacements in docs by @TralahM
+
 ## [2.2.1] - 2026-02-07
 
 ### Added
-- Add musl support and env setup for CI builds
+- Add musl support and env setup for CI builds by @TralahM
 
 ## [2.2.0] - 2026-02-07
 
@@ -190,6 +201,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * @c12i made their first contribution
 
 <!-- next-url -->
+[3.0.0]: https://github.com/tralahm/mpesa-rust/compare/v2.2.1...v3.0.0
 [2.2.1]: https://github.com/tralahm/mpesa-rust/compare/v2.2.0...v2.2.1
 [2.2.0]: https://github.com/tralahm/mpesa-rust/compare/v2.1.1...v2.2.0
 [2.1.1]: https://github.com/tralahm/mpesa-rust/compare/v2.1.0...v2.1.1
