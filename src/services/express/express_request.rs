@@ -4,12 +4,12 @@ use chrono::DateTime;
 use chrono::prelude::Local;
 use derive_builder::Builder;
 cfg_if::cfg_if! {
-    if #[cfg(not(feature = "openssl"))] {
+    if #[cfg(all(not(feature = "openssl"), feature = "no_openssl"))] {
         use crate::client::encode_block;
     } else if #[cfg(all(feature = "no_openssl", feature = "openssl"))] {
         use openssl::base64::encode_block;
-    } else {
-        use crate::client::encode_block;
+    } else if #[cfg(all(not(feature = "no_openssl"), feature = "openssl"))] {
+        use openssl::base64::encode_block;
     }
 }
 

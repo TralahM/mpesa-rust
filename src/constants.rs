@@ -1,5 +1,6 @@
 use std::fmt::{Display, Formatter, Result as FmtResult};
 
+#[cfg(any(feature = "bill_manager", feature = "express"))]
 use chrono::prelude::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use serde_repr::{Deserialize_repr, Serialize_repr};
@@ -105,6 +106,7 @@ impl Display for SendRemindersTypes {
     }
 }
 
+#[cfg(feature = "bill_manager")]
 #[derive(Debug, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Invoice<'i> {
@@ -120,6 +122,7 @@ pub struct Invoice<'i> {
     pub invoice_name: &'i str,
 }
 
+#[cfg(feature = "bill_manager")]
 impl<'i> Display for Invoice<'i> {
     fn fmt(&self, f: &mut Formatter) -> FmtResult {
         write!(
@@ -133,12 +136,14 @@ impl<'i> Display for Invoice<'i> {
     }
 }
 
+#[cfg(feature = "bill_manager")]
 #[derive(Debug, Serialize)]
 pub struct InvoiceItem<'i> {
     pub amount: f64,
     pub item_name: &'i str,
 }
 
+#[cfg(feature = "bill_manager")]
 impl<'i> Display for InvoiceItem<'i> {
     fn fmt(&self, f: &mut Formatter) -> FmtResult {
         write!(f, "amount: {}, item_name: {}", self.amount, self.item_name)
