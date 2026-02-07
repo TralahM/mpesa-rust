@@ -1,0 +1,37 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Define a memoized function using a cache store that implements `cached::Cached` (and `cached::CachedAsync` for async functions)"><title>cached in cached::proc_macro - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-ca0dd0c4.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="cached" data-themes="" data-resource-suffix="" data-rustdoc-version="1.93.0 (254b59607 2026-01-19)" data-channel="1.93.0" data-search-js="search-9e2438ea.js" data-stringdex-js="stringdex-a3946164.js" data-settings-js="settings-c38705f0.js" ><script src="../../static.files/storage-e2aeef58.js"></script><script defer src="sidebar-items.js"></script><script defer src="../../static.files/main-a410ff4d.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-263c88ec.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc attr"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><rustdoc-topbar><h2><a href="#">cached</a></h2></rustdoc-topbar><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../../cached/index.html">cached</a><span class="version">0.56.0</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">cached</a></h2><h3><a href="#">Sections</a></h3><ul class="block top-toc"><li><a href="#attributes" title="Attributes">Attributes</a><ul><li><a href="#note" title="Note">Note</a></li></ul></li></ul></section><div id="rustdoc-modnav"><h2><a href="index.html">In cached::<wbr>proc_<wbr>macro</a></h2></div></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><div class="width-limiter"><section id="main-content" class="content"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="../index.html">cached</a>::<wbr><a href="index.html">proc_macro</a></div><h1>Attribute Macro <span class="attr">cached</span>&nbsp;<button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../../src/cached_proc_macro/lib.rs.html#45">Source</a> </span></div><pre class="rust item-decl"><code>#[cached]</code></pre><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Define a memoized function using a cache store that implements <code>cached::Cached</code> (and
+<code>cached::CachedAsync</code> for async functions)</p>
+<h2 id="attributes"><a class="doc-anchor" href="#attributes">§</a>Attributes</h2>
+<ul>
+<li><code>name</code>: (optional, string) specify the name for the generated cache, defaults to the function name uppercase.</li>
+<li><code>size</code>: (optional, usize) specify an LRU max size, implies the cache type is a <code>SizedCache</code> or <code>TimedSizedCache</code>.</li>
+<li><code>time</code>: (optional, u64) specify a cache TTL in seconds, implies the cache type is a <code>TimedCache</code> or <code>TimedSizedCache</code>.</li>
+<li><code>time_refresh</code>: (optional, bool) specify whether to refresh the TTL on cache hits.</li>
+<li><code>sync_writes</code>: (optional, string) specify whether to synchronize the execution and writing of uncached values.
+When not specified, the <code>"default"</code> behavior will synchronize all keys, locking the whole cache during an
+uncached execution. When set to <code>"by_key"</code> a per-key lock is used to synchronize uncached execution of
+duplicate keys only.</li>
+<li><code>ty</code>: (optional, string type) The cache store type to use. Defaults to <code>UnboundCache</code>. When <code>unbound</code> is
+specified, defaults to <code>UnboundCache</code>. When <code>size</code> is specified, defaults to <code>SizedCache</code>.
+When <code>time</code> is specified, defaults to <code>TimedCached</code>.
+When <code>size</code> and <code>time</code> are specified, defaults to <code>TimedSizedCache</code>. When <code>ty</code> is
+specified, <code>create</code> must also be specified.</li>
+<li><code>create</code>: (optional, string expr) specify an expression used to create a new cache store, e.g. <code>create = r##"{ CacheType::new() }"##</code>.</li>
+<li><code>key</code>: (optional, string type) specify what type to use for the cache key, e.g. <code>key = "u32"</code>.
+When <code>key</code> is specified, <code>convert</code> must also be specified.</li>
+<li><code>convert</code>: (optional, string expr) specify an expression used to convert function arguments to a cache
+key, e.g. <code>convert = r##"{ format!("{}:{}", arg1, arg2) }"##</code>. When <code>convert</code> is specified,
+<code>key</code> or <code>ty</code> must also be set.</li>
+<li><code>result</code>: (optional, bool) If your function returns a <code>Result</code>, only cache <code>Ok</code> values returned by the function.</li>
+<li><code>option</code>: (optional, bool) If your function returns an <code>Option</code>, only cache <code>Some</code> values returned by the function.</li>
+<li><code>with_cached_flag</code>: (optional, bool) If your function returns a <code>cached::Return</code> or <code>Result&lt;cached::Return, E&gt;</code>,
+the <code>cached::Return.was_cached</code> flag will be updated when a cached value is returned.</li>
+<li><code>result_fallback</code>: (optional, bool) If your function returns a <code>Result</code> and it fails, the cache will instead refresh the recently expired <code>Ok</code> value.
+In other words, refreshes are best-effort - returning <code>Ok</code> refreshes as usual but <code>Err</code> falls back to the last <code>Ok</code>.
+This is useful, for example, for keeping the last successful result of a network operation even during network disconnects.
+<em>Note</em>, this option requires the cache type implements <code>CloneCached</code>.</li>
+</ul>
+<h3 id="note"><a class="doc-anchor" href="#note">§</a>Note</h3>
+<p>The <code>ty</code>, <code>create</code>, <code>key</code>, and <code>convert</code> attributes must be in a <code>String</code>
+This is because darling, which is used for parsing the attributes, does not support directly parsing
+attributes into <code>Type</code>s or <code>Block</code>s.</p>
+</div></details></section></div></main></body></html>
