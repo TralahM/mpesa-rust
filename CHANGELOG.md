@@ -7,13 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 <!-- next-header -->
+## [3.1.0] - 2026-02-07
+
+### :rocket: New Features
+- Move from Mutex to RwLock for multiple readers of initiator password or one writer.
+
 ## [3.0.0] - 2026-02-07
 
 ### :rocket: New Features
-- Thread-safety made the Mpesa client Send+Sync.
+- Thread-safety made the Mpesa client Send+Sync. by @TralahM
 
 ### :bug: Fixed
-- Make Mpesa client Clone
+- Make Mpesa client Clone by @TralahM
 
 ### :gear: Miscellaneous
 - Update release badge and replacements in docs by @TralahM
@@ -201,6 +206,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * @c12i made their first contribution
 
 <!-- next-url -->
+[3.1.0]: https://github.com/tralahm/mpesa-rust/compare/v3.0.0...v3.1.0
 [3.0.0]: https://github.com/tralahm/mpesa-rust/compare/v2.2.1...v3.0.0
 [2.2.1]: https://github.com/tralahm/mpesa-rust/compare/v2.2.0...v2.2.1
 [2.2.0]: https://github.com/tralahm/mpesa-rust/compare/v2.1.1...v2.2.0
