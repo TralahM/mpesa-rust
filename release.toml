@@ -14,6 +14,7 @@ enable-all-features = true
 pre-release-replacements = [
   { file = "README.md", search = "Current [Rr]elease: [a-z0-9\\.-]+", replace = "Current release: v{{version}}" },
   { file = "README.md", search = "tag = \"[a-z0-9\\.-]+\"", replace = "tag = \"v{{version}}\"" },
+  { file = "README.md", search = "tag=[a-z0-9\\.-]+", replace = "tag=v{{version}}" },
 ]
 pre-release-hook = [
   "git",

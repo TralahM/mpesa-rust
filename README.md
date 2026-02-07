@@ -1,7 +1,7 @@
 # mpesa-rust
 
 [![Rust](https://github.com/tralahm/mpesa-rust/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/tralahm/mpesa-rust/actions/workflows/ci.yml)
-[![Rust Docs](https://github.com/tralahm/mpesa-rust/actions/workflows/release-core.yml/badge.svg?branch=master)](https://github.com/tralahm/mpesa-rust/actions/workflows/release-core.yml)
+[![Rust Docs](https://github.com/tralahm/mpesa-rust/actions/workflows/release-core.yml/badge.svg?tag=v2.2.1)](https://github.com/tralahm/mpesa-rust/actions/workflows/release-core.yml)
 [![](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 
 An unofficial Rust wrapper around the
