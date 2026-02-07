@@ -1,4 +1,4 @@
-use std::sync::Mutex;
+use std::sync::{Arc, Mutex};
 use std::time::Duration;
 
 use cached::Cached;
@@ -56,7 +56,7 @@ pub(crate) fn encode_block(src: &[u8]) -> String {
 pub struct Mpesa {
     consumer_key: String,
     consumer_secret: SecretString,
-    initiator_password: Mutex<Option<SecretString>>,
+    initiator_password: Arc<Mutex<Option<SecretString>>>,
     pub(crate) base_url: String,
     certificate: String,
     pub(crate) http_client: HttpClient,
@@ -98,7 +98,7 @@ impl Mpesa {
         Self {
             consumer_key: consumer_key.into(),
             consumer_secret: consumer_secret.into().into(),
-            initiator_password: Mutex::new(None),
+            initiator_password: Arc::new(Mutex::new(None)),
             base_url,
             certificate,
             http_client,
@@ -109,8 +109,8 @@ impl Mpesa {
     /// If `None`, the default password is `"Safcom496!"`
     pub(crate) fn initiator_password(&self) -> String {
         self.initiator_password
-        .lock()
-        .unwrap()
+            .lock()
+            .unwrap()
             .as_ref()
             .map(|password| password.expose_secret().into())
             .unwrap_or(DEFAULT_INITIATOR_PASSWORD.to_owned())
