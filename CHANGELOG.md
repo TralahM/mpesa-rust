@@ -7,10 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 <!-- next-header -->
+## [2.2.0] - 2026-02-07
+
+### :rocket: New Features
+- Gate features and types with conditional compilation
+
 ## [2.1.1] - 2026-02-07
 
 ### Added
-- Add secrets env for tests in CI workflow
+- Add secrets env for tests in CI workflow by @TralahM
 
 ## [2.1.0] - 2026-02-07
 
@@ -180,6 +185,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * @c12i made their first contribution
 
 <!-- next-url -->
+[2.2.0]: https://github.com/tralahm/mpesa-rust/compare/v2.1.1...v2.2.0
 [2.1.1]: https://github.com/tralahm/mpesa-rust/compare/v2.1.0...v2.1.1
 [2.1.0]: https://github.com/tralahm/mpesa-rust/compare/v2.0.2...v2.1.0
 [2.0.2]: https://github.com/tralahm/mpesa-rust/compare/v2.0.1...v2.0.2
