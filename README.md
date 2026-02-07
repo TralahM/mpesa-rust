@@ -4,15 +4,26 @@
 [![Rust Docs](https://github.com/tralahm/mpesa-rust/actions/workflows/release-core.yml/badge.svg?branch=master)](https://github.com/tralahm/mpesa-rust/actions/workflows/release-core.yml)
 [![](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 
-An unofficial Rust wrapper around the [Safaricom API](https://developer.safaricom.co.ke/docs?shell#introduction) for accessing M-Pesa services.
+An unofficial Rust wrapper around the
+[Safaricom API](https://developer.safaricom.co.ke/docs?shell#introduction) for
+accessing M-Pesa services.
 
 Current release: v2.0.2
 
-> BREAKING CHANGE: The `openssl` crate is now an optional dependency, controlled by the `openssl` feature (disabled by default). Users targeting platforms without OpenSSL (e.g., musl/Alpine) can now build without the system `openssl` libraries. Update your Cargo.toml accordingly. See README for details.
+> BREAKING CHANGE: The `openssl` crate is now an optional dependency,
+> controlled by the `openssl` feature (disabled by default).
+> Users targeting platforms without OpenSSL (e.g., musl/Alpine) can now
+> build without the system `openssl` libraries.
+> Update your Cargo.toml accordingly. See README for details.
 
-With the `no_openssl` feature (enabled by default), the library uses the `x509-parser`, `rsa`, `base64`, and `rand` crates for encrypting client credentials.
+With the `no_openssl` feature (enabled by default), the library uses the
+[x509-parser](https://crates.io/crates/x509-parser),
+[rsa](https://crates.io/crates/rsa),
+[base64](https://crates.io/crates/base64), and
+[rand](https://crates.io/crates/rand) crates for encrypting client credentials.
 
-Users who want to use `openssl` can still opt in by enabling the `openssl` feature.
+Users who want to use [openssl](https://crates.io/crates/openssl) can still
+opt in by enabling the `openssl` feature.
 
 **Why this changes?**
 
@@ -74,7 +85,7 @@ environment. To go live and get production keys read the docs
 
 These are the following ways you can instantiate `Mpesa`:
 
-```rust
+```rust,no_run
 use mpesa::{Environment, Mpesa};
 
 #[tokio::main]
@@ -97,7 +108,7 @@ and `&str` types, you can call `Environment::from_str` or
 This is ideal if the environment values are stored in a `.env` or any
 other configuration file:
 
-```rust
+```rust,no_run
 use std::convert::TryFrom;
 use std::error::Error;
 use std::str::FromStr;
@@ -142,7 +153,7 @@ sign select requests to the MPESA api, by providing your own
 See the example below (and [environment](./src/environment.rs) so see how
 the trait is implemented for the `Environment` enum):
 
-```rust
+```rust,no_run
 use mpesa::{ApiEnvironment, Mpesa};
 
 #[derive(Clone)]
@@ -177,7 +188,7 @@ If you intend to use in production, you will need to call the
 creating the client. Here you provide your initiator password, which overrides
 the default password used in sandbox `"Safcom496!"`:
 
-```rust
+```rust,no_run
 use mpesa::{Environment, Mpesa};
 
 #[tokio::main]
