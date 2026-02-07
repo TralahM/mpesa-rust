@@ -1,4 +1,4 @@
-use std::sync::{Arc, Mutex};
+use std::sync::{Arc, RwLock};
 use std::time::Duration;
 
 use cached::Cached;
@@ -56,7 +56,7 @@ pub(crate) fn encode_block(src: &[u8]) -> String {
 pub struct Mpesa {
     consumer_key: String,
     consumer_secret: SecretString,
-    initiator_password: Arc<Mutex<Option<SecretString>>>,
+    initiator_password: Arc<RwLock<Option<SecretString>>>,
     pub(crate) base_url: String,
     certificate: String,
     pub(crate) http_client: HttpClient,
@@ -98,7 +98,7 @@ impl Mpesa {
         Self {
             consumer_key: consumer_key.into(),
             consumer_secret: consumer_secret.into().into(),
-            initiator_password: Arc::new(Mutex::new(None)),
+            initiator_password: Arc::new(RwLock::new(None)),
             base_url,
             certificate,
             http_client,
@@ -109,7 +109,7 @@ impl Mpesa {
     /// If `None`, the default password is `"Safcom496!"`
     pub(crate) fn initiator_password(&self) -> String {
         self.initiator_password
-            .lock()
+            .read()
             .unwrap()
             .as_ref()
             .map(|password| password.expose_secret().into())
@@ -155,7 +155,7 @@ impl Mpesa {
     /// }
     /// ```
     pub fn set_initiator_password<S: Into<String>>(&self, initiator_password: S) {
-        *self.initiator_password.lock().unwrap() = Some(initiator_password.into().into());
+        *self.initiator_password.write().unwrap() = Some(initiator_password.into().into());
     }
 
     /// Checks if the client can be authenticated
