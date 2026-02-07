@@ -8,7 +8,7 @@ An unofficial Rust wrapper around the
 [Safaricom API](https://developer.safaricom.co.ke/docs?shell#introduction) for
 accessing M-Pesa services.
 
-Current release: v2.1.0
+Current release: v2.1.1
 
 > BREAKING CHANGE: The `openssl` crate is now an optional dependency,
 > controlled by the `openssl` feature (disabled by default).
@@ -37,7 +37,7 @@ Add this to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-mpesa = { git = "https://github.com/tralahm/mpesa-rust", tag = "v2.1.0" }
+mpesa = { git = "https://github.com/tralahm/mpesa-rust", tag = "v2.1.1" }
 ```
 
 - By default, the `no_openssl` feature is enabled for compatibility with
@@ -45,7 +45,7 @@ mpesa = { git = "https://github.com/tralahm/mpesa-rust", tag = "v2.1.0" }
 
 ```toml
 [dependencies]
-mpesa = { tag = "v2.1.0", git = "https://github.com/tralahm/mpesa-rust.git" }
+mpesa = { tag = "v2.1.1", git = "https://github.com/tralahm/mpesa-rust.git" }
 ```
 
 Optionally, you can disable default-features, which is basically the entire
@@ -56,7 +56,7 @@ Example:
 
 ```toml
 [dependencies]
-mpesa = { tag = "v2.1.0", git = "https://github.com/tralahm/mpesa-rust.git",
+mpesa = { tag = "v2.1.1", git = "https://github.com/tralahm/mpesa-rust.git",
     default_features = false,
     features = [
         "b2b",
