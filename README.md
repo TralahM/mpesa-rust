@@ -67,7 +67,7 @@ mpesa = { tag = "v2.1.0", git = "https://github.com/tralahm/mpesa-rust.git",
 
 In your lib or binary crate:
 
-```rust
+```rust,no_run
 use mpesa::Mpesa;
 ```
 
@@ -136,7 +136,7 @@ The `Mpesa` struct's `environment` parameter is generic over any type that
 implements the `ApiEnvironment` trait. This trait
 expects the following methods to be implemented for a given type:
 
-```rust
+```rust,no_run
 pub trait ApiEnvironment {
     fn base_url(&self) -> &str;
     fn get_certificate(&self) -> &str;

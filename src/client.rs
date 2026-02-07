@@ -50,7 +50,7 @@ impl Mpesa {
     ///
     /// # Example
     ///
-    /// ```rust
+    /// ```rust,no_run
     /// use mpesa::{Environment, Mpesa};
     ///
     /// #[tokio::main]
@@ -120,7 +120,7 @@ impl Mpesa {
     ///
     /// # Example
     ///
-    /// ```rust
+    /// ```rust,no_run
     /// use mpesa::{Environment, Mpesa};
     ///
     /// #[tokio::main]
