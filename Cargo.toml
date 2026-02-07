@@ -1,6 +1,6 @@
 [package]
 name = "mpesa"
-version = "2.2.0"
+version = "2.2.1"
 authors = [
   "Collins Muriuki <murerwacollins@gmail.com>",
   "Tralah M Brian <briantralah@gmail.com",
