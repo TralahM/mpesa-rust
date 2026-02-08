@@ -10,11 +10,20 @@ accessing M-Pesa services.
 
 Current release: v3.1.0
 
-> BREAKING CHANGE: The `openssl` crate is now an optional dependency,
-> controlled by the `openssl` feature (disabled by default).
-> Users targeting platforms without OpenSSL (e.g., musl/Alpine) can now
-> build without the system `openssl` libraries.
+## What's New From the original fork
+
+- **Optional OpenSSL Dependency**: The `openssl` dependency is now optional and managed via a feature flag. This change improves compatibility with environments lacking OpenSSL (like Alpine Linux) and reduces build sizes. Users can explicitly enable the `openssl` feature if required.
+- **Enhanced Thread Safety**: The M-PESA client's core components have been made thread-safe (`Send` + `Sync`). The `RwLock` is now used for managing the initiator password, allowing for more efficient concurrent read operations.
+- **Improved CI and Build Capabilities**: New CI workflows have been implemented, supporting multiple Rust versions and targets, including musl for Alpine Linux builds. This ensures broader compatibility and more robust testing.
+- **Structured Release Process**: A `CHANGELOG.md` file and release configuration (`release.toml`) have been introduced, providing a clear and organized record of project changes and release history.
+- **Updated Documentation and Examples**: Various API documentation sections and code examples have been clarified and updated to reflect recent changes and improve user understanding.
+
 > Update your Cargo.toml accordingly. See README for details.
+> **Why this changes?**
+
+- Builds on more platforms (e.g., Alpine Linux, static binaries).
+- Enables building on platforms without OpenSSL (e.g., Musl/Alpine).
+- Smaller binaries and fewer system dependencies when OpenSSL is not needed.
 
 With the `no_openssl` feature (enabled by default), the library uses the
 [x509-parser](https://crates.io/crates/x509-parser),
@@ -24,12 +33,6 @@ With the `no_openssl` feature (enabled by default), the library uses the
 
 Users who want to use [openssl](https://crates.io/crates/openssl) can still
 opt in by enabling the `openssl` feature.
-
-**Why this changes?**
-
-- Builds on more platforms (e.g., Alpine Linux, static binaries).
-- Enables building on platforms without OpenSSL (e.g., Musl/Alpine).
-- Smaller binaries and fewer system dependencies when OpenSSL is not needed.
 
 ## Install
 
