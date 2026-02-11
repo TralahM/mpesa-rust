@@ -7,10 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 <!-- next-header -->
+## [3.1.1] - 2026-02-11
+
+### 🏭 Refactor
+- Remove auth caching, improve test config
+
+### 📝 Documentation
+- Described differences from upstreaam fork. by @TralahM
+
+### :gear: Miscellaneous
+- Update ci workflow to use new environment variables
+
 ## [3.1.0] - 2026-02-07
 
 ### :rocket: New Features
-- Move from Mutex to RwLock for multiple readers of initiator password or one writer.
+- Move from Mutex to RwLock for multiple readers of initiator password or one writer. by @TralahM
 
 ## [3.0.0] - 2026-02-07
 
@@ -206,6 +217,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * @c12i made their first contribution
 
 <!-- next-url -->
+[3.1.1]: https://github.com/tralahm/mpesa-rust/compare/v3.1.0...v3.1.1
 [3.1.0]: https://github.com/tralahm/mpesa-rust/compare/v3.0.0...v3.1.0
 [3.0.0]: https://github.com/tralahm/mpesa-rust/compare/v2.2.1...v3.0.0
 [2.2.1]: https://github.com/tralahm/mpesa-rust/compare/v2.2.0...v2.2.1
