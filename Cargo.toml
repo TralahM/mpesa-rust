@@ -40,7 +40,6 @@ transaction_status = ["no_openssl"]
 no_openssl = ["dep:base64", "dep:x509-parser", "dep:rsa", "dep:rand"]
 
 [dependencies]
-cached = { version = "0.56", features = ["wasm", "async", "proc_macro"] }
 chrono = { version = "0.4", optional = true, default-features = false, features = [
   "clock",
   "serde",
@@ -78,3 +77,4 @@ cfg-if = "1.0"
 dotenvy = "0.15"
 tokio = { version = "1", features = ["rt", "rt-multi-thread", "macros"] }
 wiremock = "0.6"
+figment = { version = "^0.10", features = ["toml", "env", "json", "test"] }

@@ -1,13 +1,11 @@
 use std::sync::{Arc, RwLock};
 use std::time::Duration;
 
-use cached::Cached;
 use reqwest::Client as HttpClient;
 use secrecy::{ExposeSecret, SecretString};
 use serde::Serialize;
 use serde::de::DeserializeOwned;
 
-use crate::auth::AUTH;
 use crate::environment::ApiEnvironment;
 #[cfg(feature = "account_balance")]
 use crate::services::AccountBalanceBuilder;
@@ -169,29 +167,12 @@ impl Mpesa {
     ///
     /// Safaricom API docs [reference](https://developer.safaricom.co.ke/APIs/Authorization)
     ///
-    /// Returns auth token as a `String` that is ttl-cached in memory for subsequent requests.
+    /// Returns auth token as a `String`.
     ///
     /// # Errors
     /// Returns a `MpesaError` on failure
     pub(crate) async fn auth(&self) -> MpesaResult<String> {
-        if let Some(token) = AUTH.lock().await.cache_get(&self.consumer_key) {
-            return Ok(token.to_owned());
-        }
-
-        // Generate a new access token
-        let new_token = auth::auth(self).await?;
-
-        // Double-check if the access token is cached by another thread
-        if let Some(token) = AUTH.lock().await.cache_get(&self.consumer_key) {
-            return Ok(token.to_owned());
-        }
-
-        // Cache the new token
-        AUTH.lock()
-            .await
-            .cache_set(self.consumer_key.clone(), new_token.to_owned());
-
-        Ok(new_token)
+        auth::auth(self).await
     }
 
     #[cfg(feature = "b2c")]
