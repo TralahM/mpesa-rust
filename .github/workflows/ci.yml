@@ -10,6 +10,29 @@ env:
   CARGO_TERM_COLOR: always
   CONSUMER_KEY: ${{ secrets.CONSUMER_KEY }}
   CONSUMER_SECRET: ${{ secrets.CONSUMER_SECRET }}
+  EXPRESS_CALLBACK_URL: ${{ secrets.EXPRESS_CALLBACK_URL }}
+  C2B_CONFIRMATION_URL: ${{ secrets.C2B_CONFIRMATION_URL }}
+  C2B_VALIDATION_URL: ${{ secrets.C2B_VALIDATION_URL }}
+  B2C_RESULT_URL: ${{ secrets.B2C_RESULT_URL }}
+  B2C_TIMEOUT_URL: ${{ secrets.B2C_TIMEOUT_URL }}
+  B2B_RESULT_URL: ${{ secrets.B2B_RESULT_URL }}
+  B2B_TIMEOUT_URL: ${{ secrets.B2B_TIMEOUT_URL }}
+  BAL_RESULT_URL: ${{ secrets.BAL_RESULT_URL }}
+  BAL_TIMEOUT_URL: ${{ secrets.BAL_TIMEOUT_URL }}
+  ONBOARD_BM_CALLBACK_URL: ${{ secrets.ONBOARD_BM_CALLBACK_URL }}
+  TXN_STATUS_RESULT_URL: ${{ secrets.TXN_STATUS_RESULT_URL }}
+  TXN_STATUS_TIMEOUT_URL: ${{ secrets.TXN_STATUS_TIMEOUT_URL }}
+  TXN_REVERSAL_RESULT_URL: ${{ secrets.TXN_REVERSAL_RESULT_URL }}
+  TXN_REVERSAL_TIMEOUT_URL: ${{ secrets.TXN_REVERSAL_TIMEOUT_URL }}
+  INITIATOR_NAME: ${{ secrets.INITIATOR_NAME }}
+  INITIATOR_PASSWORD: ${{ secrets.INITIATOR_PASSWORD }}
+  PARTY_A: ${{ secrets.PARTY_A }}
+  PARTY_B: ${{ secrets.PARTY_B }}
+  MSISDN: ${{ secrets.MSISDN }}
+  BUSINESS_SHORT_CODE: ${{ secrets.BUSINESS_SHORT_CODE }}
+  PASSKEY: ${{ secrets.PASSKEY }}
+  ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
+  RUST_BACKTRACE: ${{ secrets.RUST_BACKTRACE }}
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
@@ -66,6 +89,28 @@ jobs:
         env:
           CONSUMER_KEY: ${{ secrets.CONSUMER_KEY }}
           CONSUMER_SECRET: ${{ secrets.CONSUMER_SECRET }}
+          EXPRESS_CALLBACK_URL: ${{ secrets.EXPRESS_CALLBACK_URL }}
+          C2B_CONFIRMATION_URL: ${{ secrets.C2B_CONFIRMATION_URL }}
+          C2B_VALIDATION_URL: ${{ secrets.C2B_VALIDATION_URL }}
+          B2C_RESULT_URL: ${{ secrets.B2C_RESULT_URL }}
+          B2C_TIMEOUT_URL: ${{ secrets.B2C_TIMEOUT_URL }}
+          B2B_RESULT_URL: ${{ secrets.B2B_RESULT_URL }}
+          B2B_TIMEOUT_URL: ${{ secrets.B2B_TIMEOUT_URL }}
+          BAL_RESULT_URL: ${{ secrets.BAL_RESULT_URL }}
+          BAL_TIMEOUT_URL: ${{ secrets.BAL_TIMEOUT_URL }}
+          ONBOARD_BM_CALLBACK_URL: ${{ secrets.ONBOARD_BM_CALLBACK_URL }}
+          TXN_STATUS_RESULT_URL: ${{ secrets.TXN_STATUS_RESULT_URL }}
+          TXN_STATUS_TIMEOUT_URL: ${{ secrets.TXN_STATUS_TIMEOUT_URL }}
+          TXN_REVERSAL_RESULT_URL: ${{ secrets.TXN_REVERSAL_RESULT_URL }}
+          TXN_REVERSAL_TIMEOUT_URL: ${{ secrets.TXN_REVERSAL_TIMEOUT_URL }}
+          INITIATOR_NAME: ${{ secrets.INITIATOR_NAME }}
+          INITIATOR_PASSWORD: ${{ secrets.INITIATOR_PASSWORD }}
+          PARTY_A: ${{ secrets.PARTY_A }}
+          PARTY_B: ${{ secrets.PARTY_B }}
+          MSISDN: ${{ secrets.MSISDN }}
+          BUSINESS_SHORT_CODE: ${{ secrets.BUSINESS_SHORT_CODE }}
+          PASSKEY: ${{ secrets.PASSKEY }}
+          ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
         run: cargo test --locked --no-fail-fast --verbose
 
       - name: Build (openssl features)
@@ -75,6 +120,28 @@ jobs:
         env:
           CONSUMER_KEY: ${{ secrets.CONSUMER_KEY }}
           CONSUMER_SECRET: ${{ secrets.CONSUMER_SECRET }}
+          EXPRESS_CALLBACK_URL: ${{ secrets.EXPRESS_CALLBACK_URL }}
+          C2B_CONFIRMATION_URL: ${{ secrets.C2B_CONFIRMATION_URL }}
+          C2B_VALIDATION_URL: ${{ secrets.C2B_VALIDATION_URL }}
+          B2C_RESULT_URL: ${{ secrets.B2C_RESULT_URL }}
+          B2C_TIMEOUT_URL: ${{ secrets.B2C_TIMEOUT_URL }}
+          B2B_RESULT_URL: ${{ secrets.B2B_RESULT_URL }}
+          B2B_TIMEOUT_URL: ${{ secrets.B2B_TIMEOUT_URL }}
+          BAL_RESULT_URL: ${{ secrets.BAL_RESULT_URL }}
+          BAL_TIMEOUT_URL: ${{ secrets.BAL_TIMEOUT_URL }}
+          ONBOARD_BM_CALLBACK_URL: ${{ secrets.ONBOARD_BM_CALLBACK_URL }}
+          TXN_STATUS_RESULT_URL: ${{ secrets.TXN_STATUS_RESULT_URL }}
+          TXN_STATUS_TIMEOUT_URL: ${{ secrets.TXN_STATUS_TIMEOUT_URL }}
+          TXN_REVERSAL_RESULT_URL: ${{ secrets.TXN_REVERSAL_RESULT_URL }}
+          TXN_REVERSAL_TIMEOUT_URL: ${{ secrets.TXN_REVERSAL_TIMEOUT_URL }}
+          INITIATOR_NAME: ${{ secrets.INITIATOR_NAME }}
+          INITIATOR_PASSWORD: ${{ secrets.INITIATOR_PASSWORD }}
+          PARTY_A: ${{ secrets.PARTY_A }}
+          PARTY_B: ${{ secrets.PARTY_B }}
+          MSISDN: ${{ secrets.MSISDN }}
+          BUSINESS_SHORT_CODE: ${{ secrets.BUSINESS_SHORT_CODE }}
+          PASSKEY: ${{ secrets.PASSKEY }}
+          ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
         run: cargo test --features openssl --no-fail-fast --locked --verbose
 
       - name: Build (no default features)
@@ -120,6 +187,28 @@ jobs:
         env:
           CONSUMER_KEY: ${{ secrets.CONSUMER_KEY }}
           CONSUMER_SECRET: ${{ secrets.CONSUMER_SECRET }}
+          EXPRESS_CALLBACK_URL: ${{ secrets.EXPRESS_CALLBACK_URL }}
+          C2B_CONFIRMATION_URL: ${{ secrets.C2B_CONFIRMATION_URL }}
+          C2B_VALIDATION_URL: ${{ secrets.C2B_VALIDATION_URL }}
+          B2C_RESULT_URL: ${{ secrets.B2C_RESULT_URL }}
+          B2C_TIMEOUT_URL: ${{ secrets.B2C_TIMEOUT_URL }}
+          B2B_RESULT_URL: ${{ secrets.B2B_RESULT_URL }}
+          B2B_TIMEOUT_URL: ${{ secrets.B2B_TIMEOUT_URL }}
+          BAL_RESULT_URL: ${{ secrets.BAL_RESULT_URL }}
+          BAL_TIMEOUT_URL: ${{ secrets.BAL_TIMEOUT_URL }}
+          ONBOARD_BM_CALLBACK_URL: ${{ secrets.ONBOARD_BM_CALLBACK_URL }}
+          TXN_STATUS_RESULT_URL: ${{ secrets.TXN_STATUS_RESULT_URL }}
+          TXN_STATUS_TIMEOUT_URL: ${{ secrets.TXN_STATUS_TIMEOUT_URL }}
+          TXN_REVERSAL_RESULT_URL: ${{ secrets.TXN_REVERSAL_RESULT_URL }}
+          TXN_REVERSAL_TIMEOUT_URL: ${{ secrets.TXN_REVERSAL_TIMEOUT_URL }}
+          INITIATOR_NAME: ${{ secrets.INITIATOR_NAME }}
+          INITIATOR_PASSWORD: ${{ secrets.INITIATOR_PASSWORD }}
+          PARTY_A: ${{ secrets.PARTY_A }}
+          PARTY_B: ${{ secrets.PARTY_B }}
+          MSISDN: ${{ secrets.MSISDN }}
+          BUSINESS_SHORT_CODE: ${{ secrets.BUSINESS_SHORT_CODE }}
+          PASSKEY: ${{ secrets.PASSKEY }}
+          ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
           CC: musl-gcc
           CC_x86_64_unknown_linux_musl: musl-gcc
         run: cargo test --target x86_64-unknown-linux-musl --locked --no-fail-fast --verbose
