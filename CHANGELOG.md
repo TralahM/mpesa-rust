@@ -7,10 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 <!-- next-header -->
+## [3.3.0] - 2026-02-13
+
+### Added
+- Add CustomerBuyGoodsOnline CommandId enum variant for mpesa stk push to till number. chore(docs): update b2c and readme docs.
+
 ## [3.2.0] - 2026-02-13
 
 ### :rocket: New Features
-- Migrated to v3 of the daraja mpesa api
+- Migrated to v3 of the daraja mpesa api by @TralahM
 
 ## [3.1.1] - 2026-02-11
 
@@ -222,6 +227,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * @c12i made their first contribution
 
 <!-- next-url -->
+[3.3.0]: https://github.com/tralahm/mpesa-rust/compare/v3.2.0...v3.3.0
 [3.2.0]: https://github.com/tralahm/mpesa-rust/compare/v3.1.1...v3.2.0
 [3.1.1]: https://github.com/tralahm/mpesa-rust/compare/v3.1.0...v3.1.1
 [3.1.0]: https://github.com/tralahm/mpesa-rust/compare/v3.0.0...v3.1.0
