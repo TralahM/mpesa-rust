@@ -4,11 +4,13 @@ use serde::{Deserialize, Serialize};
 
 use crate::{CommandId, Mpesa, MpesaError, MpesaResult};
 
-const B2C_URL: &str = "mpesa/b2c/v1/paymentrequest";
+const B2C_URL: &str = "mpesa/b2c/v3/paymentrequest";
 
 #[derive(Debug, Serialize)]
 /// Payload to allow for b2c transactions:
 struct B2cPayload<'mpesa> {
+    #[serde(rename(serialize = "OriginatorConversationID"))]
+    originator_conversation_id: &'mpesa str,
     #[serde(rename(serialize = "InitiatorName"))]
     initiator_name: &'mpesa str,
     #[serde(rename(serialize = "SecurityCredential"))]
@@ -43,9 +45,10 @@ pub struct B2cResponse {
     pub response_description: String,
 }
 
-#[derive(Debug)]
 /// B2C transaction builder struct
+#[derive(Debug)]
 pub struct B2cBuilder<'mpesa> {
+    originator_conversation_id: Option<&'mpesa str>,
     initiator_name: &'mpesa str,
     client: &'mpesa Mpesa,
     command_id: Option<CommandId>,
@@ -65,6 +68,7 @@ impl<'mpesa> B2cBuilder<'mpesa> {
         B2cBuilder {
             client,
             initiator_name,
+            originator_conversation_id: None,
             amount: None,
             party_a: None,
             party_b: None,
@@ -74,6 +78,12 @@ impl<'mpesa> B2cBuilder<'mpesa> {
             occasion: None,
             command_id: None,
         }
+    }
+
+    /// Adds the `OriginatorConversationID`.
+    pub fn originator_conversation_id(mut self, originator_conversation_id: &'mpesa str) -> B2cBuilder<'mpesa> {
+        self.originator_conversation_id = Some(originator_conversation_id);
+        self
     }
 
     /// Adds the `CommandId`. Defaults to `CommandId::BusinessPayment` if not explicitly provided.
@@ -181,6 +191,9 @@ impl<'mpesa> B2cBuilder<'mpesa> {
         let credentials = self.client.gen_security_credentials()?;
 
         let payload = B2cPayload {
+            originator_conversation_id: self.originator_conversation_id.ok_or(MpesaError::Message(
+                "originator_conversation_id is required",
+            ))?,
             initiator_name: self.initiator_name,
             security_credential: &credentials,
             command_id: self.command_id.unwrap_or(CommandId::BusinessPayment),
