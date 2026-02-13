@@ -15,7 +15,7 @@ async fn b2c_success() {
         "ResponseCode": "0"
     });
     Mock::given(method("POST"))
-        .and(path("/mpesa/b2c/v1/paymentrequest"))
+        .and(path("/mpesa/b2c/v3/paymentrequest"))
         .respond_with(ResponseTemplate::new(200).set_body_json(sample_response_body))
         .expect(1)
         .mount(&server)
@@ -50,7 +50,7 @@ async fn b2c_fails_if_no_amount_is_provided() {
         "ResponseCode": "0"
     });
     Mock::given(method("POST"))
-        .and(path("/mpesa/b2c/v1/paymentrequest"))
+        .and(path("/mpesa/b2c/v3/paymentrequest"))
         .respond_with(ResponseTemplate::new(200).set_body_json(sample_response_body))
         .expect(0)
         .mount(&server)
@@ -84,7 +84,7 @@ async fn b2c_fails_if_no_party_a_is_provided() {
         "ResponseCode": "0"
     });
     Mock::given(method("POST"))
-        .and(path("/mpesa/b2c/v1/paymentrequest"))
+        .and(path("/mpesa/b2c/v3/paymentrequest"))
         .respond_with(ResponseTemplate::new(200).set_body_json(sample_response_body))
         .expect(0)
         .mount(&server)
@@ -118,7 +118,7 @@ async fn b2c_fails_if_no_party_b_is_provided() {
         "ResponseCode": "0"
     });
     Mock::given(method("POST"))
-        .and(path("/mpesa/b2c/v1/paymentrequest"))
+        .and(path("/mpesa/b2c/v3/paymentrequest"))
         .respond_with(ResponseTemplate::new(200).set_body_json(sample_response_body))
         .expect(0)
         .mount(&server)
@@ -152,7 +152,7 @@ async fn b2c_fails_if_no_result_url_is_provided() {
         "ResponseCode": "0"
     });
     Mock::given(method("POST"))
-        .and(path("/mpesa/b2c/v1/paymentrequest"))
+        .and(path("/mpesa/b2c/v3/paymentrequest"))
         .respond_with(ResponseTemplate::new(200).set_body_json(sample_response_body))
         .expect(0)
         .mount(&server)
@@ -186,7 +186,7 @@ async fn b2c_fails_if_no_queue_timeout_is_provided() {
         "ResponseCode": "0"
     });
     Mock::given(method("POST"))
-        .and(path("/mpesa/b2c/v1/paymentrequest"))
+        .and(path("/mpesa/b2c/v3/paymentrequest"))
         .respond_with(ResponseTemplate::new(200).set_body_json(sample_response_body))
         .expect(0)
         .mount(&server)
