@@ -23,6 +23,7 @@ async fn b2c_success() {
     let response = client
         .b2c("testapi496")
         .party_a("600496")
+        .originator_conversation_id("29464-48063588-1")
         .party_b("254708374149")
         .result_url("https://testdomain.com/ok")
         .timeout_url("https://testdomain.com/err")
@@ -58,6 +59,7 @@ async fn b2c_fails_if_no_amount_is_provided() {
         .b2c("testapi496")
         .party_a("600496")
         .party_b("254708374149")
+        .originator_conversation_id("29464-48063588-1")
         .result_url("https://testdomain.com/ok")
         .timeout_url("https://testdomain.com/err")
         .send()
@@ -90,6 +92,7 @@ async fn b2c_fails_if_no_party_a_is_provided() {
     if let Err(e) = client
         .b2c("testapi496")
         .amount(1000)
+        .originator_conversation_id("29464-48063588-1")
         .party_b("254708374149")
         .result_url("https://testdomain.com/ok")
         .timeout_url("https://testdomain.com/err")
@@ -124,6 +127,7 @@ async fn b2c_fails_if_no_party_b_is_provided() {
         .b2c("testapi496")
         .amount(1000)
         .party_a("600496")
+        .originator_conversation_id("29464-48063588-1")
         .result_url("https://testdomain.com/ok")
         .timeout_url("https://testdomain.com/err")
         .send()
@@ -156,6 +160,7 @@ async fn b2c_fails_if_no_result_url_is_provided() {
     if let Err(e) = client
         .b2c("testapi496")
         .amount(1000)
+        .originator_conversation_id("29464-48063588-1")
         .party_a("600496")
         .party_b("254708374149")
         .timeout_url("https://testdomain.com/err")
@@ -189,6 +194,7 @@ async fn b2c_fails_if_no_queue_timeout_is_provided() {
     if let Err(e) = client
         .b2c("testapi496")
         .amount(1000)
+        .originator_conversation_id("29464-48063588-1")
         .party_a("600496")
         .party_b("254708374149")
         .result_url("https://testdomain.com/ok")
