@@ -16,6 +16,7 @@ pub enum CommandId {
     PromotionPayment,
     AccountBalance,
     CustomerPayBillOnline,
+    CustomerBuyGoodsOnline,
     TransactionStatusQuery,
     CheckIdentity,
     BusinessPayBill,

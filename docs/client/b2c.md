@@ -23,6 +23,7 @@ async fn main() {
 
     let response = client
         .b2c("testapi496")
+        .originator_conversation_id("77a98672-7782-4e04-9be2-d6880fb3e6a5")
         .party_a("600496")
         .party_b("254708374149")
         .result_url("https://testdomain.com/err")

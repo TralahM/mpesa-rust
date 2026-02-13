@@ -17,9 +17,12 @@ Current release: v3.2.0
 - **Improved CI and Build Capabilities**: New CI workflows have been implemented, supporting multiple Rust versions and targets, including musl for Alpine Linux builds. This ensures broader compatibility and more robust testing.
 - **Structured Release Process**: A `CHANGELOG.md` file and release configuration (`release.toml`) have been introduced, providing a clear and organized record of project changes and release history.
 - **Updated Documentation and Examples**: Various API documentation sections and code examples have been clarified and updated to reflect recent changes and improve user understanding.
+- **Migrated B2C service to v3**: The `b2c` service has been migrated to version 3 of the M-PESA API, `OriginatorConversationID` now needs to be specified by the caller.
+- **Added `CustomerBuyGoodsOnline`**: The `CommandId` enum now has a `CustomerBuyGoodsOnline` variant for MPESA STK push to till number.
 
-> Update your Cargo.toml accordingly. See README for details.
-> **Why this changes?**
+> Update your Cargo.toml accordingly.
+
+**Why this changes?**
 
 - Builds on more platforms (e.g., Alpine Linux, static binaries).
 - Enables building on platforms without OpenSSL (e.g., Musl/Alpine).
