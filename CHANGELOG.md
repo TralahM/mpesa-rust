@@ -7,16 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 <!-- next-header -->
+## [3.2.0] - 2026-02-13
+
+### :rocket: New Features
+- Migrated to v3 of the daraja mpesa api
+
 ## [3.1.1] - 2026-02-11
 
 ### 🏭 Refactor
-- Remove auth caching, improve test config
+- Remove auth caching, improve test config by @TralahM
 
 ### 📝 Documentation
 - Described differences from upstreaam fork. by @TralahM
 
 ### :gear: Miscellaneous
-- Update ci workflow to use new environment variables
+- Update ci workflow to use new environment variables by @TralahM
 
 ## [3.1.0] - 2026-02-07
 
@@ -217,6 +222,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * @c12i made their first contribution
 
 <!-- next-url -->
+[3.2.0]: https://github.com/tralahm/mpesa-rust/compare/v3.1.1...v3.2.0
 [3.1.1]: https://github.com/tralahm/mpesa-rust/compare/v3.1.0...v3.1.1
 [3.1.0]: https://github.com/tralahm/mpesa-rust/compare/v3.0.0...v3.1.0
 [3.0.0]: https://github.com/tralahm/mpesa-rust/compare/v2.2.1...v3.0.0
