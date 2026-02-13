@@ -191,9 +191,9 @@ impl<'mpesa> B2cBuilder<'mpesa> {
         let credentials = self.client.gen_security_credentials()?;
 
         let payload = B2cPayload {
-            originator_conversation_id: self.originator_conversation_id.ok_or(MpesaError::Message(
-                "originator_conversation_id is required",
-            ))?,
+            originator_conversation_id: self
+                .originator_conversation_id
+                .ok_or(MpesaError::Message("originator_conversation_id is required"))?,
             initiator_name: self.initiator_name,
             security_credential: &credentials,
             command_id: self.command_id.unwrap_or(CommandId::BusinessPayment),

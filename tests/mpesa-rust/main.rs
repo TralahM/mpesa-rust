@@ -606,13 +606,7 @@ mod mpesa_live_tests {
         let date = chrono::Utc::now().format("%Y%m%d%H%M%S").to_string();
         let date = format!("Test-{}", date);
         let res = client
-            .b2c_payment(
-                client.config.msisdn(),
-                20.0,
-                &date,
-                Some("Test"),
-                None,
-            )
+            .b2c_payment(client.config.msisdn(), 20.0, &date, Some("Test"), None)
             .await;
         let mut originator_conv_id = String::new();
         match res {
