@@ -499,11 +499,13 @@ mod mpesa_live_tests {
 
     fn get_test_config() -> MpesaConfig {
         dotenvy::dotenv().ok();
+        let _ = env_logger::builder().try_init();
         MpesaConfig::get_default().unwrap()
     }
 
     fn get_test_client() -> MpesaClient {
         let config = get_test_config();
+        let _ = env_logger::builder().try_init();
         MpesaClient::from(&config)
     }
 
@@ -539,6 +541,7 @@ mod mpesa_live_tests {
 
     #[tokio::test]
     async fn test_register_c2b_urls() {
+        let _ = env_logger::builder().try_init();
         let client = get_test_client();
         let res = client.register_c2b_urls().await;
         match res {
@@ -549,6 +552,7 @@ mod mpesa_live_tests {
 
     #[tokio::test]
     async fn test_simulate_c2b() {
+        let _ = env_logger::builder().try_init();
         let client = get_test_client();
         let res = client.simulate_c2b(1.0, "123456").await;
         match res {
@@ -559,6 +563,7 @@ mod mpesa_live_tests {
 
     #[tokio::test]
     async fn test_stk_push() {
+        let _ = env_logger::builder().try_init();
         let client = get_test_client();
         let res = client
             .stk_push_request(None, "254741997729", 1u32, "123456", "ciqu escrow deposit")
@@ -602,6 +607,7 @@ mod mpesa_live_tests {
 
     #[tokio::test]
     async fn test_b2c_payment() {
+        let _ = env_logger::builder().try_init();
         let client = get_test_client();
         let date = chrono::Utc::now().format("%Y%m%d%H%M%S").to_string();
         let date = format!("Test-{}", date);
@@ -628,6 +634,7 @@ mod mpesa_live_tests {
 
     #[tokio::test]
     async fn test_transaction_status() {
+        let _ = env_logger::builder().try_init();
         let client = get_test_client();
         let res = client.transaction_status("UBBNW6DP1L").await;
         match res {

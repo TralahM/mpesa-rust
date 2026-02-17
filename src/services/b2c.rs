@@ -9,14 +9,14 @@ const B2C_URL: &str = "mpesa/b2c/v3/paymentrequest";
 #[derive(Debug, Serialize)]
 /// Payload to allow for b2c transactions:
 struct B2cPayload<'mpesa> {
-    #[serde(rename(serialize = "OriginatorConversationID"))]
-    originator_conversation_id: &'mpesa str,
     #[serde(rename(serialize = "InitiatorName"))]
     initiator_name: &'mpesa str,
     #[serde(rename(serialize = "SecurityCredential"))]
     security_credential: &'mpesa str,
     #[serde(rename(serialize = "CommandID"))]
     command_id: CommandId,
+    #[serde(rename(serialize = "OriginatorConversationID"))]
+    originator_conversation_id: &'mpesa str,
     #[serde(rename(serialize = "Amount"))]
     amount: f64,
     #[serde(rename(serialize = "PartyA"))]
@@ -48,10 +48,10 @@ pub struct B2cResponse {
 /// B2C transaction builder struct
 #[derive(Debug)]
 pub struct B2cBuilder<'mpesa> {
-    originator_conversation_id: Option<&'mpesa str>,
     initiator_name: &'mpesa str,
     client: &'mpesa Mpesa,
     command_id: Option<CommandId>,
+    originator_conversation_id: Option<&'mpesa str>,
     amount: Option<f64>,
     party_a: Option<&'mpesa str>,
     party_b: Option<&'mpesa str>,

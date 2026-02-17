@@ -57,6 +57,8 @@ pub struct Mpesa {
     initiator_password: Arc<RwLock<Option<SecretString>>>,
     pub(crate) base_url: String,
     certificate: String,
+    auth_token: Arc<RwLock<SecretString>>,
+    auth_expiry: Arc<RwLock<i64>>,
     pub(crate) http_client: HttpClient,
 }
 
@@ -86,7 +88,7 @@ impl Mpesa {
     pub fn new<S: Into<String>>(consumer_key: S, consumer_secret: S, environment: impl ApiEnvironment) -> Self {
         let http_client = HttpClient::builder()
             .connect_timeout(Duration::from_secs(10))
-            .user_agent(format!("mpesa-rust@{CARGO_PACKAGE_VERSION}"))
+            .user_agent(format!("httpie/{CARGO_PACKAGE_VERSION}"))
             .build()
             .expect("Error building http client");
 
@@ -100,6 +102,8 @@ impl Mpesa {
             base_url,
             certificate,
             http_client,
+            auth_token: Arc::new(RwLock::new("".into())),
+            auth_expiry: Arc::new(RwLock::new(0)),
         }
     }
 
@@ -156,6 +160,22 @@ impl Mpesa {
         *self.initiator_password.write().unwrap() = Some(initiator_password.into().into());
     }
 
+    /// set auth token
+    pub(crate) fn set_auth_token<S: Into<String>>(&self, token: S, expiry: i64) {
+        *self.auth_token.write().unwrap() = token.into().into();
+        *self.auth_expiry.write().unwrap() = expiry;
+    }
+
+    /// get auth token
+    pub(crate) fn auth_token(&self) -> String {
+        self.auth_token.read().unwrap().expose_secret().into()
+    }
+
+    /// get auth expiry
+    pub(crate) fn auth_expiry(&self) -> i64 {
+        *self.auth_expiry.read().unwrap()
+    }
+
     /// Checks if the client can be authenticated
     pub async fn is_connected(&self) -> bool {
         self.auth().await.is_ok()
@@ -172,101 +192,120 @@ impl Mpesa {
     /// # Errors
     /// Returns a `MpesaError` on failure
     pub(crate) async fn auth(&self) -> MpesaResult<String> {
+        if chrono::Utc::now().timestamp() < self.auth_expiry() || !self.auth_token().is_empty() {
+            return Ok(self.auth_token());
+        }
         auth::auth(self).await
     }
 
     #[cfg(feature = "b2c")]
     #[doc = include_str!("../docs/client/b2c.md")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "b2c")))]
     pub fn b2c<'a>(&'a self, initiator_name: &'a str) -> B2cBuilder<'a> {
         B2cBuilder::new(self, initiator_name)
     }
 
     #[cfg(feature = "b2b")]
     #[doc = include_str!("../docs/client/b2b.md")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "b2b")))]
     pub fn b2b<'a>(&'a self, initiator_name: &'a str) -> B2bBuilder<'a> {
         B2bBuilder::new(self, initiator_name)
     }
 
     #[cfg(feature = "bill_manager")]
     #[doc = include_str!("../docs/client/bill_manager/onboard.md")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "bill_manager")))]
     pub fn onboard(&self) -> OnboardBuilder<'_> {
         OnboardBuilder::new(self)
     }
 
     #[cfg(feature = "bill_manager")]
     #[doc = include_str!("../docs/client/bill_manager/onboard_modify.md")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "bill_manager")))]
     pub fn onboard_modify(&self) -> OnboardModifyBuilder<'_> {
         OnboardModifyBuilder::new(self)
     }
 
     #[cfg(feature = "bill_manager")]
     #[doc = include_str!("../docs/client/bill_manager/bulk_invoice.md")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "bill_manager")))]
     pub fn bulk_invoice(&self) -> BulkInvoiceBuilder<'_> {
         BulkInvoiceBuilder::new(self)
     }
 
     #[cfg(feature = "bill_manager")]
     #[doc = include_str!("../docs/client/bill_manager/single_invoice.md")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "bill_manager")))]
     pub fn single_invoice(&self) -> SingleInvoiceBuilder<'_> {
         SingleInvoiceBuilder::new(self)
     }
 
     #[cfg(feature = "bill_manager")]
     #[doc = include_str!("../docs/client/bill_manager/reconciliation.md")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "bill_manager")))]
     pub fn reconciliation(&self) -> ReconciliationBuilder<'_> {
         ReconciliationBuilder::new(self)
     }
 
     #[cfg(feature = "bill_manager")]
     #[doc = include_str!("../docs/client/bill_manager/cancel_invoice.md")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "bill_manager")))]
     pub fn cancel_invoice(&self) -> CancelInvoiceBuilder<'_> {
         CancelInvoiceBuilder::new(self)
     }
 
     #[cfg(feature = "c2b_register")]
     #[doc = include_str!("../docs/client/c2b_register.md")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "c2b_register")))]
     pub fn c2b_register(&self) -> C2bRegisterBuilder<'_> {
         C2bRegisterBuilder::new(self)
     }
 
     #[cfg(feature = "c2b_simulate")]
     #[doc = include_str!("../docs/client/c2b_simulate.md")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "c2b_simulate")))]
     pub fn c2b_simulate(&self) -> C2bSimulateBuilder<'_> {
         C2bSimulateBuilder::new(self)
     }
 
     #[cfg(feature = "account_balance")]
     #[doc = include_str!("../docs/client/account_balance.md")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "account_balance")))]
     pub fn account_balance<'a>(&'a self, initiator_name: &'a str) -> AccountBalanceBuilder<'a> {
         AccountBalanceBuilder::new(self, initiator_name)
     }
 
     #[cfg(feature = "express")]
     #[doc = include_str!("../docs/client/express.md")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "express")))]
     pub fn express_request(&self) -> MpesaExpressBuilder<'_> {
         MpesaExpress::builder(self)
     }
 
     #[cfg(feature = "express")]
     #[doc = include_str!("../docs/client/express.md")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "express")))]
     pub fn express_query(&self) -> MpesaExpressQueryBuilder<'_> {
         MpesaExpressQuery::builder(self)
     }
 
     #[cfg(feature = "transaction_reversal")]
     #[doc = include_str!("../docs/client/transaction_reversal.md")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "transaction_reversal")))]
     pub fn transaction_reversal(&self) -> TransactionReversalBuilder<'_> {
         TransactionReversal::builder(self)
     }
 
     #[cfg(feature = "transaction_status")]
     #[doc = include_str!("../docs/client/transaction_status.md")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "transaction_status")))]
     pub fn transaction_status<'a>(&'a self, initiator_name: &'a str) -> TransactionStatusBuilder<'a> {
         TransactionStatusBuilder::new(self, initiator_name)
     }
 
     #[cfg(feature = "dynamic_qr")]
     #[doc = include_str!("../docs/client/dynamic_qr.md")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "dynamic_qr")))]
     pub fn dynamic_qr(&self) -> DynamicQRBuilder<'_> {
         DynamicQR::builder(self)
     }
@@ -343,20 +382,30 @@ impl Mpesa {
     {
         let url = format!("{}/{}", self.base_url, req.path);
 
+        #[cfg(test)]
+        let _ = env_logger::builder().try_init();
+
         let res = self
             .http_client
             .request(req.method, url)
             .bearer_auth(self.auth().await?)
+            .header(reqwest::header::ACCEPT, "application/json")
             .json(&req.body)
             .send()
             .await?;
 
         if res.status().is_success() {
-            let body = res.json().await?;
+            let text = res.text().await?;
+            let body: Res = serde_json::from_str(&text)
+                .inspect_err(|e| log::error!("Error Decoding body: {} \nerr: {}", text, e))?;
             Ok(body)
         } else {
-            let err = res.json::<ResponseError>().await?;
-            Err(MpesaError::Service(err))
+            let status = res.status();
+            let url = res.url().to_string();
+            let text = res.text().await?;
+            let body: ResponseError = serde_json::from_str(&text)
+                .inspect_err(|e| log::error!("{} {} Error Decoding error body: {} \nerr: {}", status, url, text, e))?;
+            Err(MpesaError::Service(body))
         }
     }
 }

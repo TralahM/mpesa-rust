@@ -41,13 +41,15 @@ pub struct MpesaExpressRequest<'mpesa> {
     ///
     /// The TransactionType for Mpesa Express is either
     /// `CommandId::BusinessBuyGoods` or
-    /// `CommandId::CustomerPayBillOnline`
+    /// `CommandId::CustomerPayBillOnline` or
+    /// `CommandId::CustomerBuyGoodsOnline`
     pub transaction_type: CommandId,
     /// This is the Amount transacted normally a numeric value
     pub amount: u32,
     ///The phone number sending money.
     pub party_a: &'mpesa str,
     /// The organization that receives the funds
+    /// This should be the Till Number in the case of `CommandId::CustomerBuyGoodsOnline`
     pub party_b: &'mpesa str,
     /// The Mobile Number to receive the STK Pin Prompt.
     /// This number can be the same as PartyA value above.
@@ -110,13 +112,15 @@ pub struct MpesaExpress<'mpesa> {
     ///
     /// The TransactionType for Mpesa Express is either
     /// `CommandId::BusinessBuyGoods` or
-    /// `CommandId::CustomerPayBillOnline`
+    /// `CommandId::CustomerPayBillOnline` or
+    /// `CommandId::CustomerBuyGoodsOnline`
     transaction_type: CommandId,
     /// This is the Amount transacted normally a numeric value
     amount: u32,
     /// The phone number sending money.
     party_a: &'mpesa str,
     /// The organization that receives the funds
+    /// This should be the Till Number in the case of `CommandId::CustomerBuyGoodsOnline`
     party_b: &'mpesa str,
     /// The Mobile Number to receive the STK Pin Prompt.
     phone_number: &'mpesa str,
@@ -172,9 +176,10 @@ impl MpesaExpressBuilder<'_> {
     fn validate(&self) -> MpesaResult<()> {
         if self.transaction_type != Some(CommandId::BusinessBuyGoods)
             && self.transaction_type != Some(CommandId::CustomerPayBillOnline)
+            && self.transaction_type != Some(CommandId::CustomerBuyGoodsOnline)
         {
             return Err(MpesaError::Message(
-                "Invalid transaction type. Expected BusinessBuyGoods or CustomerPayBillOnline",
+                "Invalid transaction type. Expected BusinessBuyGoods or CustomerPayBillOnline or CustomerBuyGoodsOnline",
             ));
         }
 

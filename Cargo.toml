@@ -31,16 +31,16 @@ dynamic_qr = []
 account_balance = ["no_openssl"]
 b2b = ["no_openssl"]
 b2c = ["no_openssl"]
-bill_manager = ["dep:chrono"]
+bill_manager = []
 c2b_register = []
 c2b_simulate = []
-express = ["dep:chrono"]
+express = ["no_openssl"]
 transaction_reversal = ["no_openssl"]
 transaction_status = ["no_openssl"]
 no_openssl = ["dep:base64", "dep:x509-parser", "dep:rsa", "dep:rand"]
 
 [dependencies]
-chrono = { version = "0.4", optional = true, default-features = false, features = [
+chrono = { version = "0.4", default-features = false, features = [
   "clock",
   "serde",
 ] }
@@ -50,6 +50,7 @@ reqwest = { version = "0.12", default-features = false, features = [
   "json",
   "rustls-tls-webpki-roots",
   "charset",
+  "zstd",
   "http2",
   "system-proxy",
 ] }
@@ -71,6 +72,7 @@ rsa = { version = "0.9.8", features = [
 ], optional = true }
 rand = { version = "0.8", optional = true }
 cfg-if = "1.0"
+log = "0.4"
 
 
 [dev-dependencies]
@@ -78,3 +80,4 @@ dotenvy = "0.15"
 tokio = { version = "1", features = ["rt", "rt-multi-thread", "macros"] }
 wiremock = "0.6"
 figment = { version = "^0.10", features = ["toml", "env", "json", "test"] }
+env_logger = "*"
