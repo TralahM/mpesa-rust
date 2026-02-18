@@ -197,7 +197,7 @@ impl Mpesa {
     /// # Errors
     /// Returns a `MpesaError` on failure
     pub(crate) async fn auth(&self) -> MpesaResult<String> {
-        if self.has_cached_token() {
+        if self.has_cached_auth() {
             return Ok(self.auth_token());
         }
         auth::auth(self).await
