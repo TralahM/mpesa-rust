@@ -177,7 +177,7 @@ impl Mpesa {
     }
 
     /// Check if we have a cached valid auth token
-    pub(crate) fn has_cached_auth(&self) -> bool {
+    pub fn has_cached_auth(&self) -> bool {
         chrono::Utc::now().timestamp() < self.auth_expiry() && !self.auth_token().is_empty()
     }
 
