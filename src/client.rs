@@ -176,6 +176,11 @@ impl Mpesa {
         *self.auth_expiry.read().unwrap()
     }
 
+    /// Check if we have a cached valid auth token
+    pub(crate) fn has_cached_auth(&self) -> bool {
+        chrono::Utc::now().timestamp() < self.auth_expiry() && !self.auth_token().is_empty()
+    }
+
     /// Checks if the client can be authenticated
     pub async fn is_connected(&self) -> bool {
         self.auth().await.is_ok()
@@ -192,7 +197,7 @@ impl Mpesa {
     /// # Errors
     /// Returns a `MpesaError` on failure
     pub(crate) async fn auth(&self) -> MpesaResult<String> {
-        if chrono::Utc::now().timestamp() < self.auth_expiry() || !self.auth_token().is_empty() {
+        if self.has_cached_token() {
             return Ok(self.auth_token());
         }
         auth::auth(self).await
