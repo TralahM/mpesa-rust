@@ -465,11 +465,6 @@ fn get_test_config() -> std::sync::Arc<MpesaConfig> {
     std::sync::Arc::new(MpesaConfig::get_default().unwrap())
 }
 
-fn get_test_client() -> std::sync::Arc<MpesaClient> {
-    let config = get_test_config();
-    std::sync::Arc::new(MpesaClient::from(config.as_ref()))
-}
-
 #[test]
 fn test_load_mpesa_config() {
     dotenvy::dotenv().ok();
@@ -477,7 +472,7 @@ fn test_load_mpesa_config() {
     let config_res = MpesaConfig::get_default();
     assert!(config_res.is_ok());
     let config = config_res.unwrap();
-    println!("Mpesa config: {:#?}", config);
+    log::trace!("Mpesa config: {:#?}\n", config);
     assert!(!config.consumer_key().is_empty());
     assert!(!config.consumer_secret().is_empty());
     assert!(!config.business_short_code().is_empty());
@@ -494,24 +489,36 @@ fn test_from_mpesa_config() {
     assert_eq!(client.config, *(config.as_ref()));
 }
 
+fn get_test_client() -> std::sync::Arc<MpesaClient> {
+    let config = get_test_config();
+    std::sync::Arc::new(MpesaClient::from(config.as_ref()))
+}
+
+use std::sync::LazyLock;
+
+static CLIENT: LazyLock<std::sync::Arc<MpesaClient>> = LazyLock::new(|| get_test_client());
+
 #[tokio::test]
 #[serial_test::serial]
 async fn test_auth() {
-    let client = get_test_client();
+    let client = &*CLIENT;
     log::debug!("Has Cached Auth: {}", client.inner.has_cached_auth());
     let res = client.inner.is_connected().await;
     log::info!("Is connected: {}", res);
+    log::debug!("Has Cached Auth: {}\n", client.inner.has_cached_auth());
+    tokio::time::sleep(std::time::Duration::from_secs(3)).await;
 }
 
 #[cfg(feature = "c2b_register")]
 #[tokio::test]
 #[serial_test::serial]
 async fn test_register_c2b_urls() {
-    let client = get_test_client();
+    let client = &*CLIENT;
     log::debug!("Has Cached Auth: {}", client.inner.has_cached_auth());
+    tokio::time::sleep(std::time::Duration::from_secs(5)).await;
     let res = client.register_c2b_urls().await;
     match res {
-        Ok(res) => log::info!("C2B register response: {:#?}", res),
+        Ok(res) => log::info!("C2B register response: {:#?}\n", res),
         Err(err) => print_mpesa_error("C2B register error", err),
     }
 }
@@ -520,11 +527,12 @@ async fn test_register_c2b_urls() {
 #[tokio::test]
 #[serial_test::serial]
 async fn test_simulate_c2b() {
-    let client = get_test_client();
+    let client = &*CLIENT;
     log::debug!("Has Cached Auth: {}", client.inner.has_cached_auth());
+    tokio::time::sleep(std::time::Duration::from_secs(3)).await;
     let res = client.simulate_c2b(1.0, "123456").await;
     match res {
-        Ok(res) => log::info!("C2B simulate response: {:#?}", res),
+        Ok(res) => log::info!("C2B simulate response: {:#?}\n", res),
         Err(err) => print_mpesa_error("C2B simulate error", err),
     }
 }
@@ -533,10 +541,33 @@ async fn test_simulate_c2b() {
 #[tokio::test]
 #[serial_test::serial]
 async fn test_stk_push() {
-    let client = get_test_client();
+    let client = &*CLIENT;
     log::debug!("Has Cached Auth: {}", client.inner.has_cached_auth());
+    tokio::time::sleep(std::time::Duration::from_secs(3)).await;
     let res = client
         .stk_push_request(None, "254741997729", 1u32, "123456", "ciqu escrow deposit")
+        .await;
+    let mut co_req_id = String::new();
+    match res {
+        Ok(res) => {
+            co_req_id = res.checkout_request_id.clone();
+            log::info!("STK push response: {:#?}", res)
+        }
+        Err(err) => print_mpesa_error("STK push error", err),
+    }
+    log::debug!("Has Cached Auth: {}", client.inner.has_cached_auth());
+    if !co_req_id.is_empty() {
+        tokio::time::sleep(std::time::Duration::from_secs(15)).await;
+        let res = client.stk_push_status(&co_req_id).await;
+        match res {
+            Ok(res) => log::info!("STK push status response: {:#?}\n", res),
+            Err(err) => print_mpesa_error("STK push status error", err),
+        }
+    }
+    log::debug!("Has Cached Auth: {}", client.inner.has_cached_auth());
+    tokio::time::sleep(std::time::Duration::from_secs(8)).await;
+    let res = client
+        .stk_push_request(Some("5050980"), "254741997729", 1u32, "123456", "escrow deposit")
         .await;
     let mut co_req_id = String::new();
     match res {
@@ -551,41 +582,22 @@ async fn test_stk_push() {
         tokio::time::sleep(std::time::Duration::from_secs(10)).await;
         let res = client.stk_push_status(&co_req_id).await;
         match res {
-            Ok(res) => log::info!("STK push status response: {:#?}", res),
+            Ok(res) => log::info!("STK push status response: {:#?}\n", res),
             Err(err) => print_mpesa_error("STK push status error", err),
         }
     }
-    log::debug!("Has Cached Auth: {}", client.inner.has_cached_auth());
-    let res = client
-        .stk_push_request(Some("5050980"), "254741997729", 1u32, "123456", "escrow deposit")
-        .await;
-    let mut co_req_id = String::new();
-    match res {
-        Ok(res) => {
-            co_req_id = res.checkout_request_id.clone();
-            log::info!("STK push response: {:#?}", res)
-        }
-        Err(err) => print_mpesa_error("STK push error", err),
-    }
-    log::debug!("Has Cached Auth: {}", client.inner.has_cached_auth());
-    if !co_req_id.is_empty() {
-        tokio::time::sleep(std::time::Duration::from_secs(8)).await;
-        let res = client.stk_push_status(&co_req_id).await;
-        match res {
-            Ok(res) => log::info!("STK push status response: {:#?}", res),
-            Err(err) => print_mpesa_error("STK push status error", err),
-        }
-    }
+    tokio::time::sleep(std::time::Duration::from_secs(2)).await;
 }
 
 #[cfg(feature = "b2c")]
 #[tokio::test]
 #[serial_test::serial]
 async fn test_b2c_payment() {
-    let client = get_test_client();
+    let client = &*CLIENT;
     log::debug!("Has Cached Auth: {}", client.inner.has_cached_auth());
     let date = chrono::Utc::now().format("%Y%m%d%H%M%S").to_string();
     let date = format!("Test-{}", date);
+    tokio::time::sleep(std::time::Duration::from_secs(3)).await;
     let res = client
         .b2c_payment(client.config.msisdn(), 20.0, &date, Some("Test"), None)
         .await;
@@ -598,30 +610,34 @@ async fn test_b2c_payment() {
         Err(err) => print_mpesa_error("B2C payment error", err),
     };
     log::debug!("Has Cached Auth: {}", client.inner.has_cached_auth());
+    tokio::time::sleep(std::time::Duration::from_secs(3)).await;
     #[cfg(feature = "transaction_status")]
     if !originator_conv_id.is_empty() {
         tokio::time::sleep(std::time::Duration::from_secs(6)).await;
         let res = client.transaction_status(&originator_conv_id).await;
         match res {
-            Ok(res) => log::info!("B2C payment status response: {:#?}", res),
+            Ok(res) => log::info!("B2C payment status response: {:#?}\n", res),
             Err(err) => print_mpesa_error("B2C payment status error", err),
         }
     }
+    tokio::time::sleep(std::time::Duration::from_secs(3)).await;
 }
 
 #[cfg(feature = "transaction_status")]
 #[tokio::test]
 #[serial_test::serial]
 async fn test_transaction_status() {
-    let client = get_test_client();
+    let client = &*CLIENT;
     log::debug!("Has Cached Auth: {}", client.inner.has_cached_auth());
+    tokio::time::sleep(std::time::Duration::from_secs(3)).await;
     let res = client.transaction_status("UB00000000").await;
     match res {
-        Ok(res) => log::info!("Transaction status response: {:?}", res),
+        Ok(res) => log::info!("Transaction status response: {:?}\n", res),
         Err(err) => print_mpesa_error("Transaction status error", err),
     }
+    tokio::time::sleep(std::time::Duration::from_secs(2)).await;
 }
 
 fn print_mpesa_error(prefix: &str, err: MpesaError) {
-    log::warn!("{prefix}: {:?}", err)
+    log::warn!("{prefix}: {:?}\n", err)
 }
