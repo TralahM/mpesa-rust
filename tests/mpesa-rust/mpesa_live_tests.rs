@@ -496,7 +496,7 @@ fn get_test_client() -> std::sync::Arc<MpesaClient> {
 
 use std::sync::LazyLock;
 
-static CLIENT: LazyLock<std::sync::Arc<MpesaClient>> = LazyLock::new(|| get_test_client());
+static CLIENT: LazyLock<std::sync::Arc<MpesaClient>> = LazyLock::new(get_test_client);
 
 #[tokio::test]
 #[serial_test::serial]
