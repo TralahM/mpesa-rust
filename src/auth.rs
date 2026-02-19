@@ -29,14 +29,14 @@ pub(crate) async fn auth(client: &Mpesa) -> MpesaResult<String> {
         let expires = std::time::Duration::from_secs(value.expires_in);
         let expiry = chrono::Utc::now() + expires;
         client.set_auth_token(access_token.clone(), expiry.timestamp());
-        return Ok(access_token);
+        Ok(access_token)
     } else {
         let status = response.status();
         let url = response.url().to_string();
         let text = response.text().await?;
         let body: ResponseError = serde_json::from_str(&text)
             .inspect_err(|e| log::error!("{} {} Error Decoding error body: {} \nerr: {}", status, url, text, e))?;
-        return Err(MpesaError::Service(body));
+        Err(MpesaError::Service(body))
     }
 }
 
