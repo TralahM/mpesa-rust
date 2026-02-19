@@ -82,7 +82,7 @@ async fn stk_push_only_accepts_specific_tx_type() {
 
     assert_eq!(
         err.to_string(),
-        "Invalid transaction type. Expected BusinessBuyGoods or CustomerPayBillOnline"
+        "Invalid transaction type. Expected BusinessBuyGoods or CustomerPayBillOnline or CustomerBuyGoodsOnline"
     );
 }
 
