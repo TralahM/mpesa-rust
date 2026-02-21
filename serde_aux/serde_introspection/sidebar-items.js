@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["get_default_serde_record","serde_introspect"]};

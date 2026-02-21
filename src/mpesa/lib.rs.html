@@ -1,0 +1,44 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-ca0dd0c4.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="mpesa" data-themes="" data-resource-suffix="" data-rustdoc-version="1.93.1 (01f6ddf75 2026-02-11)" data-channel="1.93.1" data-search-js="search-9e2438ea.js" data-stringdex-js="stringdex-a3946164.js" data-settings-js="settings-c38705f0.js" ><script src="../../static.files/storage-e2aeef58.js"></script><script defer src="../../static.files/src-script-813739b1.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-a410ff4d.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-263c88ec.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">mpesa/</div>lib.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap digits-2"><pre class="rust"><code><a href=#1 id=1 data-nosnippet>1</a><span class="attr">#![doc = <span class="macro">include_str!</span>(<span class="string">"../README.md"</span>)]
+<a href=#2 id=2 data-nosnippet>2</a></span><span class="doccomment">//!
+<a href=#3 id=3 data-nosnippet>3</a>//! ## Optional Features
+<a href=#4 id=4 data-nosnippet>4</a>//!
+<a href=#5 id=5 data-nosnippet>5</a>//! The following are a list of [Cargo features][cargo-features] that can be
+<a href=#6 id=6 data-nosnippet>6</a>//! enabled or disabled:
+<a href=#7 id=7 data-nosnippet>7</a>//!
+<a href=#8 id=8 data-nosnippet>8</a>//! - **account_balance** *(enabled by default)*: Enables Account Balance service support.
+<a href=#9 id=9 data-nosnippet>9</a>//! - **b2b** *(enabled by default)*: Enables B2B service support.
+<a href=#10 id=10 data-nosnippet>10</a>//! - **b2c** *(enabled by default)*: Enables B2C service support.
+<a href=#11 id=11 data-nosnippet>11</a>//! - **bill_manager** *(enabled by default)*: Enables Bill Manager services support.
+<a href=#12 id=12 data-nosnippet>12</a>//! - **c2b_register** *(enabled by default)*: Enables C2B URL Registration service support.
+<a href=#13 id=13 data-nosnippet>13</a>//! - **c2b_simulate** *(enabled by default)*: Enables C2B request simulation service support.
+<a href=#14 id=14 data-nosnippet>14</a>//! - **express** *(enabled by default)*: Enables Mpesa Express (STK push) service support.
+<a href=#15 id=15 data-nosnippet>15</a>//! - **dynamic_qr** *(enabled by default)*: Enables Dynamic QR generation service support.
+<a href=#16 id=16 data-nosnippet>16</a>//! - **transaction_reversal** *(enabled by default)*: Enables Transaction Reversal service support.
+<a href=#17 id=17 data-nosnippet>17</a>//! - **transaction_status** *(enabled by default)*: Enables Transaction Status service support.
+<a href=#18 id=18 data-nosnippet>18</a>//! - **no_openssl** *(enabled by default)*: Disables the dependency on `openssl` as the crate for handling mpesa
+<a href=#19 id=19 data-nosnippet>19</a>//!   certificates and base64 encoding, instead using the `x509-parser`, `rsa`, `base64` and `rand` crates.
+<a href=#20 id=20 data-nosnippet>20</a>//!   Automatically enabled when any of the features *account_balance*, *b2b*, *b2c*, *bill_manager*, *express*,
+<a href=#21 id=21 data-nosnippet>21</a>//!   *transaction_reversal*, or *transaction_status* are enabled.
+<a href=#22 id=22 data-nosnippet>22</a>//! - **openssl**: Enables the use of `openssl` as the dependency for handling certificates and base64 encoding instead
+<a href=#23 id=23 data-nosnippet>23</a>//!   of the default.
+<a href=#24 id=24 data-nosnippet>24</a>
+<a href=#25 id=25 data-nosnippet>25</a></span><span class="kw">mod </span>auth;
+<a href=#26 id=26 data-nosnippet>26</a><span class="kw">mod </span>client;
+<a href=#27 id=27 data-nosnippet>27</a><span class="kw">mod </span>constants;
+<a href=#28 id=28 data-nosnippet>28</a><span class="kw">pub mod </span>environment;
+<a href=#29 id=29 data-nosnippet>29</a><span class="kw">mod </span>errors;
+<a href=#30 id=30 data-nosnippet>30</a><span class="kw">pub mod </span>services;
+<a href=#31 id=31 data-nosnippet>31</a><span class="kw">pub mod </span>validator;
+<a href=#32 id=32 data-nosnippet>32</a>
+<a href=#33 id=33 data-nosnippet>33</a><span class="kw">pub use </span>client::Mpesa;
+<a href=#34 id=34 data-nosnippet>34</a><span class="kw">pub use </span>constants::{CommandId, IdentifierTypes, ResponseType, SendRemindersTypes, TransactionType};
+<a href=#35 id=35 data-nosnippet>35</a><span class="attr">#[cfg(feature = <span class="string">"bill_manager"</span>)]
+<a href=#36 id=36 data-nosnippet>36</a>#[cfg_attr(docsrs, doc(cfg(feature = <span class="string">"bill_manager"</span>)))]
+<a href=#37 id=37 data-nosnippet>37</a></span><span class="kw">pub use </span>constants::{Invoice, InvoiceItem};
+<a href=#38 id=38 data-nosnippet>38</a><span class="kw">pub use </span>environment::ApiEnvironment;
+<a href=#39 id=39 data-nosnippet>39</a><span class="kw">pub use </span>environment::Environment::{<span class="self">self</span>, Production, Sandbox};
+<a href=#40 id=40 data-nosnippet>40</a><span class="attr">#[cfg(feature = <span class="string">"no_openssl"</span>)]
+<a href=#41 id=41 data-nosnippet>41</a>#[cfg_attr(docsrs, doc(cfg(feature = <span class="string">"no_openssl"</span>)))]
+<a href=#42 id=42 data-nosnippet>42</a></span><span class="kw">pub use </span>errors::EncryptionErrors;
+<a href=#43 id=43 data-nosnippet>43</a><span class="kw">pub use </span>errors::{BuilderError, MpesaError, MpesaResult, ResponseError};
+</code></pre></div></section></main></body></html>

@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["CompressionLevel","LatencyUnit"],"mod":["body","classify","decompression","follow_redirect","services"],"type":["BoxError"]};

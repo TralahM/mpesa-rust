@@ -1,0 +1,40 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Get the default record for a struct implementing the `serde::Deserialize` trait."><title>get_default_serde_record in serde_aux::serde_introspection - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-ca0dd0c4.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="serde_aux" data-themes="" data-resource-suffix="" data-rustdoc-version="1.93.1 (01f6ddf75 2026-02-11)" data-channel="1.93.1" data-search-js="search-9e2438ea.js" data-stringdex-js="stringdex-a3946164.js" data-settings-js="settings-c38705f0.js" ><script src="../../static.files/storage-e2aeef58.js"></script><script defer src="sidebar-items.js"></script><script defer src="../../static.files/main-a410ff4d.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-263c88ec.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc fn"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><rustdoc-topbar><h2><a href="#">get_default_serde_record</a></h2></rustdoc-topbar><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../../serde_aux/index.html">serde_<wbr>aux</a><span class="version">4.7.0</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">get_<wbr>default_<wbr>serde_<wbr>record</a></h2><h3><a href="#">Sections</a></h3><ul class="block top-toc"><li><a href="#example" title="Example">Example</a></li></ul></section><div id="rustdoc-modnav"><h2><a href="index.html">In serde_<wbr>aux::<wbr>serde_<wbr>introspection</a></h2></div></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><div class="width-limiter"><section id="main-content" class="content"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="../index.html">serde_aux</a>::<wbr><a href="index.html">serde_introspection</a></div><h1>Function <span class="fn">get_<wbr>default_<wbr>serde_<wbr>record</span>&nbsp;<button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../../src/serde_aux/serde_introspection.rs.html#162-170">Source</a> </span></div><pre class="rust item-decl"><code>pub fn get_default_serde_record&lt;'de, T&gt;() -&gt; <a class="enum" href="https://doc.rust-lang.org/1.93.1/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;T, <a class="struct" href="../../serde_core/de/value/struct.Error.html" title="struct serde_core::de::value::Error">Error</a>&gt;<div class="where">where
+    T: <a class="trait" href="../../serde_core/de/trait.Deserialize.html" title="trait serde_core::de::Deserialize">Deserialize</a>&lt;'de&gt;,</div></code></pre><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Get the default record for a struct implementing the <code>serde::Deserialize</code>
+trait.</p>
+<p>This helper function is useful in particular when the <code>#[serde(default = "path")]</code> field attribute is used to customize the default record
+definition, as it avoids the need to implement the <code>Default</code> trait manually
+for the defined struct, paying attention to keep it aligned with Serde’s
+attributes configuration.</p>
+<h2 id="example"><a class="doc-anchor" href="#example">§</a>Example</h2>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>serde_aux::prelude::<span class="kw-2">*</span>;
+
+<span class="attr">#[derive(serde::Deserialize, PartialEq, Debug)]
+</span><span class="kw">struct </span>Record {
+    <span class="attr">#[serde(default = <span class="string">"default_string"</span>)]
+    </span>label: String,
+    <span class="attr">#[serde(default = <span class="string">"default_f64"</span>)]
+    </span>value1: f64,
+    <span class="attr">#[serde(default)]
+    </span>value2: f64,
+    <span class="attr">#[serde(skip)]
+    </span>foo: bool,
+}
+
+<span class="kw">fn </span>default_string() -&gt; String {
+    String::from(<span class="string">"default"</span>)
+}
+
+<span class="kw">fn </span>default_f64() -&gt; f64 {
+    <span class="number">1.0
+</span>}
+
+<span class="kw">let </span>empty_record = get_default_serde_record::&lt;Record&gt;().unwrap();
+<span class="macro">assert_eq!</span>(
+    empty_record,
+    Record {
+        label: String::from(<span class="string">"default"</span>),
+        value1: <span class="number">1.0</span>,
+        value2: <span class="number">0.0</span>,
+        foo: <span class="bool-val">false
+    </span>}
+);</code></pre></div></div></details></section></div></main></body></html>

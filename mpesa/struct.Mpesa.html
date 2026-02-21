@@ -1,0 +1,693 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Mpesa client that will facilitate communication with the Safaricom API"><title>Mpesa in mpesa - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../static.files/rustdoc-ca0dd0c4.css"><meta name="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="mpesa" data-themes="" data-resource-suffix="" data-rustdoc-version="1.93.1 (01f6ddf75 2026-02-11)" data-channel="1.93.1" data-search-js="search-9e2438ea.js" data-stringdex-js="stringdex-a3946164.js" data-settings-js="settings-c38705f0.js" ><script src="../static.files/storage-e2aeef58.js"></script><script defer src="sidebar-items.js"></script><script defer src="../static.files/main-a410ff4d.js"></script><noscript><link rel="stylesheet" href="../static.files/noscript-263c88ec.css"></noscript><link rel="alternate icon" type="image/png" href="../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../static.files/favicon-044be391.svg"></head><body class="rustdoc struct"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><rustdoc-topbar><h2><a href="#">Mpesa</a></h2></rustdoc-topbar><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../mpesa/index.html">mpesa</a><span class="version">3.4.1</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">Mpesa</a></h2><h3><a href="#implementations">Methods</a></h3><ul class="block method"><li><a href="#method.account_balance" title="account_balance">account_balance</a></li><li><a href="#method.b2b" title="b2b">b2b</a></li><li><a href="#method.b2c" title="b2c">b2c</a></li><li><a href="#method.bulk_invoice" title="bulk_invoice">bulk_invoice</a></li><li><a href="#method.c2b_register" title="c2b_register">c2b_register</a></li><li><a href="#method.c2b_simulate" title="c2b_simulate">c2b_simulate</a></li><li><a href="#method.cancel_invoice" title="cancel_invoice">cancel_invoice</a></li><li><a href="#method.dynamic_qr" title="dynamic_qr">dynamic_qr</a></li><li><a href="#method.express_query" title="express_query">express_query</a></li><li><a href="#method.express_request" title="express_request">express_request</a></li><li><a href="#method.has_cached_auth" title="has_cached_auth">has_cached_auth</a></li><li><a href="#method.is_connected" title="is_connected">is_connected</a></li><li><a href="#method.new" title="new">new</a></li><li><a href="#method.onboard" title="onboard">onboard</a></li><li><a href="#method.onboard_modify" title="onboard_modify">onboard_modify</a></li><li><a href="#method.reconciliation" title="reconciliation">reconciliation</a></li><li><a href="#method.set_initiator_password" title="set_initiator_password">set_initiator_password</a></li><li><a href="#method.single_invoice" title="single_invoice">single_invoice</a></li><li><a href="#method.transaction_reversal" title="transaction_reversal">transaction_reversal</a></li><li><a href="#method.transaction_status" title="transaction_status">transaction_status</a></li></ul><h3><a href="#trait-implementations">Trait Implementations</a></h3><ul class="block trait-implementation"><li><a href="#impl-Clone-for-Mpesa" title="Clone">Clone</a></li><li><a href="#impl-Debug-for-Mpesa" title="Debug">Debug</a></li></ul><h3><a href="#synthetic-implementations">Auto Trait Implementations</a></h3><ul class="block synthetic-implementation"><li><a href="#impl-RefUnwindSafe-for-Mpesa" title="!RefUnwindSafe">!RefUnwindSafe</a></li><li><a href="#impl-UnwindSafe-for-Mpesa" title="!UnwindSafe">!UnwindSafe</a></li><li><a href="#impl-Freeze-for-Mpesa" title="Freeze">Freeze</a></li><li><a href="#impl-Send-for-Mpesa" title="Send">Send</a></li><li><a href="#impl-Sync-for-Mpesa" title="Sync">Sync</a></li><li><a href="#impl-Unpin-for-Mpesa" title="Unpin">Unpin</a></li></ul><h3><a href="#blanket-implementations">Blanket Implementations</a></h3><ul class="block blanket-implementation"><li><a href="#impl-Any-for-T" title="Any">Any</a></li><li><a href="#impl-AsTaggedExplicit%3C'a,+E%3E-for-T" title="AsTaggedExplicit&#60;&#39;a, E&#62;">AsTaggedExplicit&#60;&#39;a, E&#62;</a></li><li><a href="#impl-AsTaggedImplicit%3C'a,+E%3E-for-T" title="AsTaggedImplicit&#60;&#39;a, E&#62;">AsTaggedImplicit&#60;&#39;a, E&#62;</a></li><li><a href="#impl-Borrow%3CT%3E-for-T" title="Borrow&#60;T&#62;">Borrow&#60;T&#62;</a></li><li><a href="#impl-BorrowMut%3CT%3E-for-T" title="BorrowMut&#60;T&#62;">BorrowMut&#60;T&#62;</a></li><li><a href="#impl-CloneToUninit-for-T" title="CloneToUninit">CloneToUninit</a></li><li><a href="#impl-From%3CT%3E-for-T" title="From&#60;T&#62;">From&#60;T&#62;</a></li><li><a href="#impl-Instrument-for-T" title="Instrument">Instrument</a></li><li><a href="#impl-Into%3CU%3E-for-T" title="Into&#60;U&#62;">Into&#60;U&#62;</a></li><li><a href="#impl-PolicyExt-for-T" title="PolicyExt">PolicyExt</a></li><li><a href="#impl-Same-for-T" title="Same">Same</a></li><li><a href="#impl-ToOwned-for-T" title="ToOwned">ToOwned</a></li><li><a href="#impl-TryFrom%3CU%3E-for-T" title="TryFrom&#60;U&#62;">TryFrom&#60;U&#62;</a></li><li><a href="#impl-TryInto%3CU%3E-for-T" title="TryInto&#60;U&#62;">TryInto&#60;U&#62;</a></li><li><a href="#impl-VZip%3CV%3E-for-T" title="VZip&#60;V&#62;">VZip&#60;V&#62;</a></li><li><a href="#impl-WithSubscriber-for-T" title="WithSubscriber">WithSubscriber</a></li></ul></section><div id="rustdoc-modnav"><h2 class="in-crate"><a href="index.html">In crate mpesa</a></h2></div></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><div class="width-limiter"><section id="main-content" class="content"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="index.html">mpesa</a></div><h1>Struct <span class="struct">Mpesa</span>&nbsp;<button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../src/mpesa/client.rs.html#56-65">Source</a> </span></div><pre class="rust item-decl"><code>pub struct Mpesa { <span class="comment">/* private fields */</span> }</code></pre><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Mpesa client that will facilitate communication with the Safaricom API</p>
+</div></details><h2 id="implementations" class="section-header">Implementations<a href="#implementations" class="anchor">§</a></h2><div id="implementations-list"><details class="toggle implementors-toggle" open><summary><section id="impl-Mpesa" class="impl"><a class="src rightside" href="../src/mpesa/client.rs.html#67-399">Source</a><a href="#impl-Mpesa" class="anchor">§</a><h3 class="code-header">impl <a class="struct" href="struct.Mpesa.html" title="struct mpesa::Mpesa">Mpesa</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.new" class="method"><a class="src rightside" href="../src/mpesa/client.rs.html#90-110">Source</a><h4 class="code-header">pub fn <a href="#method.new" class="fn">new</a>&lt;S: <a class="trait" href="https://doc.rust-lang.org/1.93.1/core/convert/trait.Into.html" title="trait core::convert::Into">Into</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.93.1/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>&gt;&gt;(
+    consumer_key: S,
+    consumer_secret: S,
+    environment: impl <a class="trait" href="environment/trait.ApiEnvironment.html" title="trait mpesa::environment::ApiEnvironment">ApiEnvironment</a>,
+) -&gt; Self</h4></section></summary><div class="docblock"><p>Constructs a new <code>Mpesa</code> client.</p>
+<h5 id="example"><a class="doc-anchor" href="#example">§</a>Example</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>mpesa::{Environment, Mpesa};
+
+<span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() {
+    dotenvy::dotenv().ok();
+
+    <span class="kw">let </span>client = Mpesa::new(
+        dotenvy::var(<span class="string">"CONSUMER_KEY"</span>).unwrap(),
+        dotenvy::var(<span class="string">"CONSUMER_SECRET"</span>).unwrap(),
+        Environment::Sandbox,
+    );
+
+    <span class="macro">assert!</span>(client.is_connected().<span class="kw">await</span>);
+}</code></pre></div><h5 id="panics"><a class="doc-anchor" href="#panics">§</a>Panics</h5>
+<p>This method can panic if a TLS backend cannot be initialized for the internal http_client</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.set_initiator_password" class="method"><a class="src rightside" href="../src/mpesa/client.rs.html#161-163">Source</a><h4 class="code-header">pub fn <a href="#method.set_initiator_password" class="fn">set_initiator_password</a>&lt;S: <a class="trait" href="https://doc.rust-lang.org/1.93.1/core/convert/trait.Into.html" title="trait core::convert::Into">Into</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.93.1/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>&gt;&gt;(&amp;self, initiator_password: S)</h4></section></summary><div class="docblock"><p>Optional in development but required for production for the following apis:</p>
+<ul>
+<li><code>account_balance</code></li>
+<li><code>b2b</code></li>
+<li><code>b2c</code></li>
+<li><code>transaction_reversal</code></li>
+<li><code>transaction_status</code></li>
+</ul>
+<p>You will need to call this method and set your production initiator password.
+If in development, a default initiator password from the test credentials is already pre-set</p>
+<h5 id="example-1"><a class="doc-anchor" href="#example-1">§</a>Example</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>mpesa::{Environment, Mpesa};
+
+<span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() {
+    dotenvy::dotenv().ok();
+
+    <span class="kw">let </span>client = Mpesa::new(
+        dotenvy::var(<span class="string">"CONSUMER_KEY"</span>).unwrap(),
+        dotenvy::var(<span class="string">"CONSUMER_SECRET"</span>).unwrap(),
+        Environment::Sandbox,
+    );
+    client.set_initiator_password(<span class="string">"your_initiator_password"</span>);
+    <span class="macro">assert!</span>(client.is_connected().<span class="kw">await</span>);
+}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.has_cached_auth" class="method"><a class="src rightside" href="../src/mpesa/client.rs.html#182-184">Source</a><h4 class="code-header">pub fn <a href="#method.has_cached_auth" class="fn">has_cached_auth</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.93.1/std/primitive.bool.html">bool</a></h4></section></summary><div class="docblock"><p>Check if we have a cached valid auth token</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.is_connected" class="method"><a class="src rightside" href="../src/mpesa/client.rs.html#187-189">Source</a><h4 class="code-header">pub async fn <a href="#method.is_connected" class="fn">is_connected</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.93.1/std/primitive.bool.html">bool</a></h4></section></summary><div class="docblock"><p>Checks if the client can be authenticated</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.b2c" class="method"><a class="src rightside" href="../src/mpesa/client.rs.html#212-214">Source</a><h4 class="code-header">pub fn <a href="#method.b2c" class="fn">b2c</a>&lt;'a&gt;(&amp;'a self, initiator_name: &amp;'a <a class="primitive" href="https://doc.rust-lang.org/1.93.1/std/primitive.str.html">str</a>) -&gt; <a class="struct" href="services/struct.B2cBuilder.html" title="struct mpesa::services::B2cBuilder">B2cBuilder</a>&lt;'a&gt;</h4></section></summary><div class="docblock"><h5 id="b2c"><a class="doc-anchor" href="#b2c">§</a>B2C</h5>
+<p>Requires an <code>initiator_name</code>, the credential/ username used to authenticate
+the transaction request
+Returns a <code>B2cBuilder</code> for building a B2C transaction struct.</p>
+<p>Safaricom the API docs <a href="https://developer.safaricom.co.ke/APIs/BusinessToCustomer">B2C reference</a>.</p>
+<h6 id="example-2"><a class="doc-anchor" href="#example-2">§</a>Example</h6>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>mpesa::{Environment, Mpesa};
+
+<span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() {
+    dotenvy::dotenv().ok();
+
+    <span class="kw">let </span>client = Mpesa::new(
+        dotenvy::var(<span class="string">"CONSUMER_KEY"</span>).unwrap(),
+        dotenvy::var(<span class="string">"CONSUMER_SECRET"</span>).unwrap(),
+        Environment::Sandbox,
+    );
+
+    <span class="kw">let </span>response = client
+        .b2c(<span class="string">"testapi496"</span>)
+        .originator_conversation_id(<span class="string">"77a98672-7782-4e04-9be2-d6880fb3e6a5"</span>)
+        .party_a(<span class="string">"600496"</span>)
+        .party_b(<span class="string">"254708374149"</span>)
+        .result_url(<span class="string">"https://testdomain.com/err"</span>)
+        .timeout_url(<span class="string">"https://testdomain.com/ok"</span>)
+        .amount(<span class="number">1000</span>)
+        .remarks(<span class="string">"Your Remark"</span>) <span class="comment">// optional, defaults to "None"
+        </span>.occasion(<span class="string">"Your Occasion"</span>) <span class="comment">// optional, defaults to "None"
+        </span>.command_id(mpesa::CommandId::BusinessPayment) <span class="comment">// optional, defaults to `CommandId::BusinessPayment`
+        </span>.send()
+        .<span class="kw">await</span>;
+    <span class="macro">assert!</span>(response.is_ok())
+}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.b2b" class="method"><a class="src rightside" href="../src/mpesa/client.rs.html#219-221">Source</a><h4 class="code-header">pub fn <a href="#method.b2b" class="fn">b2b</a>&lt;'a&gt;(&amp;'a self, initiator_name: &amp;'a <a class="primitive" href="https://doc.rust-lang.org/1.93.1/std/primitive.str.html">str</a>) -&gt; <a class="struct" href="services/struct.B2bBuilder.html" title="struct mpesa::services::B2bBuilder">B2bBuilder</a>&lt;'a&gt;</h4></section></summary><div class="docblock"><h5 id="b2b"><a class="doc-anchor" href="#b2b">§</a>B2B</h5>
+<p>This API enables you to pay bills directly from your business account to a
+pay bill number, or a paybill store.
+You can use this API to pay on behalf of a consumer/requester.</p>
+<p>The transaction moves money from your MMF/Working account to the
+recipient’s utility account.</p>
+<p>Returns a <code>B2bBuilder</code>.
+Requires an <code>initiator_name</code>, the credential/ username used to authenticate
+the transaction request</p>
+<p>Safaricom API docs <a href="https://developer.safaricom.co.ke/APIs/BusinessPayBill">B2B reference</a></p>
+<h6 id="example-3"><a class="doc-anchor" href="#example-3">§</a>Example</h6>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>mpesa::{Environment, Mpesa};
+
+<span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() {
+    dotenvy::dotenv().ok();
+
+    <span class="kw">let </span>client = Mpesa::new(
+        dotenvy::var(<span class="string">"CONSUMER_KEY"</span>).unwrap(),
+        dotenvy::var(<span class="string">"CONSUMER_SECRET"</span>).unwrap(),
+        Environment::Sandbox,
+    );
+
+    <span class="kw">let </span>response = client
+        .b2b(<span class="string">"testapi496"</span>)
+        .party_a(<span class="string">"600496"</span>)
+        .party_b(<span class="string">"600000"</span>)
+        .result_url(<span class="string">"https://testdomain.com/err"</span>)
+        .timeout_url(<span class="string">"https://testdomain.com/ok"</span>)
+        .account_ref(<span class="string">"254708374149"</span>)
+        .amount(<span class="number">1000</span>)
+        .command_id(mpesa::CommandId::BusinessToBusinessTransfer) <span class="comment">// optional, defaults to `CommandId::BusinessToBusinessTransfer`
+        </span>.remarks(<span class="string">"None"</span>) <span class="comment">// optional, defaults to "None"
+        </span>.sender_id(mpesa::IdentifierTypes::ShortCode) <span class="comment">// optional, defaults to `IdentifierTypes::ShortCode`
+        </span>.receiver_id(mpesa::IdentifierTypes::ShortCode) <span class="comment">// optional, defaults to `IdentifierTypes::ShortCode`
+        </span>.send()
+        .<span class="kw">await</span>;
+
+    <span class="macro">assert!</span>(response.is_ok());
+}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.onboard" class="method"><a class="src rightside" href="../src/mpesa/client.rs.html#226-228">Source</a><h4 class="code-header">pub fn <a href="#method.onboard" class="fn">onboard</a>(&amp;self) -&gt; <a class="struct" href="services/struct.OnboardBuilder.html" title="struct mpesa::services::OnboardBuilder">OnboardBuilder</a>&lt;'_&gt;</h4></section></summary><div class="docblock"><h5 id="onboard"><a class="doc-anchor" href="#onboard">§</a>Onboard</h5>
+<p>Creates a <code>OnboardBuilder</code> which allows you to opt in as a biller to the bill
+manager features.</p>
+<p>Safaricom API docs <a href="https://developer.safaricom.co.ke/APIs/BillManager">reference</a></p>
+<h6 id="example-4"><a class="doc-anchor" href="#example-4">§</a>Example</h6>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>mpesa::{Mpesa, Environment, SendRemindersTypes};
+
+<span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() {
+    dotenvy::dotenv().ok();
+
+    <span class="kw">let </span>client = Mpesa::new(
+        dotenvy::var(<span class="string">"CONSUMER_KEY"</span>).unwrap(),
+        dotenvy::var(<span class="string">"CONSUMER_SECRET"</span>).unwrap(),
+        Environment::Sandbox,
+    );
+
+    <span class="kw">let </span>response = client
+        .onboard()
+        .callback_url(<span class="string">"https://testdomain.com/true"</span>)
+        .email(<span class="string">"email@test.com"</span>)
+        .logo(<span class="string">"https://file.domain/file.png"</span>)
+        .official_contact(<span class="string">"0712345678"</span>)
+        .send_reminders(SendRemindersTypes::Enable)
+        .short_code(<span class="string">"718003"</span>)
+        .send()
+        .<span class="kw">await</span>;
+
+    <span class="macro">assert!</span>(response.is_ok());
+}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.onboard_modify" class="method"><a class="src rightside" href="../src/mpesa/client.rs.html#233-235">Source</a><h4 class="code-header">pub fn <a href="#method.onboard_modify" class="fn">onboard_modify</a>(&amp;self) -&gt; <a class="struct" href="services/struct.OnboardModifyBuilder.html" title="struct mpesa::services::OnboardModifyBuilder">OnboardModifyBuilder</a>&lt;'_&gt;</h4></section></summary><div class="docblock"><h5 id="onboard-modify"><a class="doc-anchor" href="#onboard-modify">§</a>Onboard Modify</h5>
+<p>Creates a <code>OnboardModifyBuilder</code> which allows you to opt in as a biller to the
+bill manager features.</p>
+<p>Safaricom API docs <a href="https://developer.safaricom.co.ke/APIs/BillManager">reference</a></p>
+<h6 id="example-5"><a class="doc-anchor" href="#example-5">§</a>Example</h6>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>mpesa::{Mpesa, Environment, SendRemindersTypes};
+
+<span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() {
+    dotenvy::dotenv().ok();
+
+    <span class="kw">let </span>client = Mpesa::new(
+        dotenvy::var(<span class="string">"CONSUMER_KEY"</span>).unwrap(),
+        dotenvy::var(<span class="string">"CONSUMER_SECRET"</span>).unwrap(),
+        Environment::Sandbox,
+    );
+
+    <span class="kw">let </span>response = client
+        .onboard_modify()
+        .callback_url(<span class="string">"https://testdomain.com/true"</span>)
+        .email(<span class="string">"email@test.com"</span>)
+        .logo(<span class="string">"https://file.domain/file.png"</span>)
+        .official_contact(<span class="string">"0712345678"</span>)
+        .send_reminders(SendRemindersTypes::Enable)
+        .short_code(<span class="string">"600496"</span>)
+        .send()
+        .<span class="kw">await</span>;
+
+    <span class="macro">assert!</span>(response.is_ok());
+}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.bulk_invoice" class="method"><a class="src rightside" href="../src/mpesa/client.rs.html#240-242">Source</a><h4 class="code-header">pub fn <a href="#method.bulk_invoice" class="fn">bulk_invoice</a>(&amp;self) -&gt; <a class="struct" href="services/struct.BulkInvoiceBuilder.html" title="struct mpesa::services::BulkInvoiceBuilder">BulkInvoiceBuilder</a>&lt;'_&gt;</h4></section></summary><div class="docblock"><h5 id="bulk-invoice"><a class="doc-anchor" href="#bulk-invoice">§</a>Bulk Invoice</h5>
+<p>Creates a <code>BulkInvoiceBuilder</code> which allows you to send invoices to your
+customers in bulk.</p>
+<p>Safaricom API docs <a href="https://developer.safaricom.co.ke/APIs/BillManager">reference</a></p>
+<h6 id="example-6"><a class="doc-anchor" href="#example-6">§</a>Example</h6>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>mpesa::{Mpesa, Environment, Invoice, InvoiceItem};
+<span class="kw">use </span>chrono::prelude::Utc;
+
+<span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() {
+    dotenvy::dotenv().ok();
+
+    <span class="kw">let </span>client = Mpesa::new(
+        dotenvy::var(<span class="string">"CONSUMER_KEY"</span>).unwrap(),
+        dotenvy::var(<span class="string">"CONSUMER_SECRET"</span>).unwrap(),
+        Environment::Sandbox,
+    );
+
+    <span class="kw">let </span>response = client
+        .bulk_invoice()
+        <span class="comment">// Add multiple invoices at once
+        </span>.invoices(<span class="macro">vec!</span>[
+            Invoice {
+                amount: <span class="number">1000.0</span>,
+                account_reference: <span class="string">"John Doe"</span>,
+                billed_full_name: <span class="string">"John Doe"</span>,
+                billed_period: <span class="string">"August 2021"</span>,
+                billed_phone_number: <span class="string">"0712345678"</span>,
+                due_date: Utc::now(),
+                external_reference: <span class="string">"INV2345"</span>,
+                invoice_items: <span class="prelude-val">Some</span>(
+                    <span class="macro">vec!</span>[InvoiceItem {amount: <span class="number">1000.0</span>, item_name: <span class="string">"An item"</span>}]
+                ),
+                invoice_name: <span class="string">"Invoice 001"
+            </span>}
+        ])
+        <span class="comment">// Add a single invoice
+        </span>.invoice(
+            Invoice {
+                amount: <span class="number">1000.0</span>,
+                account_reference: <span class="string">"John Doe"</span>,
+                billed_full_name: <span class="string">"John Doe"</span>,
+                billed_period: <span class="string">"August 2021"</span>,
+                billed_phone_number: <span class="string">"0712345678"</span>,
+                due_date: Utc::now(),
+                external_reference: <span class="string">"INV2345"</span>,
+                invoice_items: <span class="prelude-val">Some</span>(<span class="macro">vec!</span>[InvoiceItem {
+                    amount: <span class="number">1000.0</span>,
+                    item_name: <span class="string">"An item"</span>,
+                }]),
+                invoice_name: <span class="string">"Invoice 001"</span>,
+            }
+        )
+        .send()
+        .<span class="kw">await</span>;
+
+
+    <span class="macro">assert!</span>(response.is_ok());
+}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.single_invoice" class="method"><a class="src rightside" href="../src/mpesa/client.rs.html#247-249">Source</a><h4 class="code-header">pub fn <a href="#method.single_invoice" class="fn">single_invoice</a>(&amp;self) -&gt; <a class="struct" href="services/struct.SingleInvoiceBuilder.html" title="struct mpesa::services::SingleInvoiceBuilder">SingleInvoiceBuilder</a>&lt;'_&gt;</h4></section></summary><div class="docblock"><h5 id="single-invoice"><a class="doc-anchor" href="#single-invoice">§</a>Single Invoice</h5>
+<p>Creates a <code>SingleInvoiceBuilder</code> which allows you to create and send invoices
+to your customers.</p>
+<p>Safaricom API docs <a href="https://developer.safaricom.co.ke/APIs/BillManager">reference</a></p>
+<h6 id="example-7"><a class="doc-anchor" href="#example-7">§</a>Example</h6>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>chrono::prelude::Utc;
+<span class="kw">use </span>mpesa::{Environment, InvoiceItem, Mpesa};
+
+<span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() {
+    dotenvy::dotenv().ok();
+
+    <span class="kw">let </span>client = Mpesa::new(
+        dotenvy::var(<span class="string">"CONSUMER_KEY"</span>).unwrap(),
+        dotenvy::var(<span class="string">"CONSUMER_SECRET"</span>).unwrap(),
+        Environment::Sandbox,
+    );
+
+    <span class="kw">let </span>response = client
+        .single_invoice()
+        .amount(<span class="number">1000.0</span>)
+        .account_reference(<span class="string">"John Doe"</span>)
+        .billed_full_name(<span class="string">"John Doe"</span>)
+        .billed_period(<span class="string">"August 2021"</span>)
+        .billed_phone_number(<span class="string">"0712345678"</span>)
+        .due_date(Utc::now())
+        .external_reference(<span class="string">"INV2345"</span>)
+        .invoice_items(<span class="macro">vec!</span>[InvoiceItem {
+            amount: <span class="number">1000.0</span>,
+            item_name: <span class="string">"An item"</span>,
+        }])
+        .invoice_name(<span class="string">"Invoice 001"</span>)
+        .send()
+        .<span class="kw">await</span>;
+
+    <span class="macro">assert!</span>(response.is_ok());
+}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.reconciliation" class="method"><a class="src rightside" href="../src/mpesa/client.rs.html#254-256">Source</a><h4 class="code-header">pub fn <a href="#method.reconciliation" class="fn">reconciliation</a>(&amp;self) -&gt; <a class="struct" href="services/struct.ReconciliationBuilder.html" title="struct mpesa::services::ReconciliationBuilder">ReconciliationBuilder</a>&lt;'_&gt;</h4></section></summary><div class="docblock"><h5 id="reconciliation"><a class="doc-anchor" href="#reconciliation">§</a>Reconciliation</h5>
+<p>Creates a <code>ReconciliationBuilder</code> which enables your customers to
+receive e-receipts for payments made to your paybill account.</p>
+<p>Safaricom API docs <a href="https://developer.safaricom.co.ke/APIs/BillManager">reference</a></p>
+<h6 id="example-8"><a class="doc-anchor" href="#example-8">§</a>Example</h6>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>mpesa::{Mpesa, Environment};
+<span class="kw">use </span>chrono::prelude::Utc;
+
+<span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() {
+    dotenvy::dotenv().ok();
+
+    <span class="kw">let </span>client = Mpesa::new(
+        dotenvy::var(<span class="string">"CONSUMER_KEY"</span>).unwrap(),
+        dotenvy::var(<span class="string">"CONSUMER_SECRET"</span>).unwrap(),
+        Environment::Sandbox,
+    );
+
+    <span class="kw">let </span>response = client
+        .reconciliation()
+        .account_reference(<span class="string">"John Doe"</span>)
+        .external_reference(<span class="string">"INV2345"</span>)
+        .full_name(<span class="string">"John Doe"</span>)
+        .invoice_name(<span class="string">"Invoice 001"</span>)
+        .paid_amount(<span class="number">1000.0</span>)
+        .payment_date(Utc::now())
+        .phone_number(<span class="string">"0712345678"</span>)
+        .transaction_id(<span class="string">"TRANSACTION_ID"</span>)
+        .send()
+        .<span class="kw">await</span>;
+
+    <span class="macro">assert!</span>(response.is_ok());
+}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.cancel_invoice" class="method"><a class="src rightside" href="../src/mpesa/client.rs.html#261-263">Source</a><h4 class="code-header">pub fn <a href="#method.cancel_invoice" class="fn">cancel_invoice</a>(&amp;self) -&gt; <a class="struct" href="services/struct.CancelInvoiceBuilder.html" title="struct mpesa::services::CancelInvoiceBuilder">CancelInvoiceBuilder</a>&lt;'_&gt;</h4></section></summary><div class="docblock"><h5 id="cancel-invoice"><a class="doc-anchor" href="#cancel-invoice">§</a>Cancel Invoice</h5>
+<p>Creates a <code>CancelInvoiceBuilder</code> which allows you to recall a sent invoice.</p>
+<p>Safaricom API docs <a href="https://developer.safaricom.co.ke/APIs/BillManager">reference</a></p>
+<h6 id="example-9"><a class="doc-anchor" href="#example-9">§</a>Example</h6>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>mpesa::{Mpesa, Environment, SendRemindersTypes};
+<span class="kw">use </span>chrono::prelude::Utc;
+
+<span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() {
+    dotenvy::dotenv().ok();
+
+    <span class="kw">let </span>client = Mpesa::new(
+        dotenvy::var(<span class="string">"CONSUMER_KEY"</span>).unwrap(),
+        dotenvy::var(<span class="string">"CONSUMER_SECRET"</span>).unwrap(),
+        Environment::Sandbox,
+    );
+
+    <span class="kw">let </span>response = client
+        .cancel_invoice()
+        .external_references(<span class="macro">vec!</span>[<span class="string">"9KLSS011"</span>])
+        .send()
+        .<span class="kw">await</span>;
+
+    <span class="macro">assert!</span>(response.is_ok());
+}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.c2b_register" class="method"><a class="src rightside" href="../src/mpesa/client.rs.html#268-270">Source</a><h4 class="code-header">pub fn <a href="#method.c2b_register" class="fn">c2b_register</a>(&amp;self) -&gt; <a class="struct" href="services/struct.C2bRegisterBuilder.html" title="struct mpesa::services::C2bRegisterBuilder">C2bRegisterBuilder</a>&lt;'_&gt;</h4></section></summary><div class="docblock"><h5 id="c2b-register"><a class="doc-anchor" href="#c2b-register">§</a>C2B Register</h5>
+<p>Register URL API works hand in hand with Customer to Business (C2B) APIs
+and allows receiving payment notifications to your paybill.
+This API enables you to register the callback URLs via which you shall receive
+notifications for payments to your pay bill/till number.</p>
+<p>There are two URLs required for Register URL API: Validation URL and
+Confirmation URL.</p>
+<p>Returns a <code>C2bRegisterBuilder</code></p>
+<p>See more from the Safaricom API docs <a href="https://developer.safaricom.co.ke/APIs/CustomerToBusinessRegisterURL">C2B Register URL</a></p>
+<h6 id="example-10"><a class="doc-anchor" href="#example-10">§</a>Example</h6>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>mpesa::{Environment, Mpesa};
+
+<span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() {
+    dotenvy::dotenv().ok();
+
+    <span class="kw">let </span>client = Mpesa::new(
+        dotenvy::var(<span class="string">"CONSUMER_KEY"</span>).unwrap(),
+        dotenvy::var(<span class="string">"CONSUMER_SECRET"</span>).unwrap(),
+        Environment::Sandbox,
+    );
+
+    <span class="kw">let </span>response = client
+        .c2b_register()
+        .short_code(<span class="string">"600496"</span>)
+        .confirmation_url(<span class="string">"https://testdomain.com/true"</span>)
+        .validation_url(<span class="string">"https://testdomain.com/valid"</span>)
+        .response_type(mpesa::ResponseType::Completed) <span class="comment">// optional, defaults to `ResponseTypes::Complete`
+        </span>.send()
+        .<span class="kw">await</span>;
+
+    <span class="macro">assert!</span>(response.is_ok())
+}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.c2b_simulate" class="method"><a class="src rightside" href="../src/mpesa/client.rs.html#275-277">Source</a><h4 class="code-header">pub fn <a href="#method.c2b_simulate" class="fn">c2b_simulate</a>(&amp;self) -&gt; <a class="struct" href="services/struct.C2bSimulateBuilder.html" title="struct mpesa::services::C2bSimulateBuilder">C2bSimulateBuilder</a>&lt;'_&gt;</h4></section></summary><div class="docblock"><h5 id="c2b-simulate"><a class="doc-anchor" href="#c2b-simulate">§</a>C2B Simulate</h5>
+<p>Creates a <code>C2bSimulateBuilder</code> for simulating C2B transactions</p>
+<p>See more <a href="https://developer.safaricom.co.ke/c2b/apis/post/simulate">Simulate C2B</a></p>
+<h6 id="example-11"><a class="doc-anchor" href="#example-11">§</a>Example</h6>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>mpesa::{Environment, Mpesa};
+
+<span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() {
+    dotenvy::dotenv().ok();
+
+    <span class="kw">let </span>client = Mpesa::new(
+        dotenvy::var(<span class="string">"CONSUMER_KEY"</span>).unwrap(),
+        dotenvy::var(<span class="string">"CONSUMER_SECRET"</span>).unwrap(),
+        Environment::Sandbox,
+    );
+
+    <span class="kw">let </span>response = client
+        .c2b_simulate()
+        .short_code(<span class="string">"600496"</span>)
+        .msisdn(<span class="string">"254700000000"</span>)
+        .amount(<span class="number">1000</span>)
+        .command_id(mpesa::CommandId::CustomerPayBillOnline) <span class="comment">// optional, defaults to `CommandId::CustomerPayBillOnline`
+        </span>.bill_ref_number(<span class="string">"Your_BillRefNumber"</span>) <span class="comment">// optional, defaults to "None"
+        </span>.send()
+        .<span class="kw">await</span>;
+
+    <span class="macro">assert!</span>(response.is_ok())
+}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.account_balance" class="method"><a class="src rightside" href="../src/mpesa/client.rs.html#282-284">Source</a><h4 class="code-header">pub fn <a href="#method.account_balance" class="fn">account_balance</a>&lt;'a&gt;(
+    &amp;'a self,
+    initiator_name: &amp;'a <a class="primitive" href="https://doc.rust-lang.org/1.93.1/std/primitive.str.html">str</a>,
+) -&gt; <a class="struct" href="services/struct.AccountBalanceBuilder.html" title="struct mpesa::services::AccountBalanceBuilder">AccountBalanceBuilder</a>&lt;'a&gt;</h4></section></summary><div class="docblock"><h5 id="account-balance"><a class="doc-anchor" href="#account-balance">§</a>Account Balance</h5>
+<p>The Account Balance API is used to request the account balance of a short code.
+This can be used for both B2C, buy goods and pay bill accounts.</p>
+<p>Requires an <code>initiator_name</code>.
+Returns an <code>AccountBalanceBuilder</code> for enquiring the balance on
+an MPESA Buy-Goods.</p>
+<p>Safaricom API docs <a href="https://developer.safaricom.co.ke/APIs/AccountBalance">Account Balance reference</a></p>
+<h6 id="example-12"><a class="doc-anchor" href="#example-12">§</a>Example</h6>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>mpesa::{Environment, Mpesa};
+
+<span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() {
+    dotenvy::dotenv().ok();
+
+    <span class="kw">let </span>client = Mpesa::new(
+        dotenvy::var(<span class="string">"CONSUMER_KEY"</span>).unwrap(),
+        dotenvy::var(<span class="string">"CONSUMER_SECRET"</span>).unwrap(),
+        Environment::Sandbox,
+    );
+
+    <span class="kw">let </span>response = client
+        .account_balance(<span class="string">"testapi496"</span>)
+        .result_url(<span class="string">"https://testdomain.com/err"</span>)
+        .timeout_url(<span class="string">"https://testdomain.com/ok"</span>)
+        .party_a(<span class="string">"600496"</span>)
+        .command_id(mpesa::CommandId::AccountBalance) <span class="comment">// optional, defaults to `CommandId::AccountBalance`
+        </span>.identifier_type(mpesa::IdentifierTypes::ShortCode) <span class="comment">// optional, defaults to `IdentifierTypes::ShortCode`
+        </span>.remarks(<span class="string">"Your Remarks"</span>) <span class="comment">// optional, defaults to "None"
+        </span>.send()
+        .<span class="kw">await</span>;
+
+    <span class="macro">assert!</span>(response.is_ok())
+}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.express_request" class="method"><a class="src rightside" href="../src/mpesa/client.rs.html#289-291">Source</a><h4 class="code-header">pub fn <a href="#method.express_request" class="fn">express_request</a>(&amp;self) -&gt; <a class="struct" href="services/struct.MpesaExpressBuilder.html" title="struct mpesa::services::MpesaExpressBuilder">MpesaExpressBuilder</a>&lt;'_&gt;</h4></section></summary><div class="docblock"><h5 id="mpesa-express"><a class="doc-anchor" href="#mpesa-express">§</a>Mpesa Express</h5><h6 id="mpese-express-request"><a class="doc-anchor" href="#mpese-express-request">§</a>Mpese Express Request</h6>
+<p>Lipa na M-PESA online API also known as M-PESA express (STK Push/NI push)
+is a Merchant/Business initiated C2B (Customer to Business) Payment.</p>
+<p>Once you, our merchant integrate with the API, you will be able to send a
+payment prompt on the customer’s phone (Popularly known as STK Push Prompt)
+to your customer’s M-PESA registered phone number requesting them to enter
+their M-PESA pin to authorize and complete payment.</p>
+<p>Requires a <code>business_short_code</code> - The organization shortcode used to receive
+the transaction and returns a <code>MpesaExpressRequestBuilder</code> struct</p>
+<p>Safaricom API docs <a href="https://developer.safaricom.co.ke/APIs/MpesaExpressSimulate">reference</a></p>
+<h6 id="example-13"><a class="doc-anchor" href="#example-13">§</a>Example</h6>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>mpesa::{Environment, Mpesa};
+
+<span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() -&gt; <span class="prelude-ty">Result</span>&lt;(), Box&lt;<span class="kw">dyn </span>std::error::Error&gt;&gt; {
+    dotenvy::dotenv().ok();
+
+    <span class="kw">let </span>client = Mpesa::new(
+        dotenvy::var(<span class="string">"CONSUMER_KEY"</span>).unwrap(),
+        dotenvy::var(<span class="string">"CONSUMER_SECRET"</span>).unwrap(),
+        Environment::Sandbox,
+    );
+
+    <span class="kw">let </span>response = client
+        .express_request()
+        .business_short_code(<span class="string">"174379"</span>)
+        .phone_number(<span class="string">"254708374149"</span>)
+        .party_a(<span class="string">"600584"</span>)
+        .party_b(<span class="string">"174379"</span>)
+        .amount(<span class="number">500</span>)
+        .try_callback_url(<span class="string">"https://test.example.com/api"</span>)<span class="question-mark">?
+        </span>.account_ref(<span class="string">"Test"</span>)
+        .transaction_type(mpesa::CommandId::CustomerPayBillOnline) <span class="comment">// Optional, defaults to `CommandId::CustomerPayBillOnline`
+        </span>.transaction_desc(<span class="string">"Description"</span>) <span class="comment">// Optional, defaults to "None"
+        </span>.build()<span class="question-mark">?
+        </span>.send()
+        .<span class="kw">await</span>;
+
+    <span class="macro">assert!</span>(response.is_ok());
+
+    <span class="prelude-val">Ok</span>(())
+}</code></pre></div><h6 id="mpesa-express-query"><a class="doc-anchor" href="#mpesa-express-query">§</a>Mpesa Express Query</h6>
+<p>M-PESA Express Query API checks the status of a Lipa Na M-PESA Online Payment.</p>
+<p>Safaricom API docs <a href="https://developer.safaricom.co.ke/APIs/MpesaExpressQuery">reference</a></p>
+<h6 id="query-example"><a class="doc-anchor" href="#query-example">§</a>Query Example</h6>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>mpesa::{Environment, Mpesa};
+
+<span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() -&gt; <span class="prelude-ty">Result</span>&lt;(), Box&lt;<span class="kw">dyn </span>std::error::Error&gt;&gt; {
+    dotenvy::dotenv().ok();
+
+    <span class="kw">let </span>client = Mpesa::new(
+        dotenvy::var(<span class="string">"CLIENT_KEY"</span>).unwrap(),
+        dotenvy::var(<span class="string">"CLIENT_SECRET"</span>).unwrap(),
+        Environment::Sandbox,
+    );
+
+    <span class="kw">let </span>response = client
+        .express_query()
+        .business_short_code(<span class="string">"174379"</span>)
+        .checkout_request_id(<span class="string">"ws_CO_271120201234567891"</span>)
+        .build()<span class="question-mark">?
+        </span>.send()
+        .<span class="kw">await</span>;
+
+    <span class="macro">assert!</span>(response.is_ok());
+
+    <span class="prelude-val">Ok</span>(())
+}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.express_query" class="method"><a class="src rightside" href="../src/mpesa/client.rs.html#296-298">Source</a><h4 class="code-header">pub fn <a href="#method.express_query" class="fn">express_query</a>(&amp;self) -&gt; <a class="struct" href="services/struct.MpesaExpressQueryBuilder.html" title="struct mpesa::services::MpesaExpressQueryBuilder">MpesaExpressQueryBuilder</a>&lt;'_&gt;</h4></section></summary><div class="docblock"><h5 id="mpesa-express-1"><a class="doc-anchor" href="#mpesa-express-1">§</a>Mpesa Express</h5><h6 id="mpese-express-request-1"><a class="doc-anchor" href="#mpese-express-request-1">§</a>Mpese Express Request</h6>
+<p>Lipa na M-PESA online API also known as M-PESA express (STK Push/NI push)
+is a Merchant/Business initiated C2B (Customer to Business) Payment.</p>
+<p>Once you, our merchant integrate with the API, you will be able to send a
+payment prompt on the customer’s phone (Popularly known as STK Push Prompt)
+to your customer’s M-PESA registered phone number requesting them to enter
+their M-PESA pin to authorize and complete payment.</p>
+<p>Requires a <code>business_short_code</code> - The organization shortcode used to receive
+the transaction and returns a <code>MpesaExpressRequestBuilder</code> struct</p>
+<p>Safaricom API docs <a href="https://developer.safaricom.co.ke/APIs/MpesaExpressSimulate">reference</a></p>
+<h6 id="example-14"><a class="doc-anchor" href="#example-14">§</a>Example</h6>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>mpesa::{Environment, Mpesa};
+
+<span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() -&gt; <span class="prelude-ty">Result</span>&lt;(), Box&lt;<span class="kw">dyn </span>std::error::Error&gt;&gt; {
+    dotenvy::dotenv().ok();
+
+    <span class="kw">let </span>client = Mpesa::new(
+        dotenvy::var(<span class="string">"CONSUMER_KEY"</span>).unwrap(),
+        dotenvy::var(<span class="string">"CONSUMER_SECRET"</span>).unwrap(),
+        Environment::Sandbox,
+    );
+
+    <span class="kw">let </span>response = client
+        .express_request()
+        .business_short_code(<span class="string">"174379"</span>)
+        .phone_number(<span class="string">"254708374149"</span>)
+        .party_a(<span class="string">"600584"</span>)
+        .party_b(<span class="string">"174379"</span>)
+        .amount(<span class="number">500</span>)
+        .try_callback_url(<span class="string">"https://test.example.com/api"</span>)<span class="question-mark">?
+        </span>.account_ref(<span class="string">"Test"</span>)
+        .transaction_type(mpesa::CommandId::CustomerPayBillOnline) <span class="comment">// Optional, defaults to `CommandId::CustomerPayBillOnline`
+        </span>.transaction_desc(<span class="string">"Description"</span>) <span class="comment">// Optional, defaults to "None"
+        </span>.build()<span class="question-mark">?
+        </span>.send()
+        .<span class="kw">await</span>;
+
+    <span class="macro">assert!</span>(response.is_ok());
+
+    <span class="prelude-val">Ok</span>(())
+}</code></pre></div><h6 id="mpesa-express-query-1"><a class="doc-anchor" href="#mpesa-express-query-1">§</a>Mpesa Express Query</h6>
+<p>M-PESA Express Query API checks the status of a Lipa Na M-PESA Online Payment.</p>
+<p>Safaricom API docs <a href="https://developer.safaricom.co.ke/APIs/MpesaExpressQuery">reference</a></p>
+<h6 id="query-example-1"><a class="doc-anchor" href="#query-example-1">§</a>Query Example</h6>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>mpesa::{Environment, Mpesa};
+
+<span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() -&gt; <span class="prelude-ty">Result</span>&lt;(), Box&lt;<span class="kw">dyn </span>std::error::Error&gt;&gt; {
+    dotenvy::dotenv().ok();
+
+    <span class="kw">let </span>client = Mpesa::new(
+        dotenvy::var(<span class="string">"CLIENT_KEY"</span>).unwrap(),
+        dotenvy::var(<span class="string">"CLIENT_SECRET"</span>).unwrap(),
+        Environment::Sandbox,
+    );
+
+    <span class="kw">let </span>response = client
+        .express_query()
+        .business_short_code(<span class="string">"174379"</span>)
+        .checkout_request_id(<span class="string">"ws_CO_271120201234567891"</span>)
+        .build()<span class="question-mark">?
+        </span>.send()
+        .<span class="kw">await</span>;
+
+    <span class="macro">assert!</span>(response.is_ok());
+
+    <span class="prelude-val">Ok</span>(())
+}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.transaction_reversal" class="method"><a class="src rightside" href="../src/mpesa/client.rs.html#303-305">Source</a><h4 class="code-header">pub fn <a href="#method.transaction_reversal" class="fn">transaction_reversal</a>(&amp;self) -&gt; <a class="struct" href="services/struct.TransactionReversalBuilder.html" title="struct mpesa::services::TransactionReversalBuilder">TransactionReversalBuilder</a>&lt;'_&gt;</h4></section></summary><div class="docblock"><h5 id="transaction-reversal"><a class="doc-anchor" href="#transaction-reversal">§</a>Transaction Reversal</h5><h6 id="reverses-a-c2b-m-pesa-transaction"><a class="doc-anchor" href="#reverses-a-c2b-m-pesa-transaction">§</a>Reverses a C2B M-Pesa transaction</h6>
+<p>Requires an <code>initiator_name</code>, the credential/ username used to authenticate
+the transaction request
+Returns a <code>TransactionReversalBuilder</code></p>
+<p>See more from the Safaricom API docs
+<a href="https://developer.safaricom.co.ke/APIs/Reversal">Reversals</a></p>
+<h6 id="example-15"><a class="doc-anchor" href="#example-15">§</a>Example</h6>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>mpesa::{Mpesa, Environment};
+
+<span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() -&gt; <span class="prelude-ty">Result</span>&lt;(), Box&lt;<span class="kw">dyn </span>std::error::Error&gt;&gt; {
+    dotenvy::dotenv().ok();
+
+    <span class="kw">let </span>client = Mpesa::new(
+        dotenvy::var(<span class="string">"CONSUMER_KEY"</span>).unwrap(),
+        dotenvy::var(<span class="string">"CONSUMER_SECRET"</span>).unwrap(),
+        Environment::Sandbox,
+    );
+
+    <span class="kw">let </span>response = client
+        .transaction_reversal()
+        .initiator(<span class="string">"testapi496"</span>)
+        .try_result_url(<span class="string">"https://testdomain.com/ok"</span>)<span class="question-mark">?
+        </span>.try_timeout_url(<span class="string">"https://testdomain.com/err"</span>)<span class="question-mark">?
+        </span>.transaction_id(<span class="string">"OEI2AK4Q16"</span>)
+        .receiver_identifier_type(mpesa::IdentifierTypes::Reversal)
+        .remarks(<span class="string">"test"</span>)
+        .amount(<span class="number">100</span>)
+        .receiver_party(<span class="string">"600111"</span>)
+        .build()<span class="question-mark">?
+        </span>.send()
+        .<span class="kw">await</span>;
+
+    <span class="macro">assert!</span>(response.is_ok());
+
+    <span class="prelude-val">Ok</span>(())
+}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.transaction_status" class="method"><a class="src rightside" href="../src/mpesa/client.rs.html#310-312">Source</a><h4 class="code-header">pub fn <a href="#method.transaction_status" class="fn">transaction_status</a>&lt;'a&gt;(
+    &amp;'a self,
+    initiator_name: &amp;'a <a class="primitive" href="https://doc.rust-lang.org/1.93.1/std/primitive.str.html">str</a>,
+) -&gt; <a class="struct" href="services/struct.TransactionStatusBuilder.html" title="struct mpesa::services::TransactionStatusBuilder">TransactionStatusBuilder</a>&lt;'a&gt;</h4></section></summary><div class="docblock"><h5 id="transaction-status"><a class="doc-anchor" href="#transaction-status">§</a>Transaction Status</h5>
+<p>Queries the status of a B2B, B2C or C2B M-Pesa transaction.</p>
+<p>Requires an <code>initiator_name</code>, the credential/ username used to authenticate
+the transaction request
+Returns a <code>TransactionStatusBuilder</code>.</p>
+<p>See more from the Safaricom API docs
+<a href="https://developer.safaricom.co.ke/Documentation">Documentation</a></p>
+<h6 id="example-16"><a class="doc-anchor" href="#example-16">§</a>Example</h6>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>mpesa::{Environment, Mpesa};
+
+<span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() {
+    dotenvy::dotenv().ok();
+
+    <span class="kw">let </span>client = Mpesa::new(
+        dotenvy::var(<span class="string">"CONSUMER_KEY"</span>).unwrap(),
+        dotenvy::var(<span class="string">"CONSUMER_SECRET"</span>).unwrap(),
+        Environment::Sandbox,
+    );
+
+    <span class="kw">let </span>response = client
+        .transaction_status(<span class="string">"testapi496"</span>)
+        .transaction_id(<span class="string">"OEI2AK4Q16"</span>)
+        .party_a(<span class="string">"600496"</span>)
+        .identifier_type(mpesa::IdentifierTypes::ShortCode) <span class="comment">// optional, defaults to `IdentifierTypes::ShortCode`
+        </span>.remarks(<span class="string">"Your Remarks"</span>) <span class="comment">// optional, defaults to "None"
+        </span>.result_url(<span class="string">"https://testdomain.com/err"</span>)
+        .timeout_url(<span class="string">"https://testdomain.com/ok"</span>)
+        .send()
+        .<span class="kw">await</span>;
+
+    <span class="macro">assert!</span>(response.is_ok())
+}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.dynamic_qr" class="method"><a class="src rightside" href="../src/mpesa/client.rs.html#317-319">Source</a><h4 class="code-header">pub fn <a href="#method.dynamic_qr" class="fn">dynamic_qr</a>(&amp;self) -&gt; <a class="struct" href="services/struct.DynamicQRBuilder.html" title="struct mpesa::services::DynamicQRBuilder">DynamicQRBuilder</a>&lt;'_&gt;</h4></section></summary><div class="docblock"><h5 id="dynamic-qr"><a class="doc-anchor" href="#dynamic-qr">§</a>Dynamic QR</h5>
+<p>Generates a QR code that can be scanned by a M-Pesa customer to make
+payments.</p>
+<p>Returns a <code>DynamicQRBuilder</code></p>
+<p>Safaricom API docs <a href="https://developer.safaricom.co.ke/APIs/DynamicQRCode">reference</a></p>
+<h6 id="example-17"><a class="doc-anchor" href="#example-17">§</a>Example</h6>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>mpesa::{Mpesa, Environment};
+
+<span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() {
+    dotenvy::dotenv().ok();
+
+    <span class="kw">let </span>client = Mpesa::new(
+        dotenvy::var(<span class="string">"CONSUMER_KEY"</span>).unwrap(),
+        dotenvy::var(<span class="string">"CONSUMER_SECRET"</span>).unwrap(),
+        Environment::Sandbox,
+    );
+
+    <span class="kw">let </span>response = client
+        .dynamic_qr()
+        .amount(<span class="number">2000</span>)
+        .credit_party_identifier(<span class="string">"373132"</span>)
+        .merchant_name(<span class="string">"TEST SUPERMARKET"</span>)
+        .ref_no(<span class="string">"Invoice Test"</span>)
+        .size(<span class="string">"300"</span>)
+        .transaction_type(mpesa::TransactionType::BG)
+        .build()
+        .unwrap()
+        .send()
+        .<span class="kw">await</span>;
+
+    <span class="macro">assert!</span>(response.is_ok())
+}</code></pre></div></div></details></div></details></div><h2 id="trait-implementations" class="section-header">Trait Implementations<a href="#trait-implementations" class="anchor">§</a></h2><div id="trait-implementations-list"><details class="toggle implementors-toggle" open><summary><section id="impl-Clone-for-Mpesa" class="impl"><a class="src rightside" href="../src/mpesa/client.rs.html#55">Source</a><a href="#impl-Clone-for-Mpesa" class="anchor">§</a><h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.93.1/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a> for <a class="struct" href="struct.Mpesa.html" title="struct mpesa::Mpesa">Mpesa</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.clone" class="method trait-impl"><a class="src rightside" href="../src/mpesa/client.rs.html#55">Source</a><a href="#method.clone" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.93.1/core/clone/trait.Clone.html#tymethod.clone" class="fn">clone</a>(&amp;self) -&gt; <a class="struct" href="struct.Mpesa.html" title="struct mpesa::Mpesa">Mpesa</a></h4></section></summary><div class='docblock'>Returns a duplicate of the value. <a href="https://doc.rust-lang.org/1.93.1/core/clone/trait.Clone.html#tymethod.clone">Read more</a></div></details><details class="toggle method-toggle" open><summary><section id="method.clone_from" class="method trait-impl"><span class="rightside"><span class="since" title="Stable since Rust version 1.0.0">1.0.0</span> · <a class="src" href="https://doc.rust-lang.org/1.93.1/src/core/clone.rs.html#245-247">Source</a></span><a href="#method.clone_from" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.93.1/core/clone/trait.Clone.html#method.clone_from" class="fn">clone_from</a>(&amp;mut self, source: &amp;Self)</h4></section></summary><div class='docblock'>Performs copy-assignment from <code>source</code>. <a href="https://doc.rust-lang.org/1.93.1/core/clone/trait.Clone.html#method.clone_from">Read more</a></div></details></div></details><details class="toggle implementors-toggle" open><summary><section id="impl-Debug-for-Mpesa" class="impl"><a class="src rightside" href="../src/mpesa/client.rs.html#55">Source</a><a href="#impl-Debug-for-Mpesa" class="anchor">§</a><h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.93.1/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> for <a class="struct" href="struct.Mpesa.html" title="struct mpesa::Mpesa">Mpesa</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.fmt" class="method trait-impl"><a class="src rightside" href="../src/mpesa/client.rs.html#55">Source</a><a href="#method.fmt" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.93.1/core/fmt/trait.Debug.html#tymethod.fmt" class="fn">fmt</a>(&amp;self, f: &amp;mut <a class="struct" href="https://doc.rust-lang.org/1.93.1/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>&lt;'_&gt;) -&gt; <a class="type" href="https://doc.rust-lang.org/1.93.1/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></h4></section></summary><div class='docblock'>Formats the value using the given formatter. <a href="https://doc.rust-lang.org/1.93.1/core/fmt/trait.Debug.html#tymethod.fmt">Read more</a></div></details></div></details></div><h2 id="synthetic-implementations" class="section-header">Auto Trait Implementations<a href="#synthetic-implementations" class="anchor">§</a></h2><div id="synthetic-implementations-list"><section id="impl-Freeze-for-Mpesa" class="impl"><a href="#impl-Freeze-for-Mpesa" class="anchor">§</a><h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.93.1/core/marker/trait.Freeze.html" title="trait core::marker::Freeze">Freeze</a> for <a class="struct" href="struct.Mpesa.html" title="struct mpesa::Mpesa">Mpesa</a></h3></section><section id="impl-RefUnwindSafe-for-Mpesa" class="impl"><a href="#impl-RefUnwindSafe-for-Mpesa" class="anchor">§</a><h3 class="code-header">impl !<a class="trait" href="https://doc.rust-lang.org/1.93.1/core/panic/unwind_safe/trait.RefUnwindSafe.html" title="trait core::panic::unwind_safe::RefUnwindSafe">RefUnwindSafe</a> for <a class="struct" href="struct.Mpesa.html" title="struct mpesa::Mpesa">Mpesa</a></h3></section><section id="impl-Send-for-Mpesa" class="impl"><a href="#impl-Send-for-Mpesa" class="anchor">§</a><h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.93.1/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> for <a class="struct" href="struct.Mpesa.html" title="struct mpesa::Mpesa">Mpesa</a></h3></section><section id="impl-Sync-for-Mpesa" class="impl"><a href="#impl-Sync-for-Mpesa" class="anchor">§</a><h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.93.1/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> for <a class="struct" href="struct.Mpesa.html" title="struct mpesa::Mpesa">Mpesa</a></h3></section><section id="impl-Unpin-for-Mpesa" class="impl"><a href="#impl-Unpin-for-Mpesa" class="anchor">§</a><h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.93.1/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a> for <a class="struct" href="struct.Mpesa.html" title="struct mpesa::Mpesa">Mpesa</a></h3></section><section id="impl-UnwindSafe-for-Mpesa" class="impl"><a href="#impl-UnwindSafe-for-Mpesa" class="anchor">§</a><h3 class="code-header">impl !<a class="trait" href="https://doc.rust-lang.org/1.93.1/core/panic/unwind_safe/trait.UnwindSafe.html" title="trait core::panic::unwind_safe::UnwindSafe">UnwindSafe</a> for <a class="struct" href="struct.Mpesa.html" title="struct mpesa::Mpesa">Mpesa</a></h3></section></div><h2 id="blanket-implementations" class="section-header">Blanket Implementations<a href="#blanket-implementations" class="anchor">§</a></h2><div id="blanket-implementations-list"><details class="toggle implementors-toggle"><summary><section id="impl-Any-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.93.1/src/core/any.rs.html#138">Source</a><a href="#impl-Any-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.93.1/core/any/trait.Any.html" title="trait core::any::Any">Any</a> for T<div class="where">where
+    T: 'static + ?<a class="trait" href="https://doc.rust-lang.org/1.93.1/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,</div></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.type_id" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.93.1/src/core/any.rs.html#139">Source</a><a href="#method.type_id" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.93.1/core/any/trait.Any.html#tymethod.type_id" class="fn">type_id</a>(&amp;self) -&gt; <a class="struct" href="https://doc.rust-lang.org/1.93.1/core/any/struct.TypeId.html" title="struct core::any::TypeId">TypeId</a></h4></section></summary><div class='docblock'>Gets the <code>TypeId</code> of <code>self</code>. <a href="https://doc.rust-lang.org/1.93.1/core/any/trait.Any.html#tymethod.type_id">Read more</a></div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-AsTaggedExplicit%3C'a,+E%3E-for-T" class="impl"><a class="src rightside" href="../src/asn1_rs/traits.rs.html#329">Source</a><a href="#impl-AsTaggedExplicit%3C'a,+E%3E-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;'a, T, E&gt; <a class="trait" href="../asn1_rs/traits/trait.AsTaggedExplicit.html" title="trait asn1_rs::traits::AsTaggedExplicit">AsTaggedExplicit</a>&lt;'a, E&gt; for T<div class="where">where
+    T: 'a,</div></h3></section></summary><div class="impl-items"><section id="method.explicit" class="method trait-impl"><a class="src rightside" href="../src/asn1_rs/traits.rs.html#324">Source</a><a href="#method.explicit" class="anchor">§</a><h4 class="code-header">fn <a href="../asn1_rs/traits/trait.AsTaggedExplicit.html#method.explicit" class="fn">explicit</a>(self, class: <a class="enum" href="../asn1_rs/class/enum.Class.html" title="enum asn1_rs::class::Class">Class</a>, tag: <a class="primitive" href="https://doc.rust-lang.org/1.93.1/std/primitive.u32.html">u32</a>) -&gt; <a class="struct" href="../asn1_rs/asn1_types/tagged/parser/struct.TaggedParser.html" title="struct asn1_rs::asn1_types::tagged::parser::TaggedParser">TaggedParser</a>&lt;'a, <a class="enum" href="../asn1_rs/asn1_types/tagged/enum.Explicit.html" title="enum asn1_rs::asn1_types::tagged::Explicit">Explicit</a>, Self, E&gt;</h4></section></div></details><details class="toggle implementors-toggle"><summary><section id="impl-AsTaggedImplicit%3C'a,+E%3E-for-T" class="impl"><a class="src rightside" href="../src/asn1_rs/traits.rs.html#352">Source</a><a href="#impl-AsTaggedImplicit%3C'a,+E%3E-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;'a, T, E&gt; <a class="trait" href="../asn1_rs/traits/trait.AsTaggedImplicit.html" title="trait asn1_rs::traits::AsTaggedImplicit">AsTaggedImplicit</a>&lt;'a, E&gt; for T<div class="where">where
+    T: 'a,</div></h3></section></summary><div class="impl-items"><section id="method.implicit" class="method trait-impl"><a class="src rightside" href="../src/asn1_rs/traits.rs.html#342-347">Source</a><a href="#method.implicit" class="anchor">§</a><h4 class="code-header">fn <a href="../asn1_rs/traits/trait.AsTaggedImplicit.html#method.implicit" class="fn">implicit</a>(
+    self,
+    class: <a class="enum" href="../asn1_rs/class/enum.Class.html" title="enum asn1_rs::class::Class">Class</a>,
+    constructed: <a class="primitive" href="https://doc.rust-lang.org/1.93.1/std/primitive.bool.html">bool</a>,
+    tag: <a class="primitive" href="https://doc.rust-lang.org/1.93.1/std/primitive.u32.html">u32</a>,
+) -&gt; <a class="struct" href="../asn1_rs/asn1_types/tagged/parser/struct.TaggedParser.html" title="struct asn1_rs::asn1_types::tagged::parser::TaggedParser">TaggedParser</a>&lt;'a, <a class="enum" href="../asn1_rs/asn1_types/tagged/enum.Implicit.html" title="enum asn1_rs::asn1_types::tagged::Implicit">Implicit</a>, Self, E&gt;</h4></section></div></details><details class="toggle implementors-toggle"><summary><section id="impl-Borrow%3CT%3E-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.93.1/src/core/borrow.rs.html#212">Source</a><a href="#impl-Borrow%3CT%3E-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.93.1/core/borrow/trait.Borrow.html" title="trait core::borrow::Borrow">Borrow</a>&lt;T&gt; for T<div class="where">where
+    T: ?<a class="trait" href="https://doc.rust-lang.org/1.93.1/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,</div></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.borrow" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.93.1/src/core/borrow.rs.html#214">Source</a><a href="#method.borrow" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.93.1/core/borrow/trait.Borrow.html#tymethod.borrow" class="fn">borrow</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.93.1/std/primitive.reference.html">&amp;T</a></h4></section></summary><div class='docblock'>Immutably borrows from an owned value. <a href="https://doc.rust-lang.org/1.93.1/core/borrow/trait.Borrow.html#tymethod.borrow">Read more</a></div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-BorrowMut%3CT%3E-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.93.1/src/core/borrow.rs.html#221">Source</a><a href="#impl-BorrowMut%3CT%3E-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.93.1/core/borrow/trait.BorrowMut.html" title="trait core::borrow::BorrowMut">BorrowMut</a>&lt;T&gt; for T<div class="where">where
+    T: ?<a class="trait" href="https://doc.rust-lang.org/1.93.1/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,</div></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.borrow_mut" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.93.1/src/core/borrow.rs.html#222">Source</a><a href="#method.borrow_mut" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.93.1/core/borrow/trait.BorrowMut.html#tymethod.borrow_mut" class="fn">borrow_mut</a>(&amp;mut self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.93.1/std/primitive.reference.html">&amp;mut T</a></h4></section></summary><div class='docblock'>Mutably borrows from an owned value. <a href="https://doc.rust-lang.org/1.93.1/core/borrow/trait.BorrowMut.html#tymethod.borrow_mut">Read more</a></div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-CloneToUninit-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.93.1/src/core/clone.rs.html#547">Source</a><a href="#impl-CloneToUninit-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.93.1/core/clone/trait.CloneToUninit.html" title="trait core::clone::CloneToUninit">CloneToUninit</a> for T<div class="where">where
+    T: <a class="trait" href="https://doc.rust-lang.org/1.93.1/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a>,</div></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.clone_to_uninit" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.93.1/src/core/clone.rs.html#549">Source</a><a href="#method.clone_to_uninit" class="anchor">§</a><h4 class="code-header">unsafe fn <a href="https://doc.rust-lang.org/1.93.1/core/clone/trait.CloneToUninit.html#tymethod.clone_to_uninit" class="fn">clone_to_uninit</a>(&amp;self, dest: <a class="primitive" href="https://doc.rust-lang.org/1.93.1/std/primitive.pointer.html">*mut </a><a class="primitive" href="https://doc.rust-lang.org/1.93.1/std/primitive.u8.html">u8</a>)</h4></section></summary><span class="item-info"><div class="stab unstable"><span class="emoji">🔬</span><span>This is a nightly-only experimental API. (<code>clone_to_uninit</code>)</span></div></span><div class='docblock'>Performs copy-assignment from <code>self</code> to <code>dest</code>. <a href="https://doc.rust-lang.org/1.93.1/core/clone/trait.CloneToUninit.html#tymethod.clone_to_uninit">Read more</a></div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-From%3CT%3E-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.93.1/src/core/convert/mod.rs.html#785">Source</a><a href="#impl-From%3CT%3E-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.93.1/core/convert/trait.From.html" title="trait core::convert::From">From</a>&lt;T&gt; for T</h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.from" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.93.1/src/core/convert/mod.rs.html#788">Source</a><a href="#method.from" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.93.1/core/convert/trait.From.html#tymethod.from" class="fn">from</a>(t: T) -&gt; T</h4></section></summary><div class="docblock"><p>Returns the argument unchanged.</p>
+</div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-Instrument-for-T" class="impl"><a class="src rightside" href="../src/tracing/instrument.rs.html#325">Source</a><a href="#impl-Instrument-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="../tracing/instrument/trait.Instrument.html" title="trait tracing::instrument::Instrument">Instrument</a> for T</h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.instrument" class="method trait-impl"><a class="src rightside" href="../src/tracing/instrument.rs.html#86">Source</a><a href="#method.instrument" class="anchor">§</a><h4 class="code-header">fn <a href="../tracing/instrument/trait.Instrument.html#method.instrument" class="fn">instrument</a>(self, span: <a class="struct" href="../tracing/span/struct.Span.html" title="struct tracing::span::Span">Span</a>) -&gt; <a class="struct" href="../tracing/instrument/struct.Instrumented.html" title="struct tracing::instrument::Instrumented">Instrumented</a>&lt;Self&gt;</h4></section></summary><div class='docblock'>Instruments this type with the provided <a href="../tracing/span/struct.Span.html" title="struct tracing::span::Span"><code>Span</code></a>, returning an
+<code>Instrumented</code> wrapper. <a href="../tracing/instrument/trait.Instrument.html#method.instrument">Read more</a></div></details><details class="toggle method-toggle" open><summary><section id="method.in_current_span" class="method trait-impl"><a class="src rightside" href="../src/tracing/instrument.rs.html#128">Source</a><a href="#method.in_current_span" class="anchor">§</a><h4 class="code-header">fn <a href="../tracing/instrument/trait.Instrument.html#method.in_current_span" class="fn">in_current_span</a>(self) -&gt; <a class="struct" href="../tracing/instrument/struct.Instrumented.html" title="struct tracing::instrument::Instrumented">Instrumented</a>&lt;Self&gt;</h4></section></summary><div class='docblock'>Instruments this type with the <a href="../tracing/span/struct.Span.html#method.current" title="associated function tracing::span::Span::current">current</a> <a href="../tracing/span/struct.Span.html" title="struct tracing::span::Span"><code>Span</code></a>, returning an
+<code>Instrumented</code> wrapper. <a href="../tracing/instrument/trait.Instrument.html#method.in_current_span">Read more</a></div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-Into%3CU%3E-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.93.1/src/core/convert/mod.rs.html#767-769">Source</a><a href="#impl-Into%3CU%3E-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T, U&gt; <a class="trait" href="https://doc.rust-lang.org/1.93.1/core/convert/trait.Into.html" title="trait core::convert::Into">Into</a>&lt;U&gt; for T<div class="where">where
+    U: <a class="trait" href="https://doc.rust-lang.org/1.93.1/core/convert/trait.From.html" title="trait core::convert::From">From</a>&lt;T&gt;,</div></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.into" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.93.1/src/core/convert/mod.rs.html#777">Source</a><a href="#method.into" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.93.1/core/convert/trait.Into.html#tymethod.into" class="fn">into</a>(self) -&gt; U</h4></section></summary><div class="docblock"><p>Calls <code>U::from(self)</code>.</p>
+<p>That is, this conversion is whatever the implementation of
+<code><a href="https://doc.rust-lang.org/1.93.1/core/convert/trait.From.html" title="trait core::convert::From">From</a>&lt;T&gt; for U</code> chooses to do.</p>
+</div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-PolicyExt-for-T" class="impl"><a class="src rightside" href="../src/tower_http/follow_redirect/policy/mod.rs.html#171-173">Source</a><a href="#impl-PolicyExt-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="../tower_http/follow_redirect/policy/trait.PolicyExt.html" title="trait tower_http::follow_redirect::policy::PolicyExt">PolicyExt</a> for T<div class="where">where
+    T: ?<a class="trait" href="https://doc.rust-lang.org/1.93.1/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,</div></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.and" class="method trait-impl"><a class="src rightside" href="../src/tower_http/follow_redirect/policy/mod.rs.html#175-178">Source</a><a href="#method.and" class="anchor">§</a><h4 class="code-header">fn <a href="../tower_http/follow_redirect/policy/trait.PolicyExt.html#tymethod.and" class="fn">and</a>&lt;P, B, E&gt;(self, other: P) -&gt; <a class="struct" href="../tower_http/follow_redirect/policy/and/struct.And.html" title="struct tower_http::follow_redirect::policy::and::And">And</a>&lt;T, P&gt;<div class="where">where
+    T: <a class="trait" href="../tower_http/follow_redirect/policy/trait.Policy.html" title="trait tower_http::follow_redirect::policy::Policy">Policy</a>&lt;B, E&gt;,
+    P: <a class="trait" href="../tower_http/follow_redirect/policy/trait.Policy.html" title="trait tower_http::follow_redirect::policy::Policy">Policy</a>&lt;B, E&gt;,</div></h4></section></summary><div class='docblock'>Create a new <code>Policy</code> that returns <a href="../tower_http/follow_redirect/policy/enum.Action.html#variant.Follow" title="variant tower_http::follow_redirect::policy::Action::Follow"><code>Action::Follow</code></a> only if <code>self</code> and <code>other</code> return
+<code>Action::Follow</code>. <a href="../tower_http/follow_redirect/policy/trait.PolicyExt.html#tymethod.and">Read more</a></div></details><details class="toggle method-toggle" open><summary><section id="method.or" class="method trait-impl"><a class="src rightside" href="../src/tower_http/follow_redirect/policy/mod.rs.html#183-186">Source</a><a href="#method.or" class="anchor">§</a><h4 class="code-header">fn <a href="../tower_http/follow_redirect/policy/trait.PolicyExt.html#tymethod.or" class="fn">or</a>&lt;P, B, E&gt;(self, other: P) -&gt; <a class="struct" href="../tower_http/follow_redirect/policy/or/struct.Or.html" title="struct tower_http::follow_redirect::policy::or::Or">Or</a>&lt;T, P&gt;<div class="where">where
+    T: <a class="trait" href="../tower_http/follow_redirect/policy/trait.Policy.html" title="trait tower_http::follow_redirect::policy::Policy">Policy</a>&lt;B, E&gt;,
+    P: <a class="trait" href="../tower_http/follow_redirect/policy/trait.Policy.html" title="trait tower_http::follow_redirect::policy::Policy">Policy</a>&lt;B, E&gt;,</div></h4></section></summary><div class='docblock'>Create a new <code>Policy</code> that returns <a href="../tower_http/follow_redirect/policy/enum.Action.html#variant.Follow" title="variant tower_http::follow_redirect::policy::Action::Follow"><code>Action::Follow</code></a> if either <code>self</code> or <code>other</code> returns
+<code>Action::Follow</code>. <a href="../tower_http/follow_redirect/policy/trait.PolicyExt.html#tymethod.or">Read more</a></div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-Same-for-T" class="impl"><a class="src rightside" href="../src/typenum/type_operators.rs.html#34">Source</a><a href="#impl-Same-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="../typenum/type_operators/trait.Same.html" title="trait typenum::type_operators::Same">Same</a> for T</h3></section></summary><div class="impl-items"><details class="toggle" open><summary><section id="associatedtype.Output" class="associatedtype trait-impl"><a class="src rightside" href="../src/typenum/type_operators.rs.html#35">Source</a><a href="#associatedtype.Output" class="anchor">§</a><h4 class="code-header">type <a href="../typenum/type_operators/trait.Same.html#associatedtype.Output" class="associatedtype">Output</a> = T</h4></section></summary><div class='docblock'>Should always be <code>Self</code></div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-ToOwned-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.93.1/src/alloc/borrow.rs.html#85-87">Source</a><a href="#impl-ToOwned-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.93.1/alloc/borrow/trait.ToOwned.html" title="trait alloc::borrow::ToOwned">ToOwned</a> for T<div class="where">where
+    T: <a class="trait" href="https://doc.rust-lang.org/1.93.1/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a>,</div></h3></section></summary><div class="impl-items"><details class="toggle" open><summary><section id="associatedtype.Owned" class="associatedtype trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.93.1/src/alloc/borrow.rs.html#89">Source</a><a href="#associatedtype.Owned" class="anchor">§</a><h4 class="code-header">type <a href="https://doc.rust-lang.org/1.93.1/alloc/borrow/trait.ToOwned.html#associatedtype.Owned" class="associatedtype">Owned</a> = T</h4></section></summary><div class='docblock'>The resulting type after obtaining ownership.</div></details><details class="toggle method-toggle" open><summary><section id="method.to_owned" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.93.1/src/alloc/borrow.rs.html#90">Source</a><a href="#method.to_owned" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.93.1/alloc/borrow/trait.ToOwned.html#tymethod.to_owned" class="fn">to_owned</a>(&amp;self) -&gt; T</h4></section></summary><div class='docblock'>Creates owned data from borrowed data, usually by cloning. <a href="https://doc.rust-lang.org/1.93.1/alloc/borrow/trait.ToOwned.html#tymethod.to_owned">Read more</a></div></details><details class="toggle method-toggle" open><summary><section id="method.clone_into" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.93.1/src/alloc/borrow.rs.html#94">Source</a><a href="#method.clone_into" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.93.1/alloc/borrow/trait.ToOwned.html#method.clone_into" class="fn">clone_into</a>(&amp;self, target: <a class="primitive" href="https://doc.rust-lang.org/1.93.1/std/primitive.reference.html">&amp;mut T</a>)</h4></section></summary><div class='docblock'>Uses borrowed data to replace owned data, usually by cloning. <a href="https://doc.rust-lang.org/1.93.1/alloc/borrow/trait.ToOwned.html#method.clone_into">Read more</a></div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-TryFrom%3CU%3E-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.93.1/src/core/convert/mod.rs.html#827-829">Source</a><a href="#impl-TryFrom%3CU%3E-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T, U&gt; <a class="trait" href="https://doc.rust-lang.org/1.93.1/core/convert/trait.TryFrom.html" title="trait core::convert::TryFrom">TryFrom</a>&lt;U&gt; for T<div class="where">where
+    U: <a class="trait" href="https://doc.rust-lang.org/1.93.1/core/convert/trait.Into.html" title="trait core::convert::Into">Into</a>&lt;T&gt;,</div></h3></section></summary><div class="impl-items"><details class="toggle" open><summary><section id="associatedtype.Error-1" class="associatedtype trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.93.1/src/core/convert/mod.rs.html#831">Source</a><a href="#associatedtype.Error-1" class="anchor">§</a><h4 class="code-header">type <a href="https://doc.rust-lang.org/1.93.1/core/convert/trait.TryFrom.html#associatedtype.Error" class="associatedtype">Error</a> = <a class="enum" href="https://doc.rust-lang.org/1.93.1/core/convert/enum.Infallible.html" title="enum core::convert::Infallible">Infallible</a></h4></section></summary><div class='docblock'>The type returned in the event of a conversion error.</div></details><details class="toggle method-toggle" open><summary><section id="method.try_from" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.93.1/src/core/convert/mod.rs.html#834">Source</a><a href="#method.try_from" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.93.1/core/convert/trait.TryFrom.html#tymethod.try_from" class="fn">try_from</a>(value: U) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.93.1/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;T, &lt;T as <a class="trait" href="https://doc.rust-lang.org/1.93.1/core/convert/trait.TryFrom.html" title="trait core::convert::TryFrom">TryFrom</a>&lt;U&gt;&gt;::<a class="associatedtype" href="https://doc.rust-lang.org/1.93.1/core/convert/trait.TryFrom.html#associatedtype.Error" title="type core::convert::TryFrom::Error">Error</a>&gt;</h4></section></summary><div class='docblock'>Performs the conversion.</div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-TryInto%3CU%3E-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.93.1/src/core/convert/mod.rs.html#811-813">Source</a><a href="#impl-TryInto%3CU%3E-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T, U&gt; <a class="trait" href="https://doc.rust-lang.org/1.93.1/core/convert/trait.TryInto.html" title="trait core::convert::TryInto">TryInto</a>&lt;U&gt; for T<div class="where">where
+    U: <a class="trait" href="https://doc.rust-lang.org/1.93.1/core/convert/trait.TryFrom.html" title="trait core::convert::TryFrom">TryFrom</a>&lt;T&gt;,</div></h3></section></summary><div class="impl-items"><details class="toggle" open><summary><section id="associatedtype.Error" class="associatedtype trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.93.1/src/core/convert/mod.rs.html#815">Source</a><a href="#associatedtype.Error" class="anchor">§</a><h4 class="code-header">type <a href="https://doc.rust-lang.org/1.93.1/core/convert/trait.TryInto.html#associatedtype.Error" class="associatedtype">Error</a> = &lt;U as <a class="trait" href="https://doc.rust-lang.org/1.93.1/core/convert/trait.TryFrom.html" title="trait core::convert::TryFrom">TryFrom</a>&lt;T&gt;&gt;::<a class="associatedtype" href="https://doc.rust-lang.org/1.93.1/core/convert/trait.TryFrom.html#associatedtype.Error" title="type core::convert::TryFrom::Error">Error</a></h4></section></summary><div class='docblock'>The type returned in the event of a conversion error.</div></details><details class="toggle method-toggle" open><summary><section id="method.try_into" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.93.1/src/core/convert/mod.rs.html#818">Source</a><a href="#method.try_into" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.93.1/core/convert/trait.TryInto.html#tymethod.try_into" class="fn">try_into</a>(self) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.93.1/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;U, &lt;U as <a class="trait" href="https://doc.rust-lang.org/1.93.1/core/convert/trait.TryFrom.html" title="trait core::convert::TryFrom">TryFrom</a>&lt;T&gt;&gt;::<a class="associatedtype" href="https://doc.rust-lang.org/1.93.1/core/convert/trait.TryFrom.html#associatedtype.Error" title="type core::convert::TryFrom::Error">Error</a>&gt;</h4></section></summary><div class='docblock'>Performs the conversion.</div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-VZip%3CV%3E-for-T" class="impl"><a class="src rightside" href="../src/ppv_lite86/types.rs.html#221-223">Source</a><a href="#impl-VZip%3CV%3E-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;V, T&gt; <a class="trait" href="../ppv_lite86/types/trait.VZip.html" title="trait ppv_lite86::types::VZip">VZip</a>&lt;V&gt; for T<div class="where">where
+    V: <a class="trait" href="../ppv_lite86/types/trait.MultiLane.html" title="trait ppv_lite86::types::MultiLane">MultiLane</a>&lt;T&gt;,</div></h3></section></summary><div class="impl-items"><section id="method.vzip" class="method trait-impl"><a class="src rightside" href="../src/ppv_lite86/types.rs.html#226">Source</a><a href="#method.vzip" class="anchor">§</a><h4 class="code-header">fn <a href="../ppv_lite86/types/trait.VZip.html#tymethod.vzip" class="fn">vzip</a>(self) -&gt; V</h4></section></div></details><details class="toggle implementors-toggle"><summary><section id="impl-WithSubscriber-for-T" class="impl"><a class="src rightside" href="../src/tracing/instrument.rs.html#393">Source</a><a href="#impl-WithSubscriber-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="../tracing/instrument/trait.WithSubscriber.html" title="trait tracing::instrument::WithSubscriber">WithSubscriber</a> for T</h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.with_subscriber" class="method trait-impl"><a class="src rightside" href="../src/tracing/instrument.rs.html#176-178">Source</a><a href="#method.with_subscriber" class="anchor">§</a><h4 class="code-header">fn <a href="../tracing/instrument/trait.WithSubscriber.html#method.with_subscriber" class="fn">with_subscriber</a>&lt;S&gt;(self, subscriber: S) -&gt; <a class="struct" href="../tracing/instrument/struct.WithDispatch.html" title="struct tracing::instrument::WithDispatch">WithDispatch</a>&lt;Self&gt;<div class="where">where
+    S: <a class="trait" href="https://doc.rust-lang.org/1.93.1/core/convert/trait.Into.html" title="trait core::convert::Into">Into</a>&lt;<a class="struct" href="../tracing_core/dispatcher/struct.Dispatch.html" title="struct tracing_core::dispatcher::Dispatch">Dispatch</a>&gt;,</div></h4></section></summary><div class='docblock'>Attaches the provided <a href="../tracing_core/subscriber/trait.Subscriber.html" title="trait tracing_core::subscriber::Subscriber"><code>Subscriber</code></a> to this type, returning a
+<a href="../tracing/instrument/struct.WithDispatch.html" title="struct tracing::instrument::WithDispatch"><code>WithDispatch</code></a> wrapper. <a href="../tracing/instrument/trait.WithSubscriber.html#method.with_subscriber">Read more</a></div></details><details class="toggle method-toggle" open><summary><section id="method.with_current_subscriber" class="method trait-impl"><a class="src rightside" href="../src/tracing/instrument.rs.html#228">Source</a><a href="#method.with_current_subscriber" class="anchor">§</a><h4 class="code-header">fn <a href="../tracing/instrument/trait.WithSubscriber.html#method.with_current_subscriber" class="fn">with_current_subscriber</a>(self) -&gt; <a class="struct" href="../tracing/instrument/struct.WithDispatch.html" title="struct tracing::instrument::WithDispatch">WithDispatch</a>&lt;Self&gt;</h4></section></summary><div class='docblock'>Attaches the current <a href="../tracing/dispatcher/index.html#setting-the-default-subscriber" title="mod tracing::dispatcher">default</a> <a href="../tracing_core/subscriber/trait.Subscriber.html" title="trait tracing_core::subscriber::Subscriber"><code>Subscriber</code></a> to this type, returning a
+<a href="../tracing/instrument/struct.WithDispatch.html" title="struct tracing::instrument::WithDispatch"><code>WithDispatch</code></a> wrapper. <a href="../tracing/instrument/trait.WithSubscriber.html#method.with_current_subscriber">Read more</a></div></details></div></details></div></section></div></main></body></html>

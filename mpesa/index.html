@@ -1,0 +1,238 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="mpesa-rust"><title>mpesa - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../static.files/rustdoc-ca0dd0c4.css"><meta name="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="mpesa" data-themes="" data-resource-suffix="" data-rustdoc-version="1.93.1 (01f6ddf75 2026-02-11)" data-channel="1.93.1" data-search-js="search-9e2438ea.js" data-stringdex-js="stringdex-a3946164.js" data-settings-js="settings-c38705f0.js" ><script src="../static.files/storage-e2aeef58.js"></script><script defer src="../crates.js"></script><script defer src="../static.files/main-a410ff4d.js"></script><noscript><link rel="stylesheet" href="../static.files/noscript-263c88ec.css"></noscript><link rel="alternate icon" type="image/png" href="../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../static.files/favicon-044be391.svg"></head><body class="rustdoc mod crate"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><rustdoc-topbar><h2><a href="#">Crate mpesa</a></h2></rustdoc-topbar><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../mpesa/index.html">mpesa</a><span class="version">3.4.1</span></h2></div><div class="sidebar-elems"><ul class="block"><li><a id="all-types" href="all.html">All Items</a></li></ul><section id="rustdoc-toc"><h3><a href="#">Sections</a></h3><ul class="block top-toc"><li><a href="#mpesa-rust" title="mpesa-rust">mpesa-rust</a><ul><li><a href="#whats-new-from-the-original-fork" title="What’s New From the original fork">What’s New From the original fork</a></li><li><a href="#install" title="Install">Install</a></li><li><a href="#usage" title="Usage">Usage</a></li><li><a href="#original-author" title="Original Author">Original Author</a></li><li><a href="#maintainer" title="Maintainer">Maintainer</a></li><li><a href="#contributing" title="Contributing">Contributing</a></li><li><a href="#optional-features" title="Optional Features">Optional Features</a></li></ul></li></ul><h3><a href="#reexports">Crate Items</a></h3><ul class="block"><li><a href="#reexports" title="Re-exports">Re-exports</a></li><li><a href="#modules" title="Modules">Modules</a></li><li><a href="#structs" title="Structs">Structs</a></li><li><a href="#enums" title="Enums">Enums</a></li><li><a href="#types" title="Type Aliases">Type Aliases</a></li></ul></section><div id="rustdoc-modnav"></div></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><div class="width-limiter"><section id="main-content" class="content"><div class="main-heading"><h1>Crate <span>mpesa</span>&nbsp;<button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../src/mpesa/lib.rs.html#1-43">Source</a> </span></div><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><h2 id="mpesa-rust"><a class="doc-anchor" href="#mpesa-rust">§</a>mpesa-rust</h2>
+<p><a href="https://github.com/tralahm/mpesa-rust/actions/workflows/ci.yml"><img src="https://github.com/tralahm/mpesa-rust/actions/workflows/ci.yml/badge.svg?branch=master" alt="Rust" /></a>
+<a href="https://github.com/tralahm/mpesa-rust/actions/workflows/release-core.yml"><img src="https://github.com/tralahm/mpesa-rust/actions/workflows/release-core.yml/badge.svg?tag=v3.4.1" alt="Rust Docs" /></a>
+<a href="./LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="" /></a></p>
+<p>An unofficial Rust wrapper around the
+<a href="https://developer.safaricom.co.ke/docs?shell#introduction">Safaricom API</a> for
+accessing M-Pesa services.</p>
+<p>Current release: v3.4.1</p>
+<h3 id="whats-new-from-the-original-fork"><a class="doc-anchor" href="#whats-new-from-the-original-fork">§</a>What’s New From the original fork</h3>
+<ul>
+<li><strong>Optional OpenSSL Dependency</strong>: The <code>openssl</code> dependency is now optional and managed via a feature flag. This change improves compatibility with environments lacking OpenSSL (like Alpine Linux) and reduces build sizes. Users can explicitly enable the <code>openssl</code> feature if required.</li>
+<li><strong>Enhanced Thread Safety</strong>: The M-PESA client’s core components have been made thread-safe (<code>Send</code> + <code>Sync</code>). The <code>RwLock</code> is now used for managing the initiator password, allowing for more efficient concurrent read operations.</li>
+<li><strong>Improved CI and Build Capabilities</strong>: New CI workflows have been implemented, supporting multiple Rust versions and targets, including musl for Alpine Linux builds. This ensures broader compatibility and more robust testing.</li>
+<li><strong>Structured Release Process</strong>: A <code>CHANGELOG.md</code> file and release configuration (<code>release.toml</code>) have been introduced, providing a clear and organized record of project changes and release history.</li>
+<li><strong>Updated Documentation and Examples</strong>: Various API documentation sections and code examples have been clarified and updated to reflect recent changes and improve user understanding.</li>
+<li><strong>Migrated B2C service to v3</strong>: The <code>b2c</code> service has been migrated to version 3 of the M-PESA API, <code>OriginatorConversationID</code> now needs to be specified by the caller.</li>
+<li><strong>Added <code>CustomerBuyGoodsOnline</code></strong>: The <code>CommandId</code> enum now has a <code>CustomerBuyGoodsOnline</code> variant for MPESA STK push to till number.</li>
+</ul>
+<blockquote>
+<p>Update your Cargo.toml accordingly.</p>
+</blockquote>
+<p><strong>Why this changes?</strong></p>
+<ul>
+<li>Builds on more platforms (e.g., Alpine Linux, static binaries).</li>
+<li>Enables building on platforms without OpenSSL (e.g., Musl/Alpine).</li>
+<li>Smaller binaries and fewer system dependencies when OpenSSL is not needed.</li>
+</ul>
+<p>With the <code>no_openssl</code> feature (enabled by default), the library uses the
+<a href="https://crates.io/crates/x509-parser">x509-parser</a>,
+<a href="https://crates.io/crates/rsa">rsa</a>,
+<a href="https://crates.io/crates/base64">base64</a>, and
+<a href="https://crates.io/crates/rand">rand</a> crates for encrypting client credentials.</p>
+<p>Users who want to use <a href="https://crates.io/crates/openssl">openssl</a> can still
+opt in by enabling the <code>openssl</code> feature.</p>
+<h3 id="install"><a class="doc-anchor" href="#install">§</a>Install</h3>
+<p>Add this to your <code>Cargo.toml</code>:</p>
+<div class="example-wrap"><pre class="language-toml"><code>[dependencies]
+mpesa = { git = &quot;https://github.com/tralahm/mpesa-rust&quot;, tag = &quot;v3.4.1&quot; }</code></pre></div>
+<ul>
+<li>By default, the <code>no_openssl</code> feature is enabled for compatibility with
+targets like <code>musl</code> (e.g., Alpine Linux) where OpenSSL may not available.</li>
+</ul>
+<div class="example-wrap"><pre class="language-toml"><code>[dependencies]
+mpesa = { tag = &quot;v3.4.1&quot;, git = &quot;https://github.com/tralahm/mpesa-rust.git&quot; }</code></pre></div>
+<p>Optionally, you can disable default-features, which is basically the entire
+suite of MPESA APIs to conditionally select individual features.
+(See <a href="#services">Services</a> table for the full list of Cargo features)</p>
+<p>Example:</p>
+<div class="example-wrap"><pre class="language-toml"><code>[dependencies]
+mpesa = { tag = &quot;v3.4.1&quot;, git = &quot;https://github.com/tralahm/mpesa-rust.git&quot;,
+    default_features = false,
+    features = [
+        &quot;b2b&quot;,
+        &quot;express_request&quot;,
+        &quot;no_openssl&quot;,
+    ] }</code></pre></div>
+<p>In your lib or binary crate:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>mpesa::Mpesa;</code></pre></div><h3 id="usage"><a class="doc-anchor" href="#usage">§</a>Usage</h3><h4 id="creating-a-mpesa-client"><a class="doc-anchor" href="#creating-a-mpesa-client">§</a>Creating a <code>Mpesa</code> client</h4>
+<p>You will first need to create an instance of the <code>Mpesa</code> instance (the client).
+You are required to provide a <strong>CONSUMER_KEY</strong> and <strong>CONSUMER_SECRET</strong>.
+<a href="https://developer.safaricom.co.ke/test_credentials">Test Credentials</a> is how
+you can get these credentials for the Safaricom sandbox environment.
+It’s worth noting that these credentials are only valid in the sandbox
+environment. To go live and get production keys read the docs
+<a href="https://developer.safaricom.co.ke/docs?javascript#going-live">Going Live</a>.</p>
+<p>These are the following ways you can instantiate <code>Mpesa</code>:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>mpesa::{Environment, Mpesa};
+
+<span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() {
+    dotenvy::dotenv().ok();
+
+    <span class="kw">let </span>client = Mpesa::new(
+        dotenvy::var(<span class="string">"CONSUMER_KEY"</span>).unwrap(),
+        dotenvy::var(<span class="string">"CONSUMER_SECRET"</span>).unwrap(),
+        Environment::Sandbox,
+    );
+
+    <span class="macro">assert!</span>(client.is_connected().<span class="kw">await</span>);
+}</code></pre></div>
+<p>Since the <code>Environment</code> enum implements <code>FromStr</code> and <code>TryFrom</code> for <code>String</code>
+and <code>&amp;str</code> types, you can call <code>Environment::from_str</code> or
+<code>Environment::try_from</code> to create an <code>Environment</code> type.
+This is ideal if the environment values are stored in a <code>.env</code> or any
+other configuration file:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>std::convert::TryFrom;
+<span class="kw">use </span>std::error::Error;
+<span class="kw">use </span>std::str::FromStr;
+
+<span class="kw">use </span>mpesa::{Environment, Mpesa};
+
+<span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() -&gt; <span class="prelude-ty">Result</span>&lt;(), Box&lt;<span class="kw">dyn </span>Error&gt;&gt; {
+    dotenvy::dotenv().ok();
+
+    <span class="kw">let </span>client = Mpesa::new(
+        dotenvy::var(<span class="string">"CONSUMER_KEY"</span>).unwrap(),
+        dotenvy::var(<span class="string">"CONSUMER_SECRET"</span>).unwrap(),
+        Environment::from_str(<span class="string">"sandbox"</span>)<span class="question-mark">?</span>, <span class="comment">/* or
+                                            * Environment::try_from("sandbox")?,
+                                            */
+    </span>);
+
+    <span class="macro">assert!</span>(client.is_connected().<span class="kw">await</span>);
+    <span class="prelude-val">Ok</span>(())
+}</code></pre></div>
+<p>The <code>Mpesa</code> struct’s <code>environment</code> parameter is generic over any type that
+implements the <code>ApiEnvironment</code> trait. This trait
+expects the following methods to be implemented for a given type:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">pub trait </span>ApiEnvironment {
+    <span class="kw">fn </span>base_url(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>str;
+    <span class="kw">fn </span>get_certificate(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>str;
+}</code></pre></div>
+<p>This trait allows you to create your own type to pass to the <code>environment</code>
+parameter. With this in place, you are able to mock http requests
+(for testing purposes) from the MPESA api by returning a mock server uri
+from the <code>base_url</code> method as well as using your own certificates, required to
+sign select requests to the MPESA api, by providing your own
+<code>get_certificate</code> implementation.</p>
+<p>See the example below (and <a href="./src/environment.rs">environment</a> so see how
+the trait is implemented for the <code>Environment</code> enum):</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>mpesa::{ApiEnvironment, Mpesa};
+
+<span class="attr">#[derive(Clone)]
+</span><span class="kw">pub struct </span>CustomEnvironment;
+
+<span class="kw">impl </span>ApiEnvironment <span class="kw">for </span>CustomEnvironment {
+    <span class="kw">fn </span>base_url(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>str {
+        <span class="comment">// your base url here
+        </span><span class="string">"https://your_base_url.com"
+    </span>}
+
+    <span class="kw">fn </span>get_certificate(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>str {
+        <span class="comment">// your certificate here
+        </span><span class="string">r#"..."#
+    </span>}
+}
+
+<span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() {
+    dotenvy::dotenv().ok();
+
+    <span class="kw">let </span>client = Mpesa::new(
+        dotenvy::var(<span class="string">"CONSUMER_KEY"</span>).unwrap(),
+        dotenvy::var(<span class="string">"CONSUMER_SECRET"</span>).unwrap(),
+        CustomEnvironment,
+    );
+}</code></pre></div>
+<p>If you intend to use in production, you will need to call the
+<code>set_initiator_password</code> method from <code>Mpesa</code> after initially
+creating the client. Here you provide your initiator password, which overrides
+the default password used in sandbox <code>"Safcom496!"</code>:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>mpesa::{Environment, Mpesa};
+
+<span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() {
+    dotenvy::dotenv().ok();
+
+    <span class="kw">let </span>client = Mpesa::new(
+        dotenvy::var(<span class="string">"CONSUMER_KEY"</span>).unwrap(),
+        dotenvy::var(<span class="string">"CONSUMER_SECRET"</span>).unwrap(),
+        Environment::Sandbox,
+    );
+
+    client.set_initiator_password(<span class="string">"new_password"</span>);
+    <span class="macro">assert!</span>(client.is_connected().<span class="kw">await</span>)
+}</code></pre></div><h4 id="services"><a class="doc-anchor" href="#services">§</a>Services</h4>
+<p>The table below shows all the MPESA APIs from Safaricom and those supported by the crate along with their cargo features and usage examples</p>
+<div><table><thead><tr><th>API</th><th>Cargo Feature</th><th>Status</th><th>Example</th></tr></thead><tbody>
+<tr><td><a href="https://developer.safaricom.co.ke/APIs/AccountBalance">Account Balance</a></td><td><code>account_balance</code></td><td>Stable ✅</td><td><a href="/docs/client/account_balance.md">account balance example</a></td></tr>
+<tr><td><a href="https://developer.safaricom.co.ke/APIs/B2BExpressCheckout">B2B Express Checkout</a></td><td>N/A</td><td>Unimplemented</td><td>N/A</td></tr>
+<tr><td><a href="https://developer.safaricom.co.ke/APIs/BillManager">Bill Manager</a></td><td><code>bill_manager</code></td><td>Unstable ⚠️</td><td><a href="/docs/client/bill_manager/">bill manager examples</a></td></tr>
+<tr><td><a href="https://developer.safaricom.co.ke/APIs/BusinessBuyGoods">Business Buy Goods</a></td><td><code>b2b</code></td><td>Stable ✅</td><td><a href="/docs/client/b2b.md">business buy goods example</a></td></tr>
+<tr><td><a href="https://developer.safaricom.co.ke/APIs/BusinessPayBill">Business Pay Bill</a></td><td>N/A</td><td>Unimplemented</td><td>N/A</td></tr>
+<tr><td><a href="https://developer.safaricom.co.ke/APIs/BusinessToCustomer">Business To Customer (B2C)</a></td><td><code>b2c</code></td><td>Stable ✅️</td><td><a href="/docs/client/b2c.md">b2c example</a></td></tr>
+<tr><td><a href="https://developer.safaricom.co.ke/APIs/CustomerToBusinessRegisterURL">Customer To Business (Register URL)</a></td><td><code>c2b_register</code></td><td>Stable ✅️</td><td><a href="/docs/client/c2b_register.md">c2b register example</a></td></tr>
+<tr><td><a href="#">Customer To Business (Simulate)</a></td><td><code>c2b_simulate</code></td><td>Stable ✅️</td><td><a href="/docs/client/c2b_simulate.md">c2b simulate example</a></td></tr>
+<tr><td><a href="https://developer.safaricom.co.ke/APIs/DynamicQRCode">Dynamic QR</a></td><td><code>dynamic_qr</code></td><td>Stable ✅️</td><td><a href="/docs/client/dynamic_qr.md">dynamic qr example</a></td></tr>
+<tr><td><a href="https://developer.safaricom.co.ke/APIs/MpesaExpressQuery">M-PESA Express (Query)</a></td><td><code>express</code></td><td>Stable ✅️ ️</td><td><a href="/docs/client/express.md">express query example</a></td></tr>
+<tr><td><a href="https://developer.safaricom.co.ke/APIs/MpesaExpressSimulate">M-PESA Express (Simulate)/ STK push</a></td><td><code>express</code></td><td>Stable ✅️</td><td><a href="/docs/client/express.md">express request example</a></td></tr>
+<tr><td><a href="https://developer.safaricom.co.ke/APIs/TransactionStatus">Transaction Status</a></td><td><code>transaction_status</code></td><td>Stable ✅️</td><td><a href="/docs/client/transaction_status.md">transaction status example</a></td></tr>
+<tr><td><a href="https://developer.safaricom.co.ke/APIs/Reversal">Transaction Reversal</a></td><td><code>transaction_reversal</code></td><td>Stable ✅️</td><td><a href="/docs/client/transaction_reversal.md">transaction reversal example</a></td></tr>
+<tr><td><a href="https://developer.safaricom.co.ke/APIs/TaxRemittance">Tax Remittance</a></td><td>N/A</td><td>Unimplemented</td><td>N/A</td></tr>
+</tbody></table>
+</div><h3 id="original-author"><a class="doc-anchor" href="#original-author">§</a>Original Author</h3>
+<p><strong>Collins Muriuki</strong></p>
+<ul>
+<li>Github: <a href="https://github.com/c12i">@c12i</a></li>
+<li>Not affiliated with Safaricom.</li>
+</ul>
+<h3 id="maintainer"><a class="doc-anchor" href="#maintainer">§</a>Maintainer</h3>
+<p><strong>Tralah M Brian</strong></p>
+<ul>
+<li>Github: <a href="https://github.com/tralahm">@tralahm</a></li>
+</ul>
+<h3 id="contributing"><a class="doc-anchor" href="#contributing">§</a>Contributing</h3>
+<p>Contributions, issues and feature requests are welcome!<br/>
+Feel free to check <a href="https://github.com/tralahm/mpesa-rust/issues">issues page</a>.
+You can also take a look at the
+<a href="https://raw.githubusercontent.com/tralahm/mpesa-rust/master/CONTRIBUTING.md">contributing guide</a>.</p>
+<a href="https://github.com/tralahm/mpesa-rust/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=tralahm/mpesa-rust" alt="Contributors" />
+</a>
+<p>Made with <a href="https://contrib.rocks">contrib.rocks</a>.</p>
+<hr />
+<p>Copyright © 2026 <a href="https://github.com/tralahm">Tralah M Brian</a>.<br />
+This project is
+<a href="https://raw.githubusercontent.com/tralahm/mpesa-rust/master/LICENSE">MIT</a> licensed.</p>
+<h3 id="optional-features"><a class="doc-anchor" href="#optional-features">§</a>Optional Features</h3>
+<p>The following are a list of [Cargo features][cargo-features] that can be
+enabled or disabled:</p>
+<ul>
+<li><strong>account_balance</strong> <em>(enabled by default)</em>: Enables Account Balance service support.</li>
+<li><strong>b2b</strong> <em>(enabled by default)</em>: Enables B2B service support.</li>
+<li><strong>b2c</strong> <em>(enabled by default)</em>: Enables B2C service support.</li>
+<li><strong>bill_manager</strong> <em>(enabled by default)</em>: Enables Bill Manager services support.</li>
+<li><strong>c2b_register</strong> <em>(enabled by default)</em>: Enables C2B URL Registration service support.</li>
+<li><strong>c2b_simulate</strong> <em>(enabled by default)</em>: Enables C2B request simulation service support.</li>
+<li><strong>express</strong> <em>(enabled by default)</em>: Enables Mpesa Express (STK push) service support.</li>
+<li><strong>dynamic_qr</strong> <em>(enabled by default)</em>: Enables Dynamic QR generation service support.</li>
+<li><strong>transaction_reversal</strong> <em>(enabled by default)</em>: Enables Transaction Reversal service support.</li>
+<li><strong>transaction_status</strong> <em>(enabled by default)</em>: Enables Transaction Status service support.</li>
+<li><strong>no_openssl</strong> <em>(enabled by default)</em>: Disables the dependency on <code>openssl</code> as the crate for handling mpesa
+certificates and base64 encoding, instead using the <code>x509-parser</code>, <code>rsa</code>, <code>base64</code> and <code>rand</code> crates.
+Automatically enabled when any of the features <em>account_balance</em>, <em>b2b</em>, <em>b2c</em>, <em>bill_manager</em>, <em>express</em>,
+<em>transaction_reversal</em>, or <em>transaction_status</em> are enabled.</li>
+<li><strong>openssl</strong>: Enables the use of <code>openssl</code> as the dependency for handling certificates and base64 encoding instead
+of the default.</li>
+</ul>
+</div></details><h2 id="reexports" class="section-header">Re-exports<a href="#reexports" class="anchor">§</a></h2><dl class="item-table reexports"><dt id="reexport.ApiEnvironment"><code>pub use environment::<a class="trait" href="environment/trait.ApiEnvironment.html" title="trait mpesa::environment::ApiEnvironment">ApiEnvironment</a>;</code></dt><dt id="reexport.Environment"><code>pub use environment::<a class="enum" href="environment/enum.Environment.html" title="enum mpesa::environment::Environment">Environment</a>;</code></dt><dt id="reexport.Production"><code>pub use environment::Environment::<a class="enum" href="environment/enum.Environment.html#variant.Production" title="enum mpesa::environment::Environment">Production</a>;</code></dt><dt id="reexport.Sandbox"><code>pub use environment::Environment::<a class="enum" href="environment/enum.Environment.html#variant.Sandbox" title="enum mpesa::environment::Environment">Sandbox</a>;</code></dt></dl><h2 id="modules" class="section-header">Modules<a href="#modules" class="anchor">§</a></h2><dl class="item-table"><dt><a class="mod" href="environment/index.html" title="mod mpesa::environment">environment</a></dt><dd>MPESA Environment</dd><dt><a class="mod" href="services/index.html" title="mod mpesa::services">services</a></dt><dd>MPESA Services</dd><dt><a class="mod" href="validator/index.html" title="mod mpesa::validator">validator</a></dt></dl><h2 id="structs" class="section-header">Structs<a href="#structs" class="anchor">§</a></h2><dl class="item-table"><dt><a class="struct" href="struct.Invoice.html" title="struct mpesa::Invoice">Invoice</a></dt><dt><a class="struct" href="struct.InvoiceItem.html" title="struct mpesa::InvoiceItem">Invoice<wbr>Item</a></dt><dt><a class="struct" href="struct.Mpesa.html" title="struct mpesa::Mpesa">Mpesa</a></dt><dd>Mpesa client that will facilitate communication with the Safaricom API</dd><dt><a class="struct" href="struct.ResponseError.html" title="struct mpesa::ResponseError">Response<wbr>Error</a></dt></dl><h2 id="enums" class="section-header">Enums<a href="#enums" class="anchor">§</a></h2><dl class="item-table"><dt><a class="enum" href="enum.BuilderError.html" title="enum mpesa::BuilderError">Builder<wbr>Error</a></dt><dt><a class="enum" href="enum.CommandId.html" title="enum mpesa::CommandId">Command<wbr>Id</a></dt><dd>Mpesa command ids</dd><dt><a class="enum" href="enum.EncryptionErrors.html" title="enum mpesa::EncryptionErrors">Encryption<wbr>Errors</a></dt><dd>Encryption errors when the <code>no_openssl</code> feature is enabled</dd><dt><a class="enum" href="enum.IdentifierTypes.html" title="enum mpesa::IdentifierTypes">Identifier<wbr>Types</a></dt><dd>Identifier types - both sender and receiver - identify an M-Pesa transaction’s sending and receiving party as
+either a shortcode, a till number or a MSISDN (phone number).
+There are three identifier types that can be used with M-Pesa APIs.</dd><dt><a class="enum" href="enum.MpesaError.html" title="enum mpesa::MpesaError">Mpesa<wbr>Error</a></dt><dd>Mpesa error stack</dd><dt><a class="enum" href="enum.ResponseType.html" title="enum mpesa::ResponseType">Response<wbr>Type</a></dt><dd>C2B Register Response types</dd><dt><a class="enum" href="enum.SendRemindersTypes.html" title="enum mpesa::SendRemindersTypes">Send<wbr>Reminders<wbr>Types</a></dt><dt><a class="enum" href="enum.TransactionType.html" title="enum mpesa::TransactionType">Transaction<wbr>Type</a></dt></dl><h2 id="types" class="section-header">Type Aliases<a href="#types" class="anchor">§</a></h2><dl class="item-table"><dt><a class="type" href="type.MpesaResult.html" title="type mpesa::MpesaResult">Mpesa<wbr>Result</a></dt><dd><code>Result</code> enum type alias</dd></dl></section></div></main></body></html>

@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["zstd"],"trait":["Decode","DecodeV2","DecodedSize","Encode","EncodeV2"]};
