@@ -1,7 +1,7 @@
 use std::sync::{Arc, RwLock};
 use std::time::Duration;
 
-use backoff_macro::backoff;
+use backoff::ExponentialBackoff;
 use reqwest::Client as HttpClient;
 use secrecy::{ExposeSecret, SecretString};
 use serde::Serialize;
@@ -202,7 +202,8 @@ impl Mpesa {
         if self.has_cached_auth() {
             return Ok(self.auth_token());
         }
-        Ok(auth::auth(self).await?)
+        let res = backoff::future::retry(ExponentialBackoff::default(), || async { auth::auth(self).await }).await?;
+        Ok(res)
     }
 
     #[cfg(feature = "b2c")]
@@ -388,14 +389,18 @@ impl Mpesa {
         Res: DeserializeOwned,
     {
         let auth = self.auth().await?;
-        Ok(execute::<Req, Res>(self, req, auth).await?)
+        let req = Arc::new(req);
+        let res = backoff::future::retry(ExponentialBackoff::default(), || async {
+            execute::<Req, Res>(self, &req.clone(), auth.clone()).await
+        })
+        .await?;
+        Ok(res)
     }
 }
 
 /// Sends a request to the Safaricom API
 /// The function has a retry policy with expoential backoff
-#[backoff]
-pub(crate) async fn execute<Req, Res>(client: &Mpesa, req: Request<Req>, auth: String) -> BackoffMpesaResult<Res>
+pub(crate) async fn execute<Req, Res>(client: &Mpesa, req: &Request<Req>, auth: String) -> BackoffMpesaResult<Res>
 where
     Req: Serialize + Send,
     Res: DeserializeOwned,
@@ -457,8 +462,8 @@ where
             } else {
                 log::error!(
                     "error decoding body url: {} status: {} is html: {} err: {} : {}",
-                    status,
                     url,
+                    status,
                     is_content_type_html,
                     err,
                     text

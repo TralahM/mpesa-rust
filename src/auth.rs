@@ -1,4 +1,3 @@
-use backoff_macro::backoff;
 use serde::{Deserialize, Serialize};
 use serde_aux::field_attributes::deserialize_number_from_string;
 
@@ -7,7 +6,6 @@ use crate::{Mpesa, MpesaError, ResponseError};
 
 const AUTHENTICATION_URL: &str = "/oauth/v1/generate";
 
-#[backoff]
 pub(crate) async fn auth(client: &Mpesa) -> BackoffMpesaResult<String> {
     let url = format!("{}{}", client.base_url, AUTHENTICATION_URL);
     let params = [("grant_type", "client_credentials")];
@@ -71,8 +69,8 @@ pub(crate) async fn auth(client: &Mpesa) -> BackoffMpesaResult<String> {
             } else {
                 log::error!(
                     "error decoding body url: {} status: {} is html: {} err: {} : {}",
-                    status,
                     url,
+                    status,
                     is_content_type_html,
                     err,
                     text

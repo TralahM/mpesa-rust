@@ -103,7 +103,7 @@ impl MpesaError {
                     "500.003.02" | "500.003.03" => backoff::Error::retry_after(val, std::time::Duration::from_secs(1)),
                     // transaction already in progress
                     "500.001.1001" if res.error_message.contains("Unable to lock subscriber") => {
-                        backoff::Error::retry_after(val, std::time::Duration::from_secs(2))
+                        backoff::Error::retry_after(val, std::time::Duration::from_secs(1))
                     }
                     _ => backoff::Error::permanent(val),
                 }
