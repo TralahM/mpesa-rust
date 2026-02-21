@@ -7,13 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 <!-- next-header -->
+## [3.4.1] - 2026-02-21
+
+### 🏭 Refactor
+- Replace backoff-macro with explicit retry
+
+### :gear: Miscellaneous
+- Update mpesa live tests sleep delays. by @TralahM
+
 ## [3.4.0] - 2026-02-21
 
 ### :bug: Fixed
 - Express fixes by @TralahM
 
 ### Added
-- Add exponential backoff for API requests
+- Add exponential backoff for API requests by @TralahM
 
 ### :gear: Miscellaneous
 - Applied clippy fixes by @TralahM
@@ -263,6 +271,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * @c12i made their first contribution
 
 <!-- next-url -->
+[3.4.1]: https://github.com/tralahm/mpesa-rust/compare/v3.4.0...v3.4.1
 [3.4.0]: https://github.com/tralahm/mpesa-rust/compare/v3.3.2...v3.4.0
 [3.3.2]: https://github.com/tralahm/mpesa-rust/compare/v3.3.1...v3.3.2
 [3.3.1]: https://github.com/tralahm/mpesa-rust/compare/v3.3.0...v3.3.1
