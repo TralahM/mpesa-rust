@@ -11,6 +11,8 @@ pub enum MpesaError {
     Service(ResponseError),
     #[error("An error has occurred while performing the http request")]
     NetworkError(#[from] reqwest::Error),
+    #[error("A recoverable error has occurred while performing an operation. Retrying is possible.")]
+    TransientError,
     #[error("An error has occurred while serializing/ deserializing")]
     ParseError(#[from] serde_json::Error),
     #[error("An error has occurred while retrieving an environmental variable")]
@@ -44,7 +46,9 @@ pub enum EncryptionErrors {
 /// `Result` enum type alias
 pub type MpesaResult<T> = Result<T, MpesaError>;
 
-#[derive(Debug, Serialize, Deserialize)]
+pub(crate) type BackoffMpesaResult<T> = Result<T, backoff::Error<MpesaError>>;
+
+#[derive(Debug, Serialize, Deserialize, Clone)]
 #[serde(rename_all(deserialize = "camelCase"))]
 pub struct ResponseError {
     pub request_id: String,
@@ -85,5 +89,65 @@ impl From<derive_builder::UninitializedFieldError> for MpesaError {
 impl From<url::ParseError> for MpesaError {
     fn from(e: url::ParseError) -> Self {
         Self::BuilderError(BuilderError::ValidationError(e.to_string()))
+    }
+}
+
+impl MpesaError {
+    pub fn to_retryable<E: Into<MpesaError>>(val: E) -> backoff::Error<Self> {
+        let val = val.into();
+        match &val {
+            MpesaError::TransientError => backoff::Error::transient(val),
+            MpesaError::Service(res) => {
+                match res.error_code.as_str() {
+                    // system busy|quota violation or spike arrest violation
+                    "500.003.02" | "500.003.03" => backoff::Error::retry_after(val, std::time::Duration::from_secs(10)),
+                    // transaction already in progress
+                    "500.001.1001" if res.error_message.contains("Unable to lock subscriber") => {
+                        backoff::Error::retry_after(val, std::time::Duration::from_secs(20))
+                    }
+                    _ => backoff::Error::permanent(val),
+                }
+            }
+            _ => backoff::Error::permanent(val),
+        }
+    }
+}
+
+impl From<backoff::Error<MpesaError>> for MpesaError {
+    fn from(e: backoff::Error<MpesaError>) -> Self {
+        match e {
+            backoff::Error::Permanent(err) => err,
+            backoff::Error::Transient { err, .. } => err,
+        }
+    }
+}
+
+impl From<backoff::Error<reqwest::Error>> for MpesaError {
+    fn from(e: backoff::Error<reqwest::Error>) -> Self {
+        match e {
+            backoff::Error::Transient { err, .. } => {
+                if err.is_connect() || err.is_timeout() {
+                    return MpesaError::TransientError;
+                }
+                MpesaError::from(err)
+            }
+            backoff::Error::Permanent(err) => {
+                if err.is_connect() || err.is_timeout() {
+                    return MpesaError::TransientError;
+                }
+                MpesaError::from(err)
+            }
+        }
+    }
+}
+
+impl TryFrom<MpesaError> for backoff::Error<reqwest::Error> {
+    type Error = MpesaError;
+    fn try_from(e: MpesaError) -> Result<Self, Self::Error> {
+        match e {
+            MpesaError::NetworkError(err) if err.is_timeout() || err.is_connect() => Ok(backoff::Error::transient(err)),
+            MpesaError::NetworkError(err) => Ok(backoff::Error::permanent(err)),
+            _ => Err(e),
+        }
     }
 }

@@ -1,11 +1,14 @@
+use backoff_macro::backoff;
 use serde::{Deserialize, Serialize};
 use serde_aux::field_attributes::deserialize_number_from_string;
 
-use crate::{Mpesa, MpesaError, MpesaResult, ResponseError};
+use crate::errors::BackoffMpesaResult;
+use crate::{Mpesa, MpesaError, ResponseError};
 
 const AUTHENTICATION_URL: &str = "/oauth/v1/generate";
 
-pub(crate) async fn auth(client: &Mpesa) -> MpesaResult<String> {
+#[backoff]
+pub(crate) async fn auth(client: &Mpesa) -> BackoffMpesaResult<String> {
     let url = format!("{}{}", client.base_url, AUTHENTICATION_URL);
     let params = [("grant_type", "client_credentials")];
 
@@ -19,12 +22,20 @@ pub(crate) async fn auth(client: &Mpesa) -> MpesaResult<String> {
         .basic_auth(client.consumer_key(), Some(&client.consumer_secret()))
         .header(reqwest::header::ACCEPT, "application/json")
         .send()
-        .await?;
+        .await
+        .map_err(MpesaError::from)
+        .map_err(MpesaError::to_retryable)?;
 
     if response.status().is_success() {
-        let text = response.text().await?;
+        let text = response
+            .text()
+            .await
+            .map_err(MpesaError::from)
+            .map_err(MpesaError::to_retryable)?;
         let value: AuthenticationResponse = serde_json::from_str(&text)
-            .inspect_err(|e| log::error!("Error Decoding error body: {} \nerr: {}", text, e))?;
+            .inspect_err(|e| log::error!("error decoding body err: {}: {}", e, text))
+            .map_err(MpesaError::from)
+            .map_err(MpesaError::to_retryable)?;
         let access_token = value.access_token;
         let expires = std::time::Duration::from_secs(value.expires_in);
         let expiry = chrono::Utc::now() + expires;
@@ -32,11 +43,44 @@ pub(crate) async fn auth(client: &Mpesa) -> MpesaResult<String> {
         Ok(access_token)
     } else {
         let status = response.status();
+        let is_content_type_html = response
+            .headers()
+            .get(reqwest::header::CONTENT_TYPE)
+            .map(|v| v.to_str().unwrap_or_default())
+            .map(|s| s.contains("text/html"))
+            .unwrap_or(false);
         let url = response.url().to_string();
-        let text = response.text().await?;
-        let body: ResponseError = serde_json::from_str(&text)
-            .inspect_err(|e| log::error!("{} {} Error Decoding error body: {} \nerr: {}", status, url, text, e))?;
-        Err(MpesaError::Service(body))
+        let path = response.url().path().to_string();
+        let text = response
+            .text()
+            .await
+            .map_err(MpesaError::from)
+            .map_err(MpesaError::to_retryable)?;
+        let body: ResponseError = serde_json::from_str(&text).map_err(|err| {
+            if (is_content_type_html && status == reqwest::StatusCode::FORBIDDEN)
+                || status == reqwest::StatusCode::TOO_MANY_REQUESTS
+                || status == reqwest::StatusCode::SERVICE_UNAVAILABLE
+            {
+                log::debug!(
+                    "Transient Error Occurred url: {} status: {} is_html: {}. Can Retry",
+                    path,
+                    status,
+                    is_content_type_html
+                );
+                MpesaError::to_retryable(MpesaError::TransientError)
+            } else {
+                log::error!(
+                    "error decoding body url: {} status: {} is html: {} err: {} : {}",
+                    status,
+                    url,
+                    is_content_type_html,
+                    err,
+                    text
+                );
+                MpesaError::to_retryable(MpesaError::from(err))
+            }
+        })?;
+        Err(MpesaError::to_retryable(MpesaError::Service(body)))
     }
 }
 
